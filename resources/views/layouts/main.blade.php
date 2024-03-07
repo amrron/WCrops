@@ -9,7 +9,9 @@
 </head>
 <body>
     @include('partials.nav')
-    @yield('contain')
+    <main class="max-w-7xl mx-auto p-4 md:p-6 min-h-dvh">
+        @yield('contain')
+    </main>
     @include('partials.footer')
 </body>
 </html>
