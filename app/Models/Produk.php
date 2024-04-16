@@ -16,6 +16,11 @@ class Produk extends Model
         'deskripsi',
         'harga',
         'stok',
-        'gambar'
+        'gambar',
+        'status',
     ];
+
+    public function kategori(){
+        return $this->belongsTo(KategoriProduk::class);
+    }
 }

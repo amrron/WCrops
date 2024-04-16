@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use Illuminate\Http\Request;
+use App\Models\KategoriProduk;
 use App\Http\Requests\StoreProdukRequest;
 use App\Http\Requests\UpdateProdukRequest;
+use Illuminate\Validation\ValidationException;
 
 class ProdukController extends Controller
 {
@@ -27,9 +30,32 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProdukRequest $request)
+    public function store(Request $request)
     {
-        //
+        try {
+            $produk = $request->validate([
+                'nama' => 'required|string',
+                'deskripsi' => 'required|string',
+                'gambar' => 'required|mimes:jpg,jpeg,png|max:10000',
+                'harga' => 'required|numeric',
+                'stok' => 'required|numeric',
+                'kategori_id' => 'required|string',
+                'status' => 'nullable|boolean',         
+            ]);
+
+            if($request->file('gambar')){
+                $produk['gambar'] = $request->file('gambar')->store('upload');
+            }
+
+            $produk = Produk::create($produk);
+
+            return back()->with('success', 'Produk baru berhasil ditambahkan.');
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'errors' => $e->errors()
+            ], 422);
+        }
     }
 
     /**
@@ -62,5 +88,12 @@ class ProdukController extends Controller
     public function destroy(Produk $produk)
     {
         //
+    }
+
+    public function indexAdmin() {
+        return view('admin.produk', [
+            'kategoris' => KategoriProduk::all(),
+            'produks' => Produk::all(),
+        ]);
     }
 }

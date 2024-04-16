@@ -12,6 +12,16 @@ class KategoriProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\KategoriProduk::create([
+            'nama_kategori' => 'Olahan'
+        ]);
+
+        \App\Models\KategoriProduk::create([
+            'nama_kategori' => 'Mentah'
+        ]);
+
+        \App\Models\KategoriProduk::create([
+            'nama_kategori' => 'Frozzen'
+        ]);
     }
 }

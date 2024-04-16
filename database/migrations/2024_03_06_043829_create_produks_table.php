@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->uuid('id');
-            $table->foreignUuid('kategori_produk_id');
+            $table->foreignUuid('kategori_id');
             $table->string('nama');
             $table->string('deskripsi');
             $table->integer('harga');
             $table->integer('stok');
             $table->string('gambar');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
