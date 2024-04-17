@@ -32,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::controller(ProdukController::class)->group(function(){
         Route::get('/admin/produk', 'indexAdmin');
         Route::post('/admin/produk', 'store');
+        Route::get('/admin/produk/{produk}', 'show');
+        Route::post('/admin/produk/{produk}', 'edit');
+        Route::delete('/admin/produk/{produk}', 'destroy');
+        Route::put('/admin/produk/status/{produk}', 'changeStatus');
     });
 });
 

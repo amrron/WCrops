@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin</title>
-    <script src="/script/jquery-3.7.1.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -20,10 +21,7 @@
      </div>
   </div>  
 
-  <script>
-   
-  </script>
-
+  @include('js.script')
   @yield('script')
 </body>
 </html>
