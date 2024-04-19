@@ -23,4 +23,11 @@ class Produk extends Model
     public function kategori(){
         return $this->belongsTo(KategoriProduk::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('nama', 'LIKE', '%' . $search . '%');
+        });
+    }
 }

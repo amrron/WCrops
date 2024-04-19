@@ -114,6 +114,7 @@ class ProdukController extends Controller
     public function destroy(Produk $produk, Request $request)
     {
         if($request->wantsJson() || $request->ajax()){
+            Storage::delete($produk->gambar);
             $produk->delete();
 
             return response()->json([
@@ -125,9 +126,11 @@ class ProdukController extends Controller
 
     public function indexAdmin(Request $request) {
         if($request->wantsJson() || $request->ajax()){
+            $produks = Produk::filter(request(['search']))->get();
+
             return response()->json([
                 'status' => true,
-                'data' => ProdukResource::collection(Produk::all()),
+                'data' => ProdukResource::collection($produks),
             ], 201);
         };
         return view('admin.produk', [
@@ -145,6 +148,46 @@ class ProdukController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Berhasil mengubah status produk.'
+            ], 201);
+        }
+    }
+
+    public function getProductName(Request $request) {
+        if($request->wantsJson() || $request->ajax()){
+            $namaProduk = Produk::whereIn('id', $request->productId)
+                    ->select('nama')->get();
+            
+            return response()->json([
+                'status' => true,
+                'data' => $namaProduk,
+            ], 201);
+        }
+    }
+
+    public function nonactiveStatus(Request $request) {
+        if($request->wantsJson() || $request->ajax()){
+            Produk::whereIn('id', $request->productId)
+                    ->update([
+                        'status' => 0,
+                    ]);
+
+            return response()->json([
+                'status' => true,
+            ], 201);
+        }
+    }
+
+    public function deleteSelected(Request $request) {
+        if($request->wantsJson() || $request->ajax()){
+            $produks = Produk::whereIn('id', $request->productId)->get();
+
+            foreach ($produks as $produk) {
+                Storage::delete($produk->gambar);
+                $produk->delete();
+            }
+
+            return response()->json([
+                'status' => true,
             ], 201);
         }
     }

@@ -1,6 +1,6 @@
 <script>
     // Ambil semua elemen dengan kelas "rupiah"
-    var elements = document.getElementsByClassName('rupiah');
+    var elements =  $('#product-table tbody rupiah');
 
     // Fungsi untuk mengubah format ke rupiah
     function formatRupiah(angka) {

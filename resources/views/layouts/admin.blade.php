@@ -12,13 +12,15 @@
 <body>
   
   @include('partials.navbar')
-  @include('partials.aside')
-
   
-  <div class="p-4 sm:ml-64">
-     <div class="p-4 border-2 border-gray-200 rounded-lg  mt-14">
-        @yield('contain')
-     </div>
+  <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+     @include('partials.aside')
+     <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop"></div>
+     <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+      <main>
+         @yield('contain')
+      </main>
+    </div>
   </div>  
 
   @include('js.script')
