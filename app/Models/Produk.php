@@ -30,4 +30,8 @@ class Produk extends Model
             return $query->where('nama', 'LIKE', '%' . $search . '%');
         });
     }
+
+    public function scopeActive($query) {
+        return $query->where('status', 1);
+    }
 }
