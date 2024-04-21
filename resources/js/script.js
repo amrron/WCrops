@@ -1,15 +1,27 @@
 $(document).ready(function(){
 
-    function formatRupiah(angka) {
-        var reverse = angka.toString().split('').reverse().join('');
-        var ribuan = reverse.match(/\d{1,3}/g);
-        var formatted = ribuan.join('.').split('').reverse().join('');
-        return 'Rp ' + formatted;
+    function successAlert(message){
+        let target = $(`
+        <div id="toast-top-right" class="z-70 fixed flex items-center w-full max-w-xs p-4 space-x-4 text-green-800 rounded-lg bg-green-50 divide-x rtl:divide-x-reverse divide-gray-200 shadow top-5 right-5 dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert" style="top: 120px; left: 50%; transform: translateX(-50%)">
+            <div class="text-sm font-normal">${message}</div>
+        </div>
+        `);
+        $('#main-content').prepend(target);
+        console.log('alert');
+        
+        setTimeout(function() {
+            target.hide();
+            target.remove()
+        }, 2000);
     }
+
+    // successAlert('Hello dunia')
+
+    
 
     function fetchData(query = "") {
         $.ajax({
-            url: '/admin/produk?search='+query, // Sesuaikan dengan rute yang tepat di Laravel Anda
+            url: '/admin/produk?search='+query, 
             type: 'GET',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -160,9 +172,15 @@ $(document).ready(function(){
             success: function(response){
                 fetchData();
                 console.log('BERHASIL');
+                
+                let message =  $('#id').val() == '' ? 'Produk baru berhasil ditambahkan' : 'Data produk berhasil diubah'
                 drawerProduct.hide();
+                successAlert(message)
             },
             error: function(error){
+                let message =  $('#id').val() == '' ? 'Produk baru gagal ditambahkan' : 'Data produk gagal diubah'
+                drawerProduct.hide();
+                successAlert(message)
                 console.error(error);
             },
         })
@@ -191,6 +209,8 @@ $(document).ready(function(){
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function () {
+                        successAlert('Produk berhasil dihapus')
+
                         console.log('berhasil hapus')
                         fetchData()
                     },
@@ -224,9 +244,11 @@ $(document).ready(function(){
             },
             success: function (response) {
                 console.log('berhasil gantis status');
+                successAlert('Status produk berhasil dirubah')
             },
             error: function (error) {
                 console.error(error);
+                successAlert('Status produk gagal dirubah')
             },
         })
     });
@@ -367,6 +389,10 @@ $(document).ready(function(){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response){
+                let message =  method == 'PUT' ? 'Produk berhasil dinonaktifkan' : 'Produk berhasil dihapus'
+                drawerProduct.hide();
+                successAlert(message)
+
                 console.log('berhasil nonaktifkan / delete');
                 fetchData();
             },
