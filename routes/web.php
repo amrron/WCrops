@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index']);
+    Route::get('/store', [HomeController::class, 'index']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -42,6 +43,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/produk/{produk}', 'destroy');
         Route::put('/admin/produk/status/{produk}', 'changeStatus');
         Route::put('/admin/produk/status/', 'nonactiveStatus');
+    });
+
+    Route::controller(KeranjangController::class)->group(function(){
+        Route::get('/keranjang', 'index');
+        Route::post('/keranjang', 'store');
+        Route::delete('/keranjang/{keranjang}', 'destroy');
+        Route::delete('/keranjang', 'destroySelected');
+        Route::patch('/keranjang/{keranjang}', 'decrease');
+        Route::put('/keranjang/{keranjang}', 'update');
     });
 });
 

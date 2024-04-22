@@ -15,4 +15,12 @@ class Keranjang extends Model
         'user_id',
         'jumlah',
     ];
+
+    public function keranjang(){
+        return $this->belongsTo(Keranjang::class);
+    }
+
+    public function produk(){
+        return $this->belongsTo(Produk::class);
+    }
 }

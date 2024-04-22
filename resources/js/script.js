@@ -30,7 +30,7 @@ $(document).ready(function(){
                 $('#product-table tbody').empty();
 
                 $.each(response.data, function(index, product) {
-                    var hargaRupiah = 'Rp. ' + product.harga.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join('')
+                    var hargaRupiah = 'Rp ' + product.harga.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join('')
 
                     var row = '<tr>' +
                         `<td class="w-4 p-4">

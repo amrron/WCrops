@@ -30,10 +30,17 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="py-12">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="overflow-hidden sm:rounded-lg px-4">
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
 
         @include('js.script')
+        @yield('script')
     </body>
 </html>
