@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/keranjang', 'destroySelected');
         Route::patch('/keranjang/{keranjang}', 'decrease');
         Route::put('/keranjang/{keranjang}', 'update');
+    });
+
+    Route::controller(WishlistController::class)->group(function(){
+        Route::get('/wishlist', 'index');
+        Route::post('/wishlist', 'store');
     });
 });
 

@@ -38,4 +38,10 @@ class Produk extends Model
     public function scopeActive($query) {
         return $query->where('status', 1);
     }
+
+    public function getIsInWishlistAttribute() {
+        return Wishlist::where('user_id', auth()->id())
+                       ->where('produk_id', $this->id)
+                       ->exists();
+    }
 }

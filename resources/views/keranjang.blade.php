@@ -2,10 +2,10 @@
 
 @section('content')
     <h5 class="text-2xl font-semibold mb-4">Keranjang</h5>
-    <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 md:col-span-8">
+    <div class="grid grid-cols-12 gap-4 relative">
+        <div class="col-span-12 md:col-span-8 bg-white rounded-lg">
             @if ($keranjangs->count())                
-            <div class="w-full bg-white p-6 rounded-lg flex items-center justify-between gap-4 mb-4 cart-card">
+            <div class="w-full p-6 flex items-center justify-between gap-4 mb-4 border-b border-gray-200 cart-card">
                 <div class="flex gap-4">
                     <div class="flex items-center">
                         <input id="checkbox-all-cart" type="checkbox" value="" class="checkbox-cart w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -16,7 +16,7 @@
                 <h6 class="text-md cursor-pointer hidden text-blue-600 font-semibold" id="remove-selected">Hapus</h6>
             </div>
             @foreach ($keranjangs as $keranjang)                
-            <div class="w-full bg-white p-6 rounded-lg flex items-start gap-4 mb-4 cart-card">
+            <div class="w-full p-6 flex items-start gap-4 cart-card">
                 <div class="flex items-center mb-4">
                     <input id="checkbox-{{ $keranjang->id }}" type="checkbox" value="{{ $keranjang->id }}" data-price="{{ $keranjang->produk->harga }}" class="checkbox-cart w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-{{ $keranjang->id }}" class="sr-only">checkbox</label>
@@ -28,8 +28,8 @@
                         <span class="text-md md:text-xl font-bold text-gray-900 rupiah">{{ $keranjang->produk->harga }}</span>
                     </div>
                     <div class="flex justify-end gap-2">
-                        <button type="button" class="text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <button type="button" class="add-to-wishlist text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $keranjang->produk_id }}">
+                            <svg class="w-6 h-6 text-red-700 dark:text-white {{ $keranjang->produk->isInWishlist ? 'fill-red-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
                             </svg>                                                 
                             <span class="sr-only">Tambahkan ke wistlist</span>
@@ -242,7 +242,7 @@
 @section('script')
     <script>
         (function(){
-            
+            // Tambah produk
             $('.increase-amout').off('click').on('click', function(){
 
                 let id = $(this).data('id');
@@ -267,6 +267,7 @@
 
             });
 
+            // Hapus dari keranjang
             $('.remove-from-cart').off('click').on('click', function(){
                 console.log('hapus');
                 let id = $(this).data('id');
@@ -291,6 +292,7 @@
 
             });
             
+            // Mengurangi jumlah produk
             $('.decrease-amount').off('click').on('click', function(){
                 
                 let id = $(this).data('id');
@@ -312,6 +314,7 @@
 
             });
 
+            // Ketika Checkbox berubah
             $(document).off('change').on('change', '.checkbox-cart, .quantity-input', function(){
                 checkboxChange();
             });
@@ -320,6 +323,7 @@
                 $('.checkbox-cart').prop('checked', $(this).is(':checked'))
             });
 
+            // Fungsi ketika checkbox berubah
             function checkboxChange(){
                 if(!$(this).prop("checked")){
                     $("#checkbox-all-cart").prop('checked', false);
@@ -357,6 +361,7 @@
                 }
             }
 
+            // Hapus produk yang diselect
             $('#remove-selected').off('click').on('click', function(){
                 let selectedId = [];
                 $('.checkbox-cart:checked').each(function(){
@@ -386,6 +391,7 @@
                 });
             });
 
+            // Ubah kuantitas 
             $('.quantity-input').off('change').on('change', function(){
 
                 let id = $(this).data('id');
@@ -411,12 +417,38 @@
                 });
             });
 
+            // Ketika keranjang kosong
             function cartNull(){
                 if ($('.checkbox-cart').length == 1) {
                     $('.cart-card').remove();
                     $('#cart-null').removeClass('hidden');
                 }
             }
+
+            // Ketika tombol wishlist ditekan
+            $('.add-to-wishlist').off('click').on('click', function(){
+                
+                $(this).find('svg').toggleClass('fill-red-700');
+                let produkId = $(this).data('id');
+
+                $.ajax({
+                    url: '/wishlist',
+                    type: 'POST',
+                    data: {
+                        produk_id: produkId
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response){
+                        console.log(response.message);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+
+            });
 
         })()
     </script>
