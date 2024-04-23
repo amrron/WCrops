@@ -281,6 +281,7 @@
                     },
                     success: function(response){
                         console.log(response.message);
+                        toast(response.message, 'Oke')
                         itemToDelete.remove();
                         cartNull();
                         checkboxChange();
@@ -379,6 +380,7 @@
                     },
                     success: function(response){
                         console.log(response.message);
+                        toast(response.message, 'Oke')
                         selectedId.forEach(element => {
                             $('#checkbox-'+element).closest('.cart-card').remove();
                         });

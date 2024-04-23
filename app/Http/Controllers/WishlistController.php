@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Wishlist;
 use App\Http\Requests\StoreWishlistRequest;
 use App\Http\Requests\UpdateWishlistRequest;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class WishlistController extends Controller
@@ -94,8 +95,17 @@ class WishlistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Wishlist $wishlist)
+    public function destroy(Wishlist $wishlist, Request $request)
     {
-        //
+        if ($request->wantsJson() || $request->ajax()) {
+            $wishlist->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Produk berhasil dikeluarkan dari wishlist.',
+            ], 201);
+        }
+
+        return abort(404);
     }
 }
