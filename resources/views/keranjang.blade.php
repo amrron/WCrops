@@ -3,33 +3,33 @@
 @section('content')
     <h5 class="text-2xl font-semibold mb-4">Keranjang</h5>
     <div class="grid grid-cols-12 gap-4 relative">
-        <div class="col-span-12 md:col-span-8 bg-white rounded-lg">
+        <div class="col-span-12 md:col-span-8 bg-white rounded-xl">
             @if ($keranjangs->count())                
             <div class="w-full p-6 flex items-center justify-between gap-4 mb-4 border-b border-gray-200 cart-card">
                 <div class="flex gap-4">
                     <div class="flex items-center">
-                        <input id="checkbox-all-cart" type="checkbox" value="" class="checkbox-cart w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <input id="checkbox-all-cart" type="checkbox" value="" class="checkbox-cart w-6 h-6 text-wc-red-400 border-gray-300 rounded focus:ring-wc-red-400 dark:focus:ring-wc-red-400 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="checkbox-all-cart" class="sr-only">checkbox</label>
                     </div>
                     <h6 class="text-lg font-semibold">Pilih Semua <span id="checked-count" class="text-gray-400 hidden"></span></h6>
                 </div>
-                <h6 class="text-md cursor-pointer hidden text-blue-600 font-semibold" id="remove-selected">Hapus</h6>
+                <h6 class="text-md cursor-pointer hidden text-wc-red-400 font-semibold" id="remove-selected">Hapus</h6>
             </div>
             @foreach ($keranjangs as $keranjang)                
             <div class="w-full p-6 flex items-start gap-4 cart-card">
                 <div class="flex items-center mb-4">
-                    <input id="checkbox-{{ $keranjang->id }}" type="checkbox" value="{{ $keranjang->id }}" data-price="{{ $keranjang->produk->harga }}" class="checkbox-cart w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="checkbox-{{ $keranjang->id }}" type="checkbox" value="{{ $keranjang->id }}" data-price="{{ $keranjang->produk->harga }}" class="checkbox-cart w-6 h-6 text-wc-red-400 border-gray-300 rounded focus:ring-wc-red-400 dark:focus:ring-wc-red-400 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-{{ $keranjang->id }}" class="sr-only">checkbox</label>
                 </div>
                 <img src="/storage/{{ $keranjang->produk->gambar }}" class="aspect-square object-cover h-20" alt="">
                 <div class="flex flex-col justify-between min-h-20 flex-grow">
                     <div class="w-full flex flex-col md:flex-row justify-between">
-                        <h5 class="text-lg font-normal capitalize tracking-tight text-gray-900 line-clamp-1">{{ $keranjang->produk->nama }}</h5>
-                        <span class="text-md md:text-xl font-bold text-gray-900 rupiah">{{ $keranjang->produk->harga }}</span>
+                        <h5 class="text-xl font-medium capitalize tracking-tight text-gray-900 line-clamp-1">{{ $keranjang->produk->nama }}</h5>
+                        <span class="text-md md:text-xl font-medium text-gray-900 rupiah">{{ $keranjang->produk->harga }}</span>
                     </div>
                     <div class="flex justify-end gap-2">
                         <button type="button" class="add-to-wishlist text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $keranjang->produk_id }}">
-                            <svg class="w-6 h-6 text-red-700 dark:text-white {{ $keranjang->produk->isInWishlist ? 'fill-red-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-wc-red-400 dark:text-white {{ $keranjang->produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
                             </svg>                                                 
                             <span class="sr-only">Tambahkan ke wistlist</span>
@@ -40,14 +40,14 @@
                             </svg>                              
                             <span class="sr-only">Hapus dari keranjang</span>
                         </button>
-                        <div class="relative flex items-center max-w-[8rem]">
-                            <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input-{{ $keranjang->id }}" data-id="{{ $keranjang->id }}" class="decrease-amount bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-2 h-8 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                        <div class="relative flex items-center max-w-[8rem] border border-gray-500 rounded-lg">
+                            <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input-{{ $keranjang->id }}" data-id="{{ $keranjang->id }}" class="decrease-amount rounded-s-lg p-2 h-8 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                                 </svg>
                             </button>
-                            <input type="text" inputmode="numeric" id="quantity-input-{{ $keranjang->id }}" data-input-counter aria-describedby="helper-text-explanation" class="quantity-input bg-gray-50 border-x-0 border-gray-300 h-8 text-center text-gray-900 text-sm w-12 py-2.5 focus:outline-none" data-input-counter-min="1" value="{{ $keranjang->jumlah }}" placeholder="0" data-id="{{ $keranjang->id }}" required />
-                            <button type="button" id="increment-button" data-id="{{ $keranjang->produk_id }}" data-input-counter-increment="quantity-input-{{ $keranjang->id }}" class="increase-amout bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-2 h-8 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                            <input type="text" inputmode="numeric" id="quantity-input-{{ $keranjang->id }}" data-input-counter aria-describedby="helper-text-explanation" class="quantity-input  h-8 text-center text-gray-900 text-sm w-12 py-2.5 focus:outline-none focus:ring-0 border-none" data-input-counter-min="1" value="{{ $keranjang->jumlah }}" placeholder="0" data-id="{{ $keranjang->id }}" required />
+                            <button type="button" id="increment-button" data-id="{{ $keranjang->produk_id }}" data-input-counter-increment="quantity-input-{{ $keranjang->id }}" class="increase-amout rounded-e-lg p-2 h-8 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                 </svg>
@@ -219,11 +219,11 @@
                 </div>
                 <h5 class="text-2xl font-semibold mb-4">Ooppss, Keranjang Kamu masih kosong</h5>
                 <p class="text-gray-500 mb-4">Segera tamabahkan barang keinginanmu!</p>
-                <a href="/store" class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Belanja Sekarang</a>
+                <a href="/store" class="text-center text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Belanja Sekarang</a>
             </div>
         </div>
         <div class="col-span-12 md:col-span-4">
-            <div class="w-full bg-white border-t rounded-lg fixed md:static bottom-0 left-0 flex md:block">
+            <div class="w-full bg-white border-t rounded-xl fixed md:static bottom-0 left-0 flex md:block">
                 <div class="w-full p-6 pe-0 md:pe-6 flex items-center md:block border-b border-gray-200">
                     <h6 class="text-lg font-semibold mb-3 hidden md:block">Ringkasan Belanja</h6>
                     <div class="flex items-center justify-between w-full">
@@ -232,7 +232,7 @@
                     </div>
                 </div>
                 <div class="w-auto md:w-full flex items-center p-6 ps-4 md:ps-6">
-                    <button type="button" id="buy-button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Beli <span id="buy-count" class="hidden"></span></button>
+                    <button type="button" id="buy-button" class="w-full text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Beli <span id="buy-count" class="hidden"></span></button>
                 </div>
             </div>
         </div>
@@ -298,20 +298,23 @@
                 
                 let id = $(this).data('id');
 
-                $.ajax({
-                    url: '/keranjang/' + id,
-                    type: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response){
-                        console.log(response.message);
-                        checkboxChange();
-                    },
-                    error: function(error){
-                        console.error(error);
-                    }
-                });
+                if ($(this).siblings('.quantity-input').val() > 1) {
+                    $.ajax({
+                        url: '/keranjang/' + id,
+                        type: 'PATCH',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response){
+                            console.log(response.message);
+                            checkboxChange();
+                        },
+                        error: function(error){
+                            console.error(error);
+                        }
+                    });
+                }
+
 
             });
 
@@ -430,7 +433,7 @@
             // Ketika tombol wishlist ditekan
             $('.add-to-wishlist').off('click').on('click', function(){
                 
-                $(this).find('svg').toggleClass('fill-red-700');
+                $(this).find('svg').toggleClass('fill-wc-red-400');
                 let produkId = $(this).data('id');
 
                 $.ajax({

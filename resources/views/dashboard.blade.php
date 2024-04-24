@@ -27,7 +27,7 @@
                 </div>
             </a>
             <button type="button" class="add-to-wishlist absolute bottom-4 right-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
-                <svg class="w-7 h-7 text-red-700 dark:text-white hover:fill-red-700 {{ $produk->isInWishlist ? 'fill-red-700' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <svg class="w-7 h-7 text-wc-red-400 dark:text-white hover:fill-wc-red-400 {{ $produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
                 </svg>                                                 
                 <span class="sr-only">Tambahkan ke wistlist</span>
@@ -69,7 +69,7 @@
             // Ketika tombol wishlist ditekan
             $('.add-to-wishlist').off('click').on('click', function(){
                 
-                $(this).find('svg').toggleClass('fill-red-700');
+                $(this).find('svg').toggleClass('fill-wc-red-400');
                 let produkId = $(this).data('id');
 
                 $.ajax({

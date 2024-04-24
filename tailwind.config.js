@@ -16,6 +16,18 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
+        colors: {
+            'wc-red-000' : '#FFC9C9',
+            'wc-red-100' : '#FF9A9A',
+            'wc-red-200' : '#FF7E7E',
+            'wc-red-300' : '#FF6363',
+            'wc-red-400' : '#FF4949',
+            'wc-balck-000' : '#9B9B9B',
+            'wc-balck-100' : '#686868',
+            'wc-balck-200' : '#535353',
+            'wc-balck-300' : '#353535',
+            'wc-balck-400' : '#161616',
+        }
     },
 
     plugins: [

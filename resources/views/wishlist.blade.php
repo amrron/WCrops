@@ -26,7 +26,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
                             </svg>                              
                         </button>
-                        <button type="button" class="add-to-cart text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-2 w-full" data-id="{{ $wishlist->produk_id }}">+ Keranjang</button>
+                        <button type="button" class="add-to-cart text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm p-2 w-full" data-id="{{ $wishlist->produk_id }}">+ Keranjang</button>
                     </div>
                 </div>
             </a>
