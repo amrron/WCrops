@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    // function success alert
     function successAlert(message){
         let target = $(`
         <div id="toast-top-right" class="z-70 fixed flex items-center w-full max-w-xs p-4 space-x-4 text-green-800 rounded-lg bg-green-50 divide-x rtl:divide-x-reverse divide-gray-200 shadow top-5 right-5 dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert" style="top: 120px; left: 50%; transform: translateX(-50%)">
@@ -18,7 +19,7 @@ $(document).ready(function(){
     // successAlert('Hello dunia')
 
     
-
+    // mengambil data produk
     function fetchData(query = "") {
         $.ajax({
             url: '/admin/produk?search='+query, 
@@ -84,6 +85,7 @@ $(document).ready(function(){
 
     fetchData();
 
+    // mencari produk
     $('#products-search').on('change input', function(){
         let keyword = $(this).val();
         console.log(keyword);
@@ -91,11 +93,12 @@ $(document).ready(function(){
         fetchData(keyword);
     })
 
-    const drawerProduct = new Drawer(document.getElementById('drawer-product'),{ placement: 'right' }, {
+    const drawerProduct = new Drawer(document.getElementById('drawer-product'),{ placement: 'right', bodyScrolling: true, }, {
         id: 'drawer-product',
         override: true
     });
 
+    // clear drawer on hidden
     drawerProduct.updateOnHide(function(){
         console.log('drawer is hidden');
 
@@ -114,10 +117,12 @@ $(document).ready(function(){
         console.log($('#id').val());
     });
 
+    // show drawer create product
     $('#create-new-product').on('click', function(){
         drawerProduct.show();
     });
 
+    // update product
     $('#product-table tbody').on('click', '.update-product', function(){
         drawerProduct.show();
         $('#drawer-product #drawer-label').html('UBAH PRODUK');
@@ -141,6 +146,7 @@ $(document).ready(function(){
                 $('#harga').val(data.harga);
                 $('#kategori_id').val(data.kategori_id);
                 $('#stok').val(data.stok);
+                $('#berat').val(data.berat);
                 $('#deskripsi').val(data.deskripsi);
                 $('#status').prop('checked', data.status);
                 $('#preview-image').attr('src', '/storage/' + data.gambar);
@@ -152,6 +158,7 @@ $(document).ready(function(){
 
     });
 
+    // submit product
     $('#product-form').on('submit', function(e){
         e.preventDefault();
 
@@ -195,6 +202,7 @@ $(document).ready(function(){
         override: true
     });
 
+    // delete product
     $(document).off('click').on('click', '.delete-product', function(){
         drawerDeleteProduct.show();
 
@@ -226,7 +234,7 @@ $(document).ready(function(){
 
     })
 
-
+    // change product status from table
     $('#product-table tbody').on('change', '.status-display', function(){
         console.log('switch');
         let id = $(this).data('id');
@@ -257,6 +265,7 @@ $(document).ready(function(){
         $('.checkbox-product').prop('checked', $(this).is(':checked'));
     })
 
+    // change product checkbox
     $(document).off('change').on('change', '.checkbox-product', function(){
         if(!$(this).prop("checked")){
             $("#checkbox-all-product").prop('checked', false);
@@ -290,6 +299,7 @@ $(document).ready(function(){
         }
     });
 
+    // mengembalikan header table ketika tidak ada checklist
     function revertTableHeader(){
         $('#product-info').html('Info Produk');
         $('#product-info').prop('colspan', 1);
@@ -314,12 +324,14 @@ $(document).ready(function(){
 
     const confirmProductModal = new Modal(document.getElementById('product-confirm-modal'));
 
+    // confirm nonaktifkan selected product
     $('#product-table thead').on('click', '#nonactive-products', function(){
         confirmProductModal.show();
         $('#title-modal-product').html('Nonaktifkan Produk?');
         $('#confirm-modal-product').data('action', 'nonactive');
     });
 
+    // confir delete selected product
     $('#product-table thead').on('click', '#delete-products', function(){
         confirmProductModal.show();
         let jumlahChecked = $('.checkbox-product:checked').length == $('.checkbox-product').length ?  $('.checkbox-product:checked').length - 1 : $('.checkbox-product:checked').length;
@@ -327,6 +339,7 @@ $(document).ready(function(){
         $('#confirm-modal-product').data('action', 'delete');
     });
 
+    // confirm modal selected product
     confirmProductModal.updateOnShow(function(){
         let selectedId = [];
         $('.checkbox-product:checked').each(function(){
@@ -355,6 +368,7 @@ $(document).ready(function(){
         });
     })
 
+    // loading product selected
     confirmProductModal.updateOnHide(function(){
         $('#title-modal-product').html('');
         $('#product-names').html(`
@@ -368,6 +382,7 @@ $(document).ready(function(){
         `);
     });
 
+    // confirm delete/diactivate selected product
     $('#confirm-modal-product').off('click').on('click', function(){
         let selectedId = [];
         $('.checkbox-product:checked').each(function(){

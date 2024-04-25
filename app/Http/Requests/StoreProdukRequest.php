@@ -29,6 +29,7 @@ class StoreProdukRequest extends FormRequest
             'gambar' => 'required|mimes:jpg,jpeg,png|max:10000',
             'harga' => 'required|numeric',
             'stok' => 'required|numeric',
+            'berat' => 'required|numeric',
             'kategori_id' => 'required|string',
             'status' => 'nullable|boolean',
         ];

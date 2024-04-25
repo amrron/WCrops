@@ -22,11 +22,11 @@ export default {
             'wc-red-200' : '#FF7E7E',
             'wc-red-300' : '#FF6363',
             'wc-red-400' : '#FF4949',
-            'wc-balck-000' : '#9B9B9B',
-            'wc-balck-100' : '#686868',
-            'wc-balck-200' : '#535353',
-            'wc-balck-300' : '#353535',
-            'wc-balck-400' : '#161616',
+            'wc-black-000' : '#9B9B9B',
+            'wc-black-100' : '#686868',
+            'wc-black-200' : '#535353',
+            'wc-black-300' : '#353535',
+            'wc-black-400' : '#161616',
         }
     },
 

@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/produk/{produk}', 'destroy');
         Route::put('/admin/produk/status/{produk}', 'changeStatus');
         Route::put('/admin/produk/status/', 'nonactiveStatus');
+        Route::get('/produk/{produk:slug}', 'show');
     });
 
     Route::controller(KeranjangController::class)->group(function(){

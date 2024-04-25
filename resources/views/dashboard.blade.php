@@ -9,7 +9,7 @@
     <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         @foreach ($produks as $produk)
         <div class="w-full max-w-sm rounded-xl border shadow-md relative">
-            <a href="#" class="">
+            <a href="/produk/{{ $produk->slug }}" class="">
                 <div class="p-4">
                     <img class="rounded-lg w-full aspect-square object-cover mb-4" src="/storage/{{ $produk->gambar }}" alt="product image" />
                     <h5 class="font-normal capitalize tracking-tight text-gray-900">{{ $produk->nama }}</h5>

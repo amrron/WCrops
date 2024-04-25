@@ -42,13 +42,13 @@
                         </button>
                         <div class="relative flex items-center max-w-[8rem] border border-gray-500 rounded-lg">
                             <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input-{{ $keranjang->id }}" data-id="{{ $keranjang->id }}" class="decrease-amount rounded-s-lg p-2 h-8 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                <svg class="w-3 h-3 text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                                 </svg>
                             </button>
-                            <input type="text" inputmode="numeric" id="quantity-input-{{ $keranjang->id }}" data-input-counter aria-describedby="helper-text-explanation" class="quantity-input  h-8 text-center text-gray-900 text-sm w-12 py-2.5 focus:outline-none focus:ring-0 border-none" data-input-counter-min="1" value="{{ $keranjang->jumlah }}" placeholder="0" data-id="{{ $keranjang->id }}" required />
-                            <button type="button" id="increment-button" data-id="{{ $keranjang->produk_id }}" data-input-counter-increment="quantity-input-{{ $keranjang->id }}" class="increase-amout rounded-e-lg p-2 h-8 focus:outline-none">
-                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <input type="text" inputmode="numeric" id="quantity-input-{{ $keranjang->id }}" data-input-counter aria-describedby="helper-text-explanation" class="quantity-input  h-8 text-center text-gray-900 text-sm w-12 py-2.5 focus:outline-none focus:ring-0 border-none" data-input-counter-min="1" data-input-counter-max="{{ $keranjang->produk->stok }}" value="{{ $keranjang->jumlah }}" placeholder="0" data-id="{{ $keranjang->id }}" required />
+                            <button type="button" id="increment-button" data-id="{{ $keranjang->produk_id }}" data-input-counter-increment="quantity-input-{{ $keranjang->id }}" class="increase-amout rounded-e-lg p-2 h-8 focus:outline-none" data-max="{{ $keranjang->produk->stok }}">
+                                <svg class="w-3 h-3 text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                 </svg>
                             </button>
@@ -246,24 +246,28 @@
             $('.increase-amout').off('click').on('click', function(){
 
                 let id = $(this).data('id');
+                let jumlah = $(this).siblings('.quantity-input').val();
+                let max = $(this).data('max');
 
-                $.ajax({
-                    url: '/keranjang',
-                    type: 'POST',
-                    data: {
-                        produk_id: id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response){
-                        console.log(response.message);
-                        checkboxChange();
-                    },
-                    error: function(error){
-                        console.error(error);
-                    }
-                });
+                if (jumlah < max) {
+                    $.ajax({
+                        url: '/keranjang',
+                        type: 'POST',
+                        data: {
+                            produk_id: id
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response){
+                            console.log(response.message);
+                            checkboxChange();
+                        },
+                        error: function(error){
+                            console.error(error);
+                        }
+                    });
+                }
 
             });
 

@@ -41,12 +41,19 @@ class KeranjangController extends Controller
                 $data = $request->validated();
 
                 $data['user_id'] = auth()->id();
-                $data['jumlah'] = 1;
+                $data['jumlah'] = $data['jumlah'] ?? 1;
 
                 $keranjang = Keranjang::where('user_id', auth()->id())->where('produk_id', $data['produk_id'])->first();
 
+                if ($keranjang->jumlah + $data['jumlah'] > $keranjang->produk->stok) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Jumlah produk di keranjang tidak bisa melebihi stok produk.',
+                    ], 400);
+                }
+
                 if ($keranjang) {
-                    $keranjang->increment('jumlah');
+                    $keranjang->increment('jumlah', $data['jumlah']);
                 } else {
                     Keranjang::create($data);
                 }

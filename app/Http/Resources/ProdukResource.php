@@ -17,8 +17,10 @@ class ProdukResource extends JsonResource
         return [
             'id' => $this->id,
             'nama' => $this->nama,
+            'slug' => $this->slug,
             'harga' => $this->harga,
             'stok' => $this->stok,
+            'berat' => $this->berat,
             'kategori' => $this->kategori->nama_kategori,
             'kategori_id' => $this->kategori->id,
             'deskripsi' => $this->deskripsi,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\KategoriProduk;
 use App\Http\Resources\ProdukResource;
@@ -41,6 +42,8 @@ class ProdukController extends Controller
                 $produk['gambar'] = $request->file('gambar')->store('upload');
             }
 
+            $produk['slug'] = Str::slug($produk['nama'], '-') . '-' . rand(10, 99);
+
             $produk = Produk::create($produk);
 
             return response()->json([
@@ -66,7 +69,11 @@ class ProdukController extends Controller
                 'data' => new ProdukResource($produk),
             ], 201);
         }
-        return abort(404);
+        else {
+            return view('detail-produk', [
+                'produk' => $produk
+            ]);
+        }
     }
 
     /**
@@ -82,7 +89,10 @@ class ProdukController extends Controller
             $produk->kategori_id = $request->kategori_id;
             $produk->deskripsi = $request->deskripsi;
             $produk->status = $request->status;
-
+            
+            if ($produk->nama != $request->nama) {
+                $produk->slug = Str::slug($request->nama, '-') . '-' . rand(10, 99);
+            }
 
             if($request->file('gambar')){
                 Storage::delete($produk->gambar);
