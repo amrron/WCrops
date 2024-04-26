@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Checkout;
-use App\Http\Requests\StoreCheckoutRequest;
-use App\Http\Requests\UpdateCheckoutRequest;
+use App\Models\Alamat;
+use App\Http\Requests\StoreAlamatRequest;
+use App\Http\Requests\UpdateAlamatRequest;
 
-class CheckoutController extends Controller
+class AlamatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCheckoutRequest $request)
+    public function store(StoreAlamatRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class CheckoutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Checkout $checkout)
+    public function show(Alamat $alamat)
     {
         //
     }
@@ -43,7 +43,7 @@ class CheckoutController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Checkout $checkout)
+    public function edit(Alamat $alamat)
     {
         //
     }
@@ -51,7 +51,7 @@ class CheckoutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCheckoutRequest $request, Checkout $checkout)
+    public function update(UpdateAlamatRequest $request, Alamat $alamat)
     {
         //
     }
@@ -59,7 +59,7 @@ class CheckoutController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Checkout $checkout)
+    public function destroy(Alamat $alamat)
     {
         //
     }

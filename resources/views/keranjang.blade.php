@@ -5,7 +5,7 @@
     <div class="grid grid-cols-12 gap-4 relative">
         <div class="col-span-12 md:col-span-8 bg-white rounded-xl">
             @if ($keranjangs->count())                
-            <div class="w-full p-6 flex items-center justify-between gap-4 mb-4 border-b border-gray-200 cart-card">
+            <div class="w-full p-6 flex items-center justify-between gap-4 mb-4 border-b border-gray-200 cart-header">
                 <div class="flex gap-4">
                     <div class="flex items-center">
                         <input id="checkbox-all-cart" type="checkbox" value="" class="checkbox-cart w-6 h-6 text-wc-red-400 border-gray-300 rounded focus:ring-wc-red-400 dark:focus:ring-wc-red-400 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -16,16 +16,17 @@
                 <h6 class="text-md cursor-pointer hidden text-wc-red-400 font-semibold" id="remove-selected">Hapus</h6>
             </div>
             @foreach ($keranjangs as $keranjang)                
-            <div class="w-full p-6 flex items-start gap-4 cart-card">
+            <div class="w-full p-6 flex items-start gap-4 cart-card" data-produk="{{ $keranjang->produk_id }}">
                 <div class="flex items-center mb-4">
                     <input id="checkbox-{{ $keranjang->id }}" type="checkbox" value="{{ $keranjang->id }}" data-price="{{ $keranjang->produk->harga }}" class="checkbox-cart w-6 h-6 text-wc-red-400 border-gray-300 rounded focus:ring-wc-red-400 dark:focus:ring-wc-red-400 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-{{ $keranjang->id }}" class="sr-only">checkbox</label>
                 </div>
                 <img src="/storage/{{ $keranjang->produk->gambar }}" class="aspect-square object-cover h-20" alt="">
                 <div class="flex flex-col justify-between min-h-20 flex-grow">
-                    <div class="w-full flex flex-col md:flex-row justify-between">
-                        <h5 class="text-xl font-medium capitalize tracking-tight text-gray-900 line-clamp-1">{{ $keranjang->produk->nama }}</h5>
-                        <span class="text-md md:text-xl font-medium text-gray-900 rupiah">{{ $keranjang->produk->harga }}</span>
+                    <div class="w-full flex flex-col md:flex-row flex-wrap justify-between">
+                        <h5 class="text-xl font-medium capitalize tracking-tight text-gray-900 line-clamp-1 w-auto md:w-1/2">{{ $keranjang->produk->nama }}</h5>
+                        <span class="text-md md:text-xl text-start md:text-end font-medium text-gray-900 w-auto md:w-1/2 rupiah">{{ $keranjang->produk->harga }}</span>
+                        <span class="">{{ $keranjang->produk->berat }} g</span>
                     </div>
                     <div class="flex justify-end gap-2">
                         <button type="button" class="add-to-wishlist text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $keranjang->produk_id }}">
@@ -428,8 +429,8 @@
 
             // Ketika keranjang kosong
             function cartNull(){
-                if ($('.checkbox-cart').length == 1) {
-                    $('.cart-card').remove();
+                if ($('.checkbox-cart').is(':checked').length == 1) {
+                    $('.cart-header').remove();
                     $('#cart-null').removeClass('hidden');
                 }
             }
@@ -453,6 +454,45 @@
                         console.log(response.message);
                     },
                     error: function(error) {
+                        console.error(error);
+                    }
+                });
+
+            });
+
+            $('#buy-button').off('click').on('click', function(){
+                $(this).prop('disabled', true);
+
+                let transaksiItem = [];
+                let totalPrice = 0;
+                let cartCard = $('.cart-card');
+
+                cartCard.each(function(){
+                    if ($(this).find('.checkbox-cart').is(':checked')) {
+                        transaksiItem.push({
+                            produk_id: $(this).data('produk'),
+                            jumlah: $(this).find('.quantity-input').val()
+                        });
+                        totalPrice += $(this).find('.checkbox-cart').data('price') * $(this).find('.quantity-input').val()
+
+                    }
+                })
+
+                $.ajax({
+                    url: '/transaksi',
+                    type: 'POST',
+                    data: {
+                        total: totalPrice,
+                        transaksiItem: transaksiItem
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response){
+                        console.log(response);
+                        window.location.href = "/keranjang/checkout";
+                    },
+                    error: function(error){
                         console.error(error);
                     }
                 });

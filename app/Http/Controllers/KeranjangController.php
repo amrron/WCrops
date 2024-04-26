@@ -45,7 +45,7 @@ class KeranjangController extends Controller
 
                 $keranjang = Keranjang::where('user_id', auth()->id())->where('produk_id', $data['produk_id'])->first();
 
-                if ($keranjang->jumlah + $data['jumlah'] > $keranjang->produk->stok) {
+                if ($keranjang && $keranjang->jumlah + $data['jumlah'] > $keranjang->produk->stok) {
                     return response()->json([
                         'status' => false,
                         'message' => 'Jumlah produk di keranjang tidak bisa melebihi stok produk.',

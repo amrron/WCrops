@@ -3,9 +3,9 @@
 @section('content')
     <div class="grid grid-cols-12 gap-6">
         <div class="col-span-12 md:col-span-3">
-            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-lg w-full" alt="">
+            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-none md:rounded-lg w-full" alt="">
         </div>
-        <div class="col-span-12 md:col-span-5 relative">
+        <div class="col-span-12 md:col-span-5 relative px-4 pb-32 md:pb-0">
             <h5 class="font-medium text-3xl capitalize mb-2">{{ $produk->nama }}</h5>
             <div class="flex items-center mb-4">
                 <span class="text-wc-black-200 me-2">Terjual 12</span>
@@ -37,9 +37,9 @@
             </button>
         </div>
         <div class="col-span-12 md:col-span-4">
-            <div class="w-full rounded-xl bg-white shadow-md p-6 flex flex-col gap-4">
-                <h6 class="font-semibold text-xl">Atur jumlah</h6>
-                <div class="flex gap-2 items-center">
+            <div class="w-full rounded-xl bg-white shadow-md p-6 flex flex-col gap-4 fixed md:static bottom-0 left-0">
+                <h6 class="hidden md:block font-semibold text-xl">Atur jumlah</h6>
+                <div class="gap-2 items-center hidden md:flex">
                     <div class="relative flex items-center max-w-[8rem] border border-gray-500 rounded-lg">
                         <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" data-id="{{ $produk->id }}" class="decrease-amount rounded-s-lg p-2 h-8 focus:outline-none">
                             <svg class="w-3 h-3 text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -55,7 +55,7 @@
                     </div>
                     <span>Stok: {{ $produk->stok }}</span>
                 </div>
-                <div class="flex items-center justify-between w-full">
+                <div class="hidden md:flex items-center justify-between w-full">
                     <span class="text-md text-gray-500">Total:</span>
                     <span class="text-lg font-bold rupiah" id="total-price">{{ $produk->harga }}</span>
                 </div>

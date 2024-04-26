@@ -32,7 +32,7 @@
             <main>
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto">
-                        <div class="overflow-hidden sm:rounded-lg p-4">
+                        <div class="overflow-hidden sm:rounded-lg p-0 py-4 md:p-4">
                             @yield('content')
                         </div>
                     </div>

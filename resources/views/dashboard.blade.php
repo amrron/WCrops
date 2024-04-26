@@ -6,7 +6,7 @@
     </x-slot> --}}
 @section('content')
     
-    <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
         @foreach ($produks as $produk)
         <div class="w-full max-w-sm rounded-xl border shadow-md relative">
             <a href="/produk/{{ $produk->slug }}" class="">

@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCheckoutRequest extends FormRequest
+class StoreTransaksiRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateCheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'total' => 'required|numeric',
+            'transaksiItem' => 'required'
         ];
     }
 }
