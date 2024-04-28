@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6">
+    <div class="grid grid-cols-12 gap-6 mt-6 border-b border-gray-200 pb-8">
         <div class="col-span-12 md:col-span-3">
             <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-none md:rounded-lg w-full" alt="">
         </div>

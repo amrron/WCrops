@@ -20,21 +20,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'home']);
+Route::get('/produk', [HomeController::class, 'index']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/store', [HomeController::class, 'index']);
+Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::controller(ProfileController::class)->group(function(){
+        Route::get('/profile/setting', 'edit')->name('profile.edit');
+        Route::patch('/profile/setting', 'update')->name('profile.update');
+        Route::delete('/profile/setting', 'destroy')->name('profile.destroy');
 
+        Route::get('/profile', 'index');
+    });
+    
     Route::controller(ProdukController::class)->group(function(){
         Route::get('/admin/produk', 'indexAdmin');
         Route::get('/admin/produk/name', 'getProductName');

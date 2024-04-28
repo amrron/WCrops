@@ -86,6 +86,7 @@ class ProdukController extends Controller
             $produk->nama = $request->nama;
             $produk->harga = $request->harga;
             $produk->stok = $request->stok;
+            $produk->berat = $request->berat;
             $produk->kategori_id = $request->kategori_id;
             $produk->deskripsi = $request->deskripsi;
             $produk->status = $request->status;

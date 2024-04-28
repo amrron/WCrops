@@ -7,6 +7,7 @@ use App\Models\TransaksiItem;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
+use App\Http\Resources\ShipmentItemsResource;
 use Illuminate\Validation\ValidationException;
 
 class TransaksiController extends Controller
@@ -98,28 +99,31 @@ class TransaksiController extends Controller
         //
     }
 
-    public function checkoutIndex() {
+    public function checkoutIndex()
+    {
         $transaksi = Transaksi::where('user_id', auth()->id())->where('status', 'onhold')->first();
+
+        $items = new ShipmentItemsResource($transaksi);
 
         $response = Http::withHeaders([
             'content-type' => 'application/json',
-            'authorization' => 'biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCIsInVzZXJJZCI6IjY2MmIxZGY5OWQ5N2E0MDAxMTAyOGFkYyIsImlhdCI6MTcxNDEwMjg1Nn0.TfYCdNg5y6q0fdvmvnWRMsbssEG9cu60NhWOvFvTIVc',
+            'authorization' => 'biteship_live.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCBub24gdGVzdGluZyIsInVzZXJJZCI6IjY2MmIxZGY5OWQ5N2E0MDAxMTAyOGFkYyIsImlhdCI6MTcxNDExMDM4NX0.YOCleAAP4MDDCuH5FVWoeB6Mikc8MN8hXHKkmD8X_Y8',
         ]);
 
         $get_origin = $response->get('https://api.biteship.com/v1/maps/areas', [
             'countries' => 'ID',
             'input' => 'Tanah Sareal, Bogor, Jawa Barat. 16162',
-            'type' => 'double'
+            'type' => 'single'
         ]);
-        
+
         $origin = json_decode($get_origin->body());
 
         $origin_id =  $origin->areas[0]->id;
 
         $get_destination = $response->get('https://api.biteship.com/v1/maps/areas', [
             'countries' => 'ID',
-            'input' => 'Nogosari, Boyolai, Jawa Tengah',
-            'type' => 'double'
+            'input' => 'Cikarang Selatan, Bekasi, Jawa Barat',
+            'type' => 'single'
         ]);
 
         $destination = json_decode($get_destination->body());
@@ -127,24 +131,19 @@ class TransaksiController extends Controller
         $destination_id =  $destination->areas[0]->id;
 
         $get_courire_rate = $response->post('https://api.biteship.com/v1/rates/couriers', [
-            'origin_area_id' => $origin_id,
-            'destination_area_id' => $destination_id,
-            'couriers' => 'jne,jnt,tiki,ninja,wahna,pos,anteraja',
-            'items' => [
-                [
-                    'name' => 'Jamur',
-                    'value' => 'value',
-                    'quantity' => 1,
-                    'weight' => 1000
-                ]
-            ]
+            'origin_area_id' => $destination_id,
+            'destination_area_id' => $origin_id,
+            // 'origin_postal_code' => 16162,
+            // 'destination_postal_code' => 17530,
+            'couriers' => 'jne,jnt,sicepat,tiki,ninja',
+            'items' => $items
         ]);
 
         $courire_rate = json_decode($get_courire_rate->body());
 
         // dd($courire_rate);
 
-        // return response()->json($courire_rate->pricing);
+        // return response()->json($courire_rate);
 
         return view('checkout', [
             'transaksi' => $transaksi,

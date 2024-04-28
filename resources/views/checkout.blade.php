@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h5 class="text-2xl font-semibold mb-4">Keranjang</h5>
+    <h5 class="text-2xl font-semibold mb-4">Checkout</h5>
     <div class="grid grid-cols-12 gap-4 relative">
         <div class="col-span-12 md:col-span-8 rounded-xl">
             <div class="w-full rounded-xl bg-white p-6 shadow mb-4">
@@ -12,7 +12,8 @@
                     </svg> 
                     <p class="font-medium">Rumah - Ali Imron</p>                     
                 </div>
-                <p class="text-sm">Kp. Anggrek lebak. Jln Pondok rumput 2, No 5 Rt 4 Rw 2, Kel. Kebon pedes (Rumah Bpk. Suyatno), Tanah Sereal, Kota Bogor, Jawa Barat, 6285648234765</p>
+                <p class="text-sm mb-2">KAMPUS BOGOR – Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128 , 628525523865</p>
+                <button type="button" class="px-3 py-2 text-xs font-medium text-center text-wc-black-100 border border-wc-black-100 rounded-lg focus:ring-0 ">Ganti Alamat</button>
             </div>
 
             @foreach ($transaksi->transaksiItem as $item)
@@ -32,15 +33,21 @@
             <div class="w-full rounded-xl bg-white p-6 shadow mb-4">
                 <h5 class="font-xl font-semibold text-wc-black-100 mb-4">Pilih Pengiriman</h5>
                 <div class="flex flex-col gap-4 w-full">
+                    @php
+                    $i = 1    
+                    @endphp
                     @foreach ($ongkir->pricing as $ekspedisi)
                     <div class="flex items-center px-4 border border-gray-200 rounded cursor-pointer">
-                        <input id="bordered-radio-1" type="radio" value="" name="bordered-radio" class="w-4 h-4 text-wc-red-400 bg-gray-100 border-gray-300 focus:ring-0">
-                        <label for="bordered-radio-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        <input id="bordered-radio-{{ $i }}" type="radio" value="" name="bordered-radio" class="w-4 h-4 text-wc-red-400 bg-gray-100 border-gray-300 focus:ring-0">
+                        <label for="bordered-radio-{{ $i }}" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             <h6 class="font-semibold text-xl">{{ $ekspedisi->courier_name . ' - ' . $ekspedisi->courier_service_name }}</h6>
                             <span class="text-wc-black-000">Tiba dalam {{ $ekspedisi->shipment_duration_range }} hari</span>
                         </label>
                         <span id="reguler-price" class="whitespace-nowrap rupiah">{{ $ekspedisi->price }}</span>
                     </div>
+                    @php
+                    $i++    
+                    @endphp
                     @endforeach
                 </div>
             </div>

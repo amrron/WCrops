@@ -1,6 +1,4 @@
-
-
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
+<nav class="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-40">
     <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 gap-4">
         <div class="flex gap-4 items-center w-1/2 justify-start">
           <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -11,7 +9,7 @@
               </svg>              
               {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Menjamur</span> --}}
           </a>
-          <form class="max-w-md flex-grow hidden md:block">   
+          <form class="max-w-md flex-grow hidden md:block" method="get" action="/produk">   
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -19,7 +17,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
-                <input type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." required />
+                <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." value="{{ request('search') }}" required />
             </div>
           </form>
         </div>
@@ -37,7 +35,7 @@
             <div class="flex gap-4 items-center">
                 @guest
                 <div>
-                    <a href="/login" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a href="/login" class="text-white bg-wc-red-400 hover:bg-wc-red-400 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                       <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
                       </svg>
@@ -83,7 +81,7 @@
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                       <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                        <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                       </li>
                       <li>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Pesanan</a>
@@ -97,7 +95,7 @@
                 @endauth
           </div>
         </div>
-        <form class="max-w-md block md:hidden flex-grow">   
+        <form class="max-w-md block md:hidden flex-grow" method="get" action="/produk">   
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div class="relative">
               <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -105,20 +103,20 @@
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                   </svg>
               </div>
-              <input type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." required />
+              <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." required />
           </div>
         </form>
     </div>
 </nav>
-<nav class="bg-wc-red-400">
+<nav class="bg-wc-red-400 fixed top-[72px] left-0 w-full z-30">
     <div class="max-w-screen-xl px-4 py-3 mx-auto">
         <div class="flex items-center justify-center">
             <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
                 <li>
-                    <a href="#" class="text-white hover:underline" aria-current="page">Beranda</a>
+                    <a href="/" class="text-white hover:underline" aria-current="page">Beranda</a>
                 </li>
                 <li>
-                  <a href="/store" class="text-white hover:underline">Store</a>
+                  <a href="/produk" class="text-white hover:underline">Produk</a>
                 </li>
                 <li>
                     <a href="#" class="text-white hover:underline">Tentang Kami</a>
