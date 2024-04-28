@@ -16,8 +16,8 @@ class Keranjang extends Model
         'jumlah',
     ];
 
-    public function keranjang(){
-        return $this->belongsTo(Keranjang::class);
+    public function user(){
+        return $this->belongsTo(user::class);
     }
 
     public function produk(){

@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('alamats', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignUuid('user_id');
-            $table->string('nama_alamat');
-            $table->string('nama_penerima');
+            $table->string('label');
+            $table->string('lengkap');
+            $table->string('penerima');
             $table->string('hp_penerima');
             $table->string('provinsi');
-            $table->string('kotaOrKabupaten');
+            $table->string('kota');
             $table->string('kecamatan');
             $table->string('kelurahan');
             $table->string('kode_pos');
+            $table->boolean('selected')->default(0);
             $table->timestamps();
         });
     }

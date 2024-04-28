@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alamat;
 use App\Models\Transaksi;
 use App\Models\TransaksiItem;
 use Illuminate\Support\Facades\Http;
@@ -102,7 +103,15 @@ class TransaksiController extends Controller
     public function checkoutIndex()
     {
         $transaksi = Transaksi::where('user_id', auth()->id())->where('status', 'onhold')->first();
+        $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first() ?? Alamat::where('user_id', auth()->id())->first();
+        $alamats = Alamat::where('user_id', auth()->id())->get();
 
+        if (!$alamat) {
+            return view('checkout', [
+                'transaksi' => $transaksi,
+                'alamats' => $alamats,
+            ]);
+        }
         $items = new ShipmentItemsResource($transaksi);
 
         $response = Http::withHeaders([
@@ -122,7 +131,7 @@ class TransaksiController extends Controller
 
         $get_destination = $response->get('https://api.biteship.com/v1/maps/areas', [
             'countries' => 'ID',
-            'input' => 'Cikarang Selatan, Bekasi, Jawa Barat',
+            'input' => "$alamat->kecamatan, $alamat->kota, $alamat->provinsi",
             'type' => 'single'
         ]);
 
@@ -133,9 +142,9 @@ class TransaksiController extends Controller
         $get_courire_rate = $response->post('https://api.biteship.com/v1/rates/couriers', [
             'origin_area_id' => $destination_id,
             'destination_area_id' => $origin_id,
-            // 'origin_postal_code' => 16162,
-            // 'destination_postal_code' => 17530,
-            'couriers' => 'jne,jnt,sicepat,tiki,ninja',
+            'origin_postal_code' => 16162,
+            'destination_postal_code' => $alamat->kode_pos,
+            'couriers' => 'jne',
             'items' => $items
         ]);
 
@@ -147,7 +156,9 @@ class TransaksiController extends Controller
 
         return view('checkout', [
             'transaksi' => $transaksi,
-            'ongkir' => $courire_rate
+            'ongkir' => $courire_rate,
+            'alamat' => $alamat,
+            'alamats' => $alamats,
         ]);
     }
 }

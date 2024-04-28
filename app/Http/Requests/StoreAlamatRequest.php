@@ -11,7 +11,7 @@ class StoreAlamatRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreAlamatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'label' => 'required|string',
+            'lengkap' => 'required|string',
+            'penerima' => 'required|string',
+            'hp_penerima' => 'required|string',
+            'provinsi' => 'required|string',
+            'kota' => 'required|string',
+            'kecamatan' => 'required|string',
+            'kelurahan' => 'required|string',
+            'kode_pos' => 'required|string',
+            'selected' => 'nullable|boolead',
         ];
     }
 }

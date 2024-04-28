@@ -53,4 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wishlists() {
         return $this->hasMany(Wishlist::class);
     }
+
+    public function alamats() {
+        return $this->hasMany(Alamat::class);
+    }
 }

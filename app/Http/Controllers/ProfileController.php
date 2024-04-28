@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Alamat;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,8 @@ class ProfileController extends Controller
     }
 
     public function index() {
-        return view('profile');
+        return view('profile', [
+            'alamats' => Alamat::where('user_id', auth()->id())->get()
+        ]);
     }
 }
