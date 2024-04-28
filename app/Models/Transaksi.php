@@ -17,11 +17,13 @@ class Transaksi extends Model
         'snap_token'
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function transaksiItem() {
+    public function transaksiItems()
+    {
         return $this->hasMany(TransaksiItem::class);
     }
 }

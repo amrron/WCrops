@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 use App\Http\Resources\ShipmentItemsResource;
+use App\Models\Keranjang;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class TransaksiController extends Controller
@@ -106,6 +108,10 @@ class TransaksiController extends Controller
         $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first() ?? Alamat::where('user_id', auth()->id())->first();
         $alamats = Alamat::where('user_id', auth()->id())->get();
 
+        if (!$transaksi) {
+            return view('checkout');
+        }
+
         if (!$alamat) {
             return view('checkout', [
                 'transaksi' => $transaksi,
@@ -116,7 +122,7 @@ class TransaksiController extends Controller
 
         $response = Http::withHeaders([
             'content-type' => 'application/json',
-            'authorization' => 'biteship_live.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdCBub24gdGVzdGluZyIsInVzZXJJZCI6IjY2MmIxZGY5OWQ5N2E0MDAxMTAyOGFkYyIsImlhdCI6MTcxNDExMDM4NX0.YOCleAAP4MDDCuH5FVWoeB6Mikc8MN8hXHKkmD8X_Y8',
+            'authorization' => env('BITSHIP_API_KEY'),
         ]);
 
         $get_origin = $response->get('https://api.biteship.com/v1/maps/areas', [
@@ -160,5 +166,82 @@ class TransaksiController extends Controller
             'alamat' => $alamat,
             'alamats' => $alamats,
         ]);
+    }
+
+    public function pay(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|string',
+            'total' => 'required|numeric',
+        ]);
+
+        $transaksi = Transaksi::where('id', $request->id)->first();
+        $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first();
+
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => $request->total,
+            ),
+            'customer_details' => array(
+                'first_name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+                'phone' => auth()->user()->no_hp ?? '',
+                'shipping_address' => array(
+                    'first_name' => $alamat->penerima,
+                    'phone' => $alamat->hp_penerima,
+                    'address' => $alamat->lengkap,
+                    'city' => $alamat->kota,
+                    'postal_code' => $alamat->kode_pos,
+                    'country_code' => 'IDN'
+                )
+            )
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        $transaksi->total = $request->total;
+        $transaksi->status = 'pending';
+        $transaksi->snap_token = $snapToken;
+
+        $transaksi->save();
+
+        Keranjang::where('user_id', auth()->id())->whereIn('produk_id', $transaksi->transaksiItems->select('produk_id'))->delete();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pembuatan transaksi berhasil.',
+            'data' => [
+                'id' => $transaksi->id,
+                'snap_token' => $snapToken,
+            ]
+        ], 201);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|string',
+            'status' => 'required|string',
+        ]);
+
+        Transaksi::where('id', $request->id)->first()->update([
+            'status' => $request->status,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Berhasil merubah status transaksi.',
+        ], 201);
     }
 }
