@@ -181,15 +181,17 @@ class TransaksiController extends Controller
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
         // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
         // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+        $order_id = rand();
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => rand(),
+                'order_id' => $order_id,
                 'gross_amount' => $request->total,
             ),
             'customer_details' => array(
@@ -210,8 +212,9 @@ class TransaksiController extends Controller
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         $transaksi->total = $request->total;
-        $transaksi->status = 'pending';
+        $transaksi->status = 'unpaid';
         $transaksi->snap_token = $snapToken;
+        $transaksi->midtrans_order_id = $order_id;
 
         $transaksi->save();
 
@@ -228,20 +231,42 @@ class TransaksiController extends Controller
         ], 201);
     }
 
-    public function changeStatus(Request $request)
+    public function changeStatus(Transaksi $transaksi)
     {
-        $request->validate([
-            'id' => 'required|string',
-            'status' => 'required|string',
-        ]);
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
 
-        Transaksi::where('id', $request->id)->first()->update([
-            'status' => $request->status,
-        ]);
+        $status = \Midtrans\Transaction::status($transaksi->midtrans_order_id);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Berhasil merubah status transaksi.',
-        ], 201);
+        $message = [
+            'capture' => 'Pembayaran berhasil',
+            'settlement' => 'Pembayaran berhasil',
+            'pending' => 'Pembayaran masih dalam proses',
+            'cancel' => 'Pembayaran dibatalkan',
+            'expired' => 'Pembayaran kadaluarsa'
+        ];
+
+        if ($transaksi->status != $status->transaction_status) {
+            $new_status = 'pending';
+            if (in_array($status->transaction_status, ['capture', 'settlement'])) {
+                $new_status = 'success';
+            } else {
+                $new_status = $status->transaction_status;
+            }
+            $transaksi->update([
+                'status' => $new_status
+            ]);
+        }
+
+        return view('status-transaksi', [
+            'status' => $status,
+            'message' => $message[$status->transaction_status],
+        ]);
     }
 }

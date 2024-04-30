@@ -70,7 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/transaksi', 'store');
         Route::get('/keranjang/checkout', 'checkoutIndex');
         Route::post('/transaksi/bayar', 'pay');
-        Route::put('/transaksi', 'changeStatus');
+        Route::get('/transaksi/status/{transaksi}', 'changeStatus');
     });
 
     Route::controller(AlamatController::class)->group(function () {

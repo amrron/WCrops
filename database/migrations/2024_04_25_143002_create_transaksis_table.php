@@ -15,8 +15,9 @@ return new class extends Migration
             $table->uuid('id');
             $table->foreignUuid('user_id');
             $table->integer('total');
-            $table->enum('status', ['onhold', 'pending', 'success', 'failed', 'cancel']);
+            $table->enum('status', ['onhold', 'unpaid', 'pending', 'success', 'expired', 'cancel']);
             $table->string('snap_token')->nullable();
+            $table->string('midtrans_order_id')->nullable();
             $table->timestamps();
         });
     }

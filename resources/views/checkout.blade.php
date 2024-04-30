@@ -334,18 +334,23 @@
                 success: function(response){
                     snap.pay(response.data.snap_token, {
                         onSuccess: function(result){
-                            changeTransactionStatus(response.data.id, 'success');
+                            // changeTransactionStatus(response.data.id, 'success');
 
                             console.log('pembayaran berhasil');
+
+                            window.location.href = "/transaksi/status/" + response.data.id;
+
                         },
                         onPending: function(result){
                             console.log('pembayaran dipending');
                             
-                            window.location.href = "/keranjang";
+                            window.location.href = "/transaksi/status/" + response.data.id;
                         },
                         onError: function(result){
                             console.log('pembayaran gagal');
-                            changeTransactionStatus(response.data.id, 'failed');
+                            // changeTransactiontransaksi/Status(response.data.id, 'failed');
+
+                            window.location.href = "/transaksi/status/" + response.data.id;
                         }
                     });
                 },
