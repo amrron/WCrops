@@ -22,7 +22,7 @@ class StoreTransaksiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'total' => 'required|numeric',
+            'total_barang' => 'required|numeric',
             'transaksiItem' => 'required'
         ];
     }

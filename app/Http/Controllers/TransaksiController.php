@@ -20,7 +20,10 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
+        $transaksis = Transaksi::checkout()->get();
+        return view('transaksi', [
+            'transaksis' => $transaksis
+        ]);
     }
 
     /**
@@ -81,9 +84,20 @@ class TransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaksi $transaksi)
+    public function edit(Transaksi $transaksi, Request $request)
     {
-        //
+        $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        $transaksi->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status transaksi berhasil dirubah'
+        ], 201);
     }
 
     /**
@@ -172,7 +186,9 @@ class TransaksiController extends Controller
     {
         $request->validate([
             'id' => 'required|string',
-            'total' => 'required|numeric',
+            'total_barang' => 'required|numeric',
+            'total_ongkir' => 'required|numeric',
+            'kurir' => 'required|string',
         ]);
 
         $transaksi = Transaksi::where('id', $request->id)->first();
@@ -192,7 +208,7 @@ class TransaksiController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => $order_id,
-                'gross_amount' => $request->total,
+                'gross_amount' => $request->total_barang + $request->total_ongkir,
             ),
             'customer_details' => array(
                 'first_name' => auth()->user()->name,
@@ -211,8 +227,11 @@ class TransaksiController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-        $transaksi->total = $request->total;
-        $transaksi->status = 'unpaid';
+        $transaksi->total_barang = $request->total_barang;
+        $transaksi->total_ongkir = $request->total_ongkir;
+        $transaksi->alamat_id = $alamat->id;
+        $transaksi->kurir = $request->kurir;
+        $transaksi->status = 'pending';
         $transaksi->snap_token = $snapToken;
         $transaksi->midtrans_order_id = $order_id;
 
@@ -231,7 +250,7 @@ class TransaksiController extends Controller
         ], 201);
     }
 
-    public function changeStatus(Transaksi $transaksi)
+    public function status(Transaksi $transaksi)
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
@@ -245,20 +264,15 @@ class TransaksiController extends Controller
         $status = \Midtrans\Transaction::status($transaksi->midtrans_order_id);
 
         $message = [
-            'capture' => 'Pembayaran berhasil',
-            'settlement' => 'Pembayaran berhasil',
-            'pending' => 'Pembayaran masih dalam proses',
-            'cancel' => 'Pembayaran dibatalkan',
-            'expired' => 'Pembayaran kadaluarsa'
+            'capture' => 'Transaksi diproses',
+            'settlement' => 'Transaksi berhasil',
+            'pending' => 'Transaksi belum dilaksanakan',
+            'cancel' => 'Transaksi dibatalkan',
+            'expired' => 'Transaksi kadaluarsa'
         ];
 
         if ($transaksi->status != $status->transaction_status) {
-            $new_status = 'pending';
-            if (in_array($status->transaction_status, ['capture', 'settlement'])) {
-                $new_status = 'success';
-            } else {
-                $new_status = $status->transaction_status;
-            }
+            $new_status = $status->transaction_status;
             $transaksi->update([
                 'status' => $new_status
             ]);
@@ -267,6 +281,15 @@ class TransaksiController extends Controller
         return view('status-transaksi', [
             'status' => $status,
             'message' => $message[$status->transaction_status],
+            'transaksi' => $transaksi,
+        ]);
+    }
+
+    public function indexAdmin() {
+        $transaksis = Transaksi::whereNot('status', 'onhold')->latest()->get();
+
+        return view('admin.pesanan', [
+            'transaksis' => $transaksis
         ]);
     }
 }

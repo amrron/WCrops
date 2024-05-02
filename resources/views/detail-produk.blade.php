@@ -60,7 +60,8 @@
                     <span class="text-lg font-bold rupiah" id="total-price">{{ $produk->harga }}</span>
                 </div>
                 <button type="button" id="add-to-cart" data-id="{{ $produk->id }}" class="w-full text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >+ Keranjang</button>
-                <button type="button" id="buy-button" class="w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Beli</button>
+
+                <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli</button>
             </div>
         </div>
     </div>
@@ -145,6 +146,34 @@
             $('#total-price').html('Rp ' + totalPrice.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join(''));
         });
 
+        $('#buy-button').off('click').on('click', function(){
+            $('#buy-button').prop('disabled', true);
+
+            let total = $('#quantity-input').val() * {{ $produk->harga }};
+            let item = [{
+                produk_id: $(this).data('id'),
+                jumlah: $('#quantity-input').val()
+            }];
+
+            $.ajax({
+                    url: '/transaksi',
+                    type: 'POST',
+                    data: {
+                        total_barang: total,
+                        transaksiItem: item
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response){
+                        console.log(response);
+                        window.location.href = "/keranjang/checkout";
+                    },
+                    error: function(error){
+                        console.error(error);
+                    }
+                });   
+        });
 
     </script>
 @endsection

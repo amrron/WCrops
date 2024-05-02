@@ -30,6 +30,10 @@ class Produk extends Model
         return $this->hasMany(Keranjang::class);
     }
 
+    public function transaksiItems() {
+        return $this->hasMany(TransaksiItem::class);
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {

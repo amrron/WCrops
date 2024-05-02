@@ -12,9 +12,12 @@ class Transaksi extends Model
 
     protected $fillable = [
         'user_id',
-        'total',
+        'alamat_id',
+        'total_barang',
+        'total_ongkir',
         'status',
-        'snap_token'
+        'snap_token',
+        'kurir'
     ];
 
     public function user()
@@ -22,8 +25,17 @@ class Transaksi extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function alamat()
+    {
+        return $this->belongsTo(Alamat::class);
+    }
+
     public function transaksiItems()
     {
         return $this->hasMany(TransaksiItem::class);
+    }
+
+    public function scopeCheckout($query) {
+        return $query->whereNot('status', 'onhold');
     }
 }

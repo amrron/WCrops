@@ -19,7 +19,7 @@ class ShipmentItemsResource extends JsonResource
         foreach ($this->transaksiItems as $item) {
             array_push($items, [
                 'name' => $item->produk->nama,
-                'value' => $item->produk->nama,
+                'value' => $item->produk->harga,
                 'quantity' => $item->jumlah,
                 'weight' => $item->produk->berat
             ]);

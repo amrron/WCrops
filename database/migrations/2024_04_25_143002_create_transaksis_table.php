@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksis', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->foreignUuid('user_id');
-            $table->integer('total');
-            $table->enum('status', ['onhold', 'unpaid', 'pending', 'success', 'expired', 'cancel']);
+            $table->foreignUuid('alamat_id')->nullable();
+            $table->integer('total_barang');
+            $table->string('kurir')->nullable();
+            $table->integer('total_ongkir')->nullable();
+            $table->enum('status', ['onhold', 'capture', 'pending', 'settlement', 'expired', 'cancel', 'finished']);
             $table->string('snap_token')->nullable();
             $table->string('midtrans_order_id')->nullable();
             $table->timestamps();

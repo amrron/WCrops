@@ -68,9 +68,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(TransaksiController::class)->group(function () {
         Route::post('/transaksi', 'store');
+        Route::get('/transaksi', 'index');
         Route::get('/keranjang/checkout', 'checkoutIndex');
         Route::post('/transaksi/bayar', 'pay');
-        Route::get('/transaksi/status/{transaksi}', 'changeStatus');
+        Route::get('/transaksi/status/{transaksi}', 'status');
+        Route::put('/transaksi/{transaksi}', 'edit');
+
+        Route::get('/admin/transaksi', 'indexAdmin');
     });
 
     Route::controller(AlamatController::class)->group(function () {

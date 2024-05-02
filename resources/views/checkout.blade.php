@@ -17,7 +17,7 @@
                             </svg> 
                             <p class="font-bold">{{ $alamat->label }} - {{ $alamat->penerima }}</p>                     
                         </div>
-                        <p class="text-sm mb-2">{{ $alamat->lengkap }}, {{ $alamat->kelurahan }}, {{ $alamat->kota }}, {{ $alamat->provinsi }}, {{ $alamat->kode_pos }}, {{ $alamat->hp_penerima }}</p>  
+                        <p class="text-sm mb-2">{{ $alamat->lengkap }}, {{ $alamat->kelurahan }}, {{ $alamat->kecamatan }}, {{ $alamat->kota }}, {{ $alamat->provinsi }}, {{ $alamat->kode_pos }}, {{ $alamat->hp_penerima }}</p>  
                     </div>
                     @else
                     <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
@@ -52,7 +52,7 @@
                     @endphp
                     @foreach ($ongkir->pricing as $ekspedisi)
                     <div class="flex items-center px-4 border border-gray-200 rounded cursor-pointer">
-                        <input id="bordered-radio-{{ $i }}" type="radio" value="{{ $ekspedisi->price }}" name="bordered-radio" class="expedision-type w-4 h-4 text-wc-red-400 bg-gray-100 border-gray-300 focus:ring-0">
+                        <input id="bordered-radio-{{ $i }}" type="radio" value="{{ $ekspedisi->price }}" name="bordered-radio" class="expedision-type w-4 h-4 text-wc-red-400 bg-gray-100 border-gray-300 focus:ring-0" data-courier="{{ $ekspedisi->courier_name . ' - ' . $ekspedisi->courier_service_name }}">
                         <label for="bordered-radio-{{ $i }}" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             <h6 class="font-semibold text-xl">{{ $ekspedisi->courier_name . ' - ' . $ekspedisi->courier_service_name }}</h6>
                             <span class="text-wc-black-000">Tiba dalam {{ $ekspedisi->shipment_duration_range }} hari</span>
@@ -73,7 +73,7 @@
                     <h6 class="text-lg font-semibold mb-3 hidden md:block">Ringkasan Belanja</h6>
                     <div class="flex items-center justify-between w-full">
                         <span class="text-md text-gray-500">Total Harga Barang</span>
-                        <span class="text-lg font-bold rupiah" id="total-price">{{ $transaksi->total }}</span>
+                        <span class="text-lg font-bold rupiah" id="total-price">{{ $transaksi->total_barang }}</span>
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <span class="text-md text-gray-500">Total Ongkir</span>
@@ -309,7 +309,7 @@
             
             $('#total-ongkir').html('Rp ' + ongkir.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join(''));
 
-            let total = ongkir + {{ $transaksi->total }};
+            let total = ongkir + {{ $transaksi->total_barang }};
             $('#total').html('Rp ' + total.toString().split('').reverse().join('').match(/\d{1,3}/g).join('.').split('').reverse().join(''));
 
             $('#pay-button').prop('disabled', false);
@@ -321,7 +321,9 @@
 
             let data = {
                 id: '{{ $transaksi->id }}',
-                total: parseInt($('.expedision-type:checked').val()) + {{ $transaksi->total }}
+                total_barang: {{ $transaksi->total_barang }},
+                total_ongkir: parseInt($('.expedision-type:checked').val()),
+                kurir: $('.expedision-type:checked').data('courier'),
             }
 
             $.ajax({

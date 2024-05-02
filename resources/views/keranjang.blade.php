@@ -482,7 +482,7 @@
                     url: '/transaksi',
                     type: 'POST',
                     data: {
-                        total: totalPrice,
+                        total_barang: totalPrice,
                         transaksiItem: transaksiItem
                     },
                     headers: {
