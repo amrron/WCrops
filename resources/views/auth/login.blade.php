@@ -55,7 +55,7 @@
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                 Sign in to platform 
             </h2>
-            <form class="mt-8 space-y-6" method="POST" action="{{ route('login') }}">
+            <form class="mt-8 space-y-6" method="POST" action="/login">
                 @csrf
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
