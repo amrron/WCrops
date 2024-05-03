@@ -17,8 +17,10 @@ return new class extends Migration
             $table->foreignUuid('alamat_id')->nullable();
             $table->integer('total_barang');
             $table->string('kurir')->nullable();
+            $table->string('ekspedisi')->nullable();
+            $table->string('resi')->nullable();
             $table->integer('total_ongkir')->nullable();
-            $table->enum('status', ['onhold', 'capture', 'pending', 'settlement', 'expired', 'cancel', 'finished']);
+            $table->enum('status', ['onhold', 'capture', 'pending', 'settlement', 'expired', 'cancel', 'onprocess', 'ondelivery', 'arrive', 'finished']);
             $table->string('snap_token')->nullable();
             $table->string('midtrans_order_id')->nullable();
             $table->timestamps();

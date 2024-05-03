@@ -20,7 +20,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksis = Transaksi::checkout()->get();
+        $transaksis = Transaksi::where('user_id', auth()->id())->checkout()->get();
         return view('transaksi', [
             'transaksis' => $transaksis
         ]);
@@ -271,7 +271,7 @@ class TransaksiController extends Controller
             'expired' => 'Transaksi kadaluarsa'
         ];
 
-        if ($transaksi->status != $status->transaction_status) {
+        if ($transaksi->status != $status->transaction_status && !in_array($transaksi->status, ['onprocess', 'ondelivery', 'arrive', 'finished'])) {
             $new_status = $status->transaction_status;
             $transaksi->update([
                 'status' => $new_status
@@ -291,5 +291,29 @@ class TransaksiController extends Controller
         return view('admin.pesanan', [
             'transaksis' => $transaksis
         ]);
+    }
+
+    public function setResi(Transaksi $transaksi, Request $request) {
+        $request->validate([
+            'resi' => 'required|string'
+        ]);
+
+        $transaksi->update([
+            'status' => 'ondelivery',
+            'ekspedisi' => $request->ekspedisi,
+            'resi' => $request->resi
+        ]);
+
+        return back()->with('success', 'Status transaksi berhasil dirubah');
+    }
+
+    public function trackingHistory(Transaksi $transaksi) {
+        $response = Http::withHeaders([
+            'content-type' => 'application/json',
+            'authorization' => env('BITSHIP_API_KEY'),
+        ]);
+
+        $history = $response->get("https://api.biteship.com/v1/trackings/$transaksi->resi/couriers/$transaksi->ekspedisi");
+        return response()->json(json_decode($history->body()), 201);
     }
 }

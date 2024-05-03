@@ -17,7 +17,9 @@ class Transaksi extends Model
         'total_ongkir',
         'status',
         'snap_token',
-        'kurir'
+        'kurir',
+        'ekspedisi',
+        'resi',
     ];
 
     public function user()
