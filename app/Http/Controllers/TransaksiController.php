@@ -295,7 +295,8 @@ class TransaksiController extends Controller
 
     public function setResi(Transaksi $transaksi, Request $request) {
         $request->validate([
-            'resi' => 'required|string'
+            'ekspedisi' => 'required|string',
+            'resi' => 'required|string',
         ]);
 
         $transaksi->update([

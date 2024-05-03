@@ -174,7 +174,9 @@
                 },
                 success: function(response){
 
-                    $('#status_pengiriman').text(response.status);
+                    console.log(response);
+
+                    $('#status_pengiriman').text(response.status == 'dropping_off' ? 'Sedang Dikirim' : response.status);
                     $('#kurir').text(response.courier.company);
                     $('#no_resi').html(response.waybill_id);
                     $('#penerima').html(response.destination.contact_name);
