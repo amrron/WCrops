@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignUuid('transaksi_id');
             $table->foreignUuid('produk_id');
             $table->integer('jumlah');
+            $table->integer('nilai')->nullable();
+            $table->string('ulasan')->nullable();
             $table->timestamps();
         });
     }

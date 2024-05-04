@@ -40,4 +40,21 @@ class Transaksi extends Model
     public function scopeCheckout($query) {
         return $query->whereNot('status', 'onhold');
     }
+
+    public function getStatusMessageAttribute(){
+        $message = [
+            'onhold' => 'Belum dichekout', 
+            'capture' => 'Transaksi Sedang diproses', 
+            'pending' => 'Transaksi Belum dibayar', 
+            'settlement' => 'Pembayaran berhasil, Menunggu konfirmasi penjual', 
+            'expired' => 'Transaksi kadaluarsa', 
+            'cancel' => 'Transaksi dibatalkan', 
+            'onprocess' => 'Diproses', 
+            'ondelivery' => 'Dalam pengiriman', 
+            'arrive' => 'Tiba di tujuan', 
+            'finished' => 'Selesai'
+        ];
+
+        return $message[$this->status];
+    }
 }

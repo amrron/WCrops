@@ -253,6 +253,23 @@
             });
         });
 
+        const formatDateTime = (isoDateTime) => {
+            const dateTime = new Date(isoDateTime);
+            const day = dateTime.getUTCDate();
+            const monthIndex = dateTime.getUTCMonth();
+            const year = dateTime.getUTCFullYear();
+            const hour = dateTime.getUTCHours();
+            const minute = dateTime.getUTCMinutes();
+
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            return `${day} ${months[monthIndex]} ${year} ${hour}:${minute}`;
+        }
+
+
         $('.track-button').off('click').on('click', function(){
             let id = $(this).data('id');
 
@@ -283,19 +300,6 @@
                     var maxIndex = response.history.length - 1;
 
                     $.each(response.history, function(index, history){
-
-                        var tanggal_objek = new Date(history.updated_at);
-                        var tahun = tanggal_objek.getFullYear();
-                        var bulan = tanggal_objek.getMonth() + 1; // Perlu ditambah 1 karena indeks bulan dimulai dari 0
-                        var tanggal = tanggal_objek.getDate();
-
-                        var jam = tanggal_objek.getHours();
-                        var menit = tanggal_objek.getMinutes();
-
-                        var tanggal_hasil = tahun + '-' + (bulan < 10 ? '0' : '') + bulan + '-' + (tanggal < 10 ? '0' : '') + tanggal;
-                        var waktu_hasil = (jam < 10 ? '0' : '') + jam + ':' + (menit < 10 ? '0' : '') + menit;
-
-                        var tanggal_akhir = tanggal_hasil + ' ' + waktu_hasil;
                         
                         let desc = history.note.split('[')[0];
                         let place = history.note.split('[')[1];
@@ -303,7 +307,7 @@
 
                         let time = `<li class="mb-4 ms-4">
                             <div class="absolute w-3 h-3 ${index == maxIndex ? 'bg-wc-red-400' : 'bg-gray-200'} rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">${tanggal_akhir}</time>
+                            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">${formatDateTime(history.updated_at)}</time>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white capitalize">${desc}</h3>
                             <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 capitalize">${place}</p>
                         </li>`;

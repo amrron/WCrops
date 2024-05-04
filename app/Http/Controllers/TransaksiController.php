@@ -308,7 +308,7 @@ class TransaksiController extends Controller
         return back()->with('success', 'Status transaksi berhasil dirubah');
     }
 
-    public function trackingHistory(Transaksi $transaksi) {
+    public function trackingHistory(Transaksi $transaksi, Request $request) {
         $response = Http::withHeaders([
             'content-type' => 'application/json',
             'authorization' => env('BITSHIP_API_KEY'),
@@ -316,5 +316,58 @@ class TransaksiController extends Controller
 
         $history = $response->get("https://api.biteship.com/v1/trackings/$transaksi->resi/couriers/$transaksi->ekspedisi");
         return response()->json(json_decode($history->body()), 201);
+    }
+
+    public function buyAgain(Transaksi $transaksi, Request $request) {
+        // if(!$request->wantsJson() || !$request->ajax()){
+        //     return abort(404);
+        // }
+
+        foreach($transaksi->transaksiItems as $item) {
+            Keranjang::create([
+                'user_id' => auth()->id(),
+                'produk_id' => $item->produk_id,
+                'jumlah' => $item->jumlah,
+            ]);
+        }
+
+        return redirect('/keranjang');
+
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Berhasil menambahkan barang ke keranjang'
+        // ], 201);
+    }
+
+    public function getTransaksiItem(Transaksi $transaksi, Request $request) {
+        if ($request->wantsJson() || $request->ajax()){
+            $transaksiItems = TransaksiItem::where('transaksi_id', $transaksi->id)->with('produk')->get();
+            
+            return response()->json([
+                'status' => true,
+                'data' => $transaksiItems,
+            ], 201);
+        }
+
+        return abort(404);
+    }
+
+    public function review(Request $request) {
+        $request->validate([
+            'id' => 'required|string',
+            'nilai' => 'required|numeric',
+            'ulasan' => 'required|string|max:255',
+        ]);
+
+        for ($i = 0; $i < count($request->id); $i++) {
+            $transaksiItem = TransaksiItem::whereId($request->id[$i]);
+
+            $transaksiItem->update([
+                'nilai' => $request->nilai[$i],
+                'ulasan' => $request->ulasan[$i],
+            ]);
+        }
+
+        return back()->with('success', 'Berhasil menyimpan ulasan');
     }
 }

@@ -14,6 +14,8 @@ class TransaksiItem extends Model
         'transaksi_id',
         'produk_id',
         'jumlah',
+        'nilai',
+        'ulasan',
     ];
 
     public function transaksi() {

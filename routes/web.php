@@ -74,7 +74,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/transaksi/status/{transaksi}', 'status');
         Route::put('/transaksi/{transaksi}', 'edit');
         Route::get('/transaksi/track/{transaksi}', 'trackingHistory');
-
+        Route::post('/transaksi/buyagain/{transaksi}', 'buyAgain');
+        Route::get('/transaksi/{transaksi}/items', 'getTransaksiItem');
+        Route::post('/transaksi/ulas', 'review');
+        
         Route::get('/admin/transaksi', 'indexAdmin');
         Route::put('/transaksi/delivery/{transaksi}', 'setResi');
     });
