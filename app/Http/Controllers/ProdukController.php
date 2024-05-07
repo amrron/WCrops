@@ -10,6 +10,8 @@ use App\Http\Resources\ProdukResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProdukRequest;
 use App\Http\Requests\UpdateProdukRequest;
+use App\Models\TransaksiItem;
+use App\Models\Ulasan;
 use Illuminate\Validation\ValidationException;
 
 class ProdukController extends Controller
@@ -70,8 +72,10 @@ class ProdukController extends Controller
             ], 201);
         }
         else {
+            $ulasans = Ulasan::where('produk_id', $produk->id)->get();
             return view('detail-produk', [
-                'produk' => $produk
+                'produk' => $produk,
+                'ulasans' => $ulasans
             ]);
         }
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::get('/produk', [HomeController::class, 'index']);
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return redirect('/');
+    });
 
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile/setting', 'edit')->name('profile.edit');
@@ -76,10 +81,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/transaksi/track/{transaksi}', 'trackingHistory');
         Route::post('/transaksi/buyagain/{transaksi}', 'buyAgain');
         Route::get('/transaksi/{transaksi}/items', 'getTransaksiItem');
-        Route::post('/transaksi/ulas', 'review');
         
-        Route::get('/admin/transaksi', 'indexAdmin');
+        Route::get('/admin/pesanan', 'indexAdmin');
         Route::put('/transaksi/delivery/{transaksi}', 'setResi');
+    });
+
+    Route::controller(UlasanController::class)->group(function () {
+        Route::post('/transaksi/ulas/', 'store');
     });
 
     Route::controller(AlamatController::class)->group(function () {

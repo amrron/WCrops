@@ -255,18 +255,7 @@
                 </svg>                
         </div>
     </div>
-    <div class="w-full flex justify-between">
-        <div class="absolute bottom-[-141px] left-0">
-            <svg width="203" height="282" viewBox="0 0 203 282" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="129.072" y="0.622925" width="216" height="229" transform="rotate(70 129.072 0.622925)" fill="#E65A51"/>
-            </svg>
-        </div>
-        <div class="absolute bottom-[-141px] right-0">
-            <svg width="199" height="290" viewBox="0 0 199 290" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="78.4551" y="0.62677" width="216" height="229" transform="rotate(20 78.4551 0.62677)" fill="#E65A51"/>
-            </svg>                
-        </div>
-    </div>
+    
     <div class="w-full min-h-dvh pt-36">
         <h2 class="text-2xl font-semibold text-wc-red-400 text-center mb-6">Produk Kami</h2>
         <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">

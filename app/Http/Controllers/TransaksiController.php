@@ -354,17 +354,17 @@ class TransaksiController extends Controller
 
     public function review(Request $request) {
         $request->validate([
-            'id' => 'required|string',
-            'nilai' => 'required|numeric',
-            'ulasan' => 'required|string|max:255',
+            'id.*' => 'required|string',
+            'nilai.*' => 'required|numeric',
+            'ulasan.*' => 'required|string|max:255',
         ]);
 
-        for ($i = 0; $i < count($request->id); $i++) {
-            $transaksiItem = TransaksiItem::whereId($request->id[$i]);
+        foreach ($request->id as $key=> $id) {
+            $transaksiItem = TransaksiItem::whereId($id);
 
             $transaksiItem->update([
-                'nilai' => $request->nilai[$i],
-                'ulasan' => $request->ulasan[$i],
+                'nilai' => $request->nilai[$key],
+                'ulasan' => $request->ulasan[$key],
             ]);
         }
 

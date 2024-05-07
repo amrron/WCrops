@@ -8,13 +8,13 @@
         <div class="col-span-12 md:col-span-5 relative px-4 pb-32 md:pb-0">
             <h5 class="font-medium text-3xl capitalize mb-2">{{ $produk->nama }}</h5>
             <div class="flex items-center mb-4">
-                <span class="text-wc-black-200 me-2">Terjual 12</span>
+                <span class="text-wc-black-200 me-2">Terjual {{ $produk->terjual }}</span>
                 <div class="flex items-center space-x-1 rtl:space-x-reverse">
                     <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                         <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                     </svg>
                 </div>
-                <span class="text-wc-black-200 px-1 py-0.5 rounded">5.0</span>
+                <span class="text-wc-black-200 px-1 py-0.5 rounded">{{ number_format($ulasans->avg('nilai'), 1) }}</span>
             </div>
             <h3 class="text-3xl fonst-medium mb-4 rupiah">{{ $produk->harga }}</h3>
             <h6 class="text-xl font-medium mb-2">Detail</h6>
@@ -63,6 +63,36 @@
 
                 <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli</button>
             </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-12 gap-6 pt-6">
+        <div class="col-span-3">
+            <span class="text-xl font-medium">Ulasan Pembeli</span>
+            <div class="flex items-center gap-4 py-6">
+                <svg class="w-6 h-6 dark:text-gray-500 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                </svg>
+                <p class=""><span class="text-7xl">{{ number_format($ulasans->avg('nilai'), 1) }}</span><span class="text-3xl font-normal text-wc-black-200">/5</span></p>
+            </div>
+        </div>
+        <div class="col-span-5">
+            @foreach ($ulasans as $ulasan)
+            <div class="w-full p-6 rounded-lg bg-white mb-4">
+                <div class="flex items-center mb-4">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <svg class="w-4 h-4 {{ $i <= $ulasan->nilai ? 'text-yellow-300' : 'text-gray-300' }} me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                        </svg>
+                    @endfor
+                    <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ $ulasan->created_at->diffForHumans() }}</p>
+                </div>
+                <div class="flex gap-4 items-center mb-4">
+                    <img src="/assets/images/profile-picture.jpg" class="w-10 aspect-square rounded-full" alt="">
+                    <p class="font-medium">{{ $ulasan->transaksi->user->name }}</p>
+                </div>
+                <p class="text-sm">{{ $ulasan->ulasan }}</p>
+            </div>
+            @endforeach
         </div>
     </div>
 @endsection

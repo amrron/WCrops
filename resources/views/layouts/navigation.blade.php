@@ -107,9 +107,8 @@
           </div>
         </form>
     </div>
-</nav>
-<nav class="bg-wc-red-400 fixed top-[72px] left-0 w-full z-30">
-    <div class="max-w-screen-xl px-4 py-3 mx-auto">
+    <div class="w-full bg-wc-red-400">
+      <div class="max-w-screen-xl px-4 py-3 mx-auto">
         <div class="flex items-center justify-center">
             <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
                 <li>
@@ -119,12 +118,10 @@
                   <a href="/produk" class="text-white hover:underline">Produk</a>
                 </li>
                 <li>
-                    <a href="#" class="text-white hover:underline">Tentang Kami</a>
-                </li>
-                <li>
                     <a href="#" class="text-white hover:underline">Kontak</a>
                 </li>
             </ul>
         </div>
+      </div>
     </div>
 </nav>

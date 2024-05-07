@@ -37,6 +37,11 @@ class Transaksi extends Model
         return $this->hasMany(TransaksiItem::class);
     }
 
+    public function ulasan()
+    {
+        return $this->hasMany(TransaksiItem::class);
+    }
+
     public function scopeCheckout($query) {
         return $query->whereNot('status', 'onhold');
     }
@@ -46,7 +51,7 @@ class Transaksi extends Model
             'onhold' => 'Belum dichekout', 
             'capture' => 'Transaksi Sedang diproses', 
             'pending' => 'Transaksi Belum dibayar', 
-            'settlement' => 'Pembayaran berhasil, Menunggu konfirmasi penjual', 
+            'settlement' => 'Menunggu konfirmasi', 
             'expired' => 'Transaksi kadaluarsa', 
             'cancel' => 'Transaksi dibatalkan', 
             'onprocess' => 'Diproses', 
@@ -56,5 +61,9 @@ class Transaksi extends Model
         ];
 
         return $message[$this->status];
+    }
+
+    public function getHasReviewAttribute(){
+        return isset($this->ulasan);
     }
 }

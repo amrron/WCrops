@@ -50,4 +50,8 @@ class Produk extends Model
                        ->where('produk_id', $this->id)
                        ->exists();
     }
+
+    public function getTerjualAttribute() {
+        return $this->transaksiItems()->count();
+    }
 }
