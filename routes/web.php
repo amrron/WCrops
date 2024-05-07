@@ -44,15 +44,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::controller(ProdukController::class)->group(function () {
-        Route::get('/admin/produk', 'indexAdmin');
-        Route::get('/admin/produk/name', 'getProductName');
-        Route::delete('/admin/produk/delete', 'deleteSelected');
-        Route::post('/admin/produk', 'store');
-        Route::get('/admin/produk/{produk}', 'show');
-        Route::post('/admin/produk/{produk}', 'edit');
-        Route::delete('/admin/produk/{produk}', 'destroy');
-        Route::put('/admin/produk/status/{produk}', 'changeStatus');
-        Route::put('/admin/produk/status/', 'nonactiveStatus');
         Route::get('/produk/{produk:slug}', 'show');
     });
 
@@ -93,6 +84,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(AlamatController::class)->group(function () {
         Route::post('/alamat', 'store');
         Route::put('/alamat', 'changeSelected');
+    });
+});
+
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::controller(ProdukController::class)->group(function () {
+        Route::get('/admin/produk', 'indexAdmin');
+        Route::get('/admin/produk/name', 'getProductName');
+        Route::delete('/admin/produk/delete', 'deleteSelected');
+        Route::post('/admin/produk', 'store');
+        Route::get('/admin/produk/{produk}', 'show');
+        Route::post('/admin/produk/{produk}', 'edit');
+        Route::delete('/admin/produk/{produk}', 'destroy');
+        Route::put('/admin/produk/status/{produk}', 'changeStatus');
+        Route::put('/admin/produk/status/', 'nonactiveStatus');
+    });
+
+    Route::controller(TransaksiController::class)->group(function () {
+        Route::get('/admin/pesanan', 'indexAdmin');
     });
 });
 
