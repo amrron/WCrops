@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('kategori_id');
             $table->string('slug')->unique();
             $table->string('nama');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             $table->integer('harga');
             $table->integer('stok');
             $table->integer('berat');

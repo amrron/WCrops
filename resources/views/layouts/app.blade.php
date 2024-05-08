@@ -30,7 +30,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="py-12 pt-[116px]">
+                <div class="py-12 pt-[170px] md:pt-[116px] bg-white">
                     <div class="max-w-7xl mx-auto min-h-dvh">
                         <div class="overflow-hidden sm:rounded-lg p-0 py-4 md:p-4">
                             @yield('content')

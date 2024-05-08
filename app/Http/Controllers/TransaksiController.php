@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alamat;
+use App\Models\Produk;
+use App\Models\Keranjang;
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 use App\Models\TransaksiItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 use App\Http\Resources\ShipmentItemsResource;
-use App\Models\Keranjang;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class TransaksiController extends Controller
@@ -51,9 +53,19 @@ class TransaksiController extends Controller
                 $oldTransaksi->delete();
             }
 
+            foreach ($data['transaksiItem'] as $item) {
+                if (Produk::find($item['produk_id'])->stok < $item['jumlah']) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Stok produk tidak tersedia',
+                    ], 400);
+                }
+            }
+
             $transaksi = Transaksi::create($data);
 
             foreach ($data['transaksiItem'] as $item) {
+
                 TransaksiItem::create([
                     'transaksi_id' => $transaksi->id,
                     'produk_id' => $item['produk_id'],
@@ -191,63 +203,105 @@ class TransaksiController extends Controller
             'kurir' => 'required|string',
         ]);
 
-        $transaksi = Transaksi::where('id', $request->id)->first();
-        $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first();
+        DB::beginTransaction();
 
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+        try {
 
-        $order_id = rand();
+            $transaksi = Transaksi::where('id', $request->id)->first();
+            $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first();
+            $transaksiItems = TransaksiItem::where('transaksi_id', $transaksi->id)->get();
+            
+            foreach ($transaksiItems as $item) {
+                if ($item->jumlah > $item->produk->stok) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Transaksi gagal! Terdapat item yang melebihi stok produk.',
+                    ], 400);
+                }
 
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => $order_id,
-                'gross_amount' => $request->total_barang + $request->total_ongkir,
-            ),
-            'customer_details' => array(
-                'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-                'phone' => auth()->user()->no_hp ?? '',
-                'shipping_address' => array(
-                    'first_name' => $alamat->penerima,
-                    'phone' => $alamat->hp_penerima,
-                    'address' => $alamat->lengkap,
-                    'city' => $alamat->kota,
-                    'postal_code' => $alamat->kode_pos,
-                    'country_code' => 'IDN'
-                )
-            )
-        );
+                $item->produk()->decrement('stok', $item->jumlah);
+            }
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = config('midtrans.is3ds');
 
-        $transaksi->total_barang = $request->total_barang;
-        $transaksi->total_ongkir = $request->total_ongkir;
-        $transaksi->alamat_id = $alamat->id;
-        $transaksi->kurir = $request->kurir;
-        $transaksi->status = 'pending';
-        $transaksi->snap_token = $snapToken;
-        $transaksi->midtrans_order_id = $order_id;
+            $order_id = rand();
 
-        $transaksi->save();
+            $itemDetails = [];
 
-        Keranjang::where('user_id', auth()->id())->whereIn('produk_id', $transaksi->transaksiItems->select('produk_id'))->delete();
+            foreach ($transaksi->transaksiItems as $item) {
+                array_push($itemDetails, [
+                    "id" => $item->id,
+                    "price" => $item->produk->harga,
+                    "quantity" => $item->jumlah,
+                    "name" => $item->produk->nama,
+                    "brand" => "WCorps",
+                    "category" => $item->produk->kategori->nama_kategori,
+                    "url" => env('APP_URL') . '/produk/' . $item->produk->slug
+                ]);
+            }
 
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $order_id,
+                    'gross_amount' => $request->total_barang + $request->total_ongkir,
+                ),
+                'customer_details' => array(
+                    'first_name' => auth()->user()->name,
+                    'email' => auth()->user()->email,
+                    'phone' => auth()->user()->no_hp ?? '',
+                    'shipping_address' => array(
+                        'first_name' => $alamat->penerima,
+                        'phone' => $alamat->hp_penerima,
+                        'address' => $alamat->lengkap,
+                        'city' => $alamat->kota,
+                        'postal_code' => $alamat->kode_pos,
+                        'country_code' => 'IDN'
+                    )
+                ),
+                'item_details' => $itemDetails
+            );
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Pembuatan transaksi berhasil.',
-            'data' => [
-                'id' => $transaksi->id,
-                'snap_token' => $snapToken,
-            ]
-        ], 201);
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            $transaksi->total_barang = $request->total_barang;
+            $transaksi->total_ongkir = $request->total_ongkir;
+            $transaksi->alamat_id = $alamat->id;
+            $transaksi->kurir = $request->kurir;
+            $transaksi->status = 'pending';
+            $transaksi->snap_token = $snapToken;
+            $transaksi->midtrans_order_id = $order_id;
+
+            $transaksi->save();
+
+            Keranjang::where('user_id', auth()->id())->whereIn('produk_id', $transaksi->transaksiItems->select('produk_id'))->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Pembuatan transaksi berhasil.',
+                'data' => [
+                    'id' => $transaksi->id,
+                    'snap_token' => $snapToken,
+                ]
+            ], 201);
+            
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan ',
+            ], 400);
+        }
+
     }
 
     public function status(Transaksi $transaksi)
@@ -360,7 +414,7 @@ class TransaksiController extends Controller
         ]);
 
         foreach ($request->id as $key=> $id) {
-            $transaksiItem = TransaksiItem::whereId($id);
+            $transaksiItem = TransaksiItem::find($id);
 
             $transaksiItem->update([
                 'nilai' => $request->nilai[$key],

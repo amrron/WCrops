@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <h5 class="text-2xl font-semibold mb-4">Checkout</h5>
+    <h5 class="text-2xl font-semibold mb-4 px-4">Checkout</h5>
     @if (isset($transaksi))        
     <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 md:col-span-8 rounded-xl">
-            <div class="w-full rounded-xl bg-white p-6 shadow mb-4">
+        <div class="col-span-12 md:col-span-8 rounded-none md:rounded-xl">
+            <div class="w-full rounded-none md:rounded-xl bg-white p-6 shadow-md border mb-4">
                 <h5 class="font-xl font-semibold text-wc-black-100 uppercase mb-4">Alamat Pengiriman</h5>
 
                 <div class="">
@@ -30,7 +30,7 @@
             </div>
 
             @foreach ($transaksi->transaksiItems as $item)
-            <div class="w-full p-6 flex items-start gap-4 bg-white shasdow rounded-xl mb-4">
+            <div class="w-full p-6 flex items-start gap-4 bg-white shadow-md border rounded-none md:rounded-xl mb-4">
                 <img src="/storage/{{ $item->produk->gambar }}" class="aspect-square object-cover h-20" alt="">
                 <div class="flex flex-col justify-between min-h-20 flex-grow">
                     <div class="w-full flex flex-col md:flex-row flex-wrap justify-between">
@@ -43,7 +43,7 @@
             </div>
             @endforeach
 
-            <div class="w-full rounded-xl bg-white p-6 shadow mb-4">
+            <div class="w-full rounded-none md:rounded-xl bg-white p-6 shadow-md border mb-4">
                 <h5 class="font-xl font-semibold text-wc-black-100 mb-4">Pilih Pengiriman</h5>
                 <div class="flex flex-col gap-4 w-full">
                     @if (isset($alamat))
@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="col-span-12 md:col-span-4">
-            <div class="w-full bg-white border-t rounded-xl bottom-0 left-0 block">
+            <div class="w-full bg-white shadow-md border rounded-none md:rounded-xl bottom-0 left-0 block">
                 <div class="w-full p-6 block border-b border-gray-200">
                     <h6 class="text-lg font-semibold mb-3 hidden md:block">Ringkasan Belanja</h6>
                     <div class="flex items-center justify-between w-full">
@@ -81,11 +81,16 @@
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <span class="text-md text-gray-500">Total Belanja</span>
-                        <span class="text-xl font-bold rupiah" id="total">{{ $transaksi->total }}</span>
+                        <span class="text-xl font-bold rupiah" id="total">-</span>
                     </div>
                 </div>
                 <div class="w-auto md:w-full flex items-center p-6 ps-4 md:ps-6">
-                    <button type="button" id="pay-button" class="w-full text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Bayar</button>
+                    <button type="button" id="pay-button" class="w-full inline-flex  justify-center items-center text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-10 gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>
+                        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.5 11.5 11 13l4-3.5M12 20a16.405 16.405 0 0 1-5.092-5.804A16.694 16.694 0 0 1 5 6.666L12 4l7 2.667a16.695 16.695 0 0 1-1.908 7.529A16.406 16.406 0 0 1 12 20Z"/>
+                        </svg>
+                        Bayar
+                    </button>
                 </div>
             </div>
         </div>
@@ -334,6 +339,8 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
+                    console.log(response.message);
+
                     snap.pay(response.data.snap_token, {
                         onSuccess: function(result){
                             // changeTransactionStatus(response.data.id, 'success');
@@ -358,6 +365,7 @@
                 },
                 error: function(error){
                     console.error(error);
+                    toast(error.responseJSON.message, 'Oke');
                 },
                 complete: function(){
                     $('#pay-button').prop('disabled', false);

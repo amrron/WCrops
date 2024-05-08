@@ -1,42 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-    <h5 class="text-2xl font-semibold mb-4">Keranjang</h5>
-    <div class="grid grid-cols-12 gap-4 relative">
-        <div class="col-span-12 md:col-span-4 rounded-xl flex flex-col gap-4">
-            <div class="w-full rounded-xl bg-white flex gap-4 p-6">
-                <img src="/assets/images/profile.png" alt="" class="w-20 aspect-square">
-                <div class="flex flex-col justify-around">
-                    <h1 class="text-xl font-semibold">Hai!</h1>
-                    <h1 class="text-2xl font-semibold">{{ auth()->user()->name }}</h1>
+    <h5 class="text-2xl font-semibold mb-4">Profile</h5>
+    <div class="grid grid-cols-12 gap-6 relative">
+        <div class="col-span-12 md:col-span-3">
+            <div class="w-full rounded-xl flex flex-col gap-4 border">
+                <div class="w-full rounded-xl bg-white gap-4 p-6 hidden md:flex">
+                    <img src="/assets/images/profile.png" alt="" class="w-20 aspect-square">
+                    <div class="flex flex-col justify-around">
+                        <h1 class="text-xl font-semibold">Hai!</h1>
+                        <h1 class="text-2xl font-semibold">{{ auth()->user()->name }}</h1>
+                    </div>
                 </div>
-            </div>
-
-            <div class="w-full rounded-xl bg-white p-6">
-                <div class="w-full flex flex-row md:flex-col gap-4 list-none">
-                    <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                        <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                        </svg> 
-                        <span class="text-base md:text-lg text-center">Akun saya</span>                         
-                    </a>
-                    <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                        <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
-                        </svg>                          
-                        <span class="text-base md:text-lg text-center">Penilaian dan ulasan</span>                         
-                    </a>
-                    <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                        <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
-                        </svg>                          
-                        <span class="text-base md:text-lg text-center">Ganti password</span>                         
-                    </a>
+    
+                <div class="w-full rounded-xl bg-white p-6">
+                    <div class="w-full flex flex-row md:flex-col gap-4 list-none text-sm md:text-normal">
+                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
+                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            </svg> 
+                            <span class="text-base md:text-lg text-center">Akun saya</span>                         
+                        </a>
+                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
+                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
+                            </svg>                          
+                            <span class="text-base md:text-lg text-center">Penilaian dan ulasan</span>                         
+                        </a>
+                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
+                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                            </svg>                          
+                            <span class="text-base md:text-lg text-center">Ganti password</span>                         
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-span-12 md:col-span-8">
+        <div class="col-span-12 md:col-span-9">
             <div class="border-b border-gray-200 bg-white rounded-t-xl">
                 <ul class="flex gap-4" id="default-tab" data-tabs-toggle="#default-tab-content" data-tabs-active-classes="text-wc-red-400 hover:text-wc-red-400 border-b-2 border-wc-red-400" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300 dark:border-gray-700" role="tablist">
                     <li role="presentation">
@@ -50,7 +52,7 @@
 
             <div class="" id="default-tab-content">
                 <div class="p-8 bg-white rounded-b-xl flex flex-col md:gap-6" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="w-full rounded-lg flex gap-6">
+                    <div class="w-full rounded-lg flex flex-col md:flex-row gap-6">
                         <div class="flex flex-col items-center gap-4">
                             <img src="/assets/images/profile.png" class="aspect-square w-[150px] object-cover rounded-full" alt="">
                             <div class="flex gap-2 text-wc-black-000">
@@ -98,7 +100,7 @@
                         @foreach ($alamats as $alamat)
                         <li>
                             <input type="radio" id="address-{{ $alamat->id }}" name="id" value="{{ $alamat->id }}" class="hidden peer select-address" {{ $alamat->selected ? 'checked' : '' }} required />
-                            <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400">
+                            <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400 peer">
                                 <div class="">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-wc-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -318,6 +320,7 @@
                 success: function(response){
                     console.log(response);
                     toast('Berhasil menambahkan alamat baru!', 'Oke');
+                    location.reload();
                 },
                 error: function(error){
                     console.error(error);
@@ -331,6 +334,30 @@
 
         $('.edit-button').on('click', function(){
             let id = $(this).data('id');
+        });
+
+        $('.select-address').on('change', function(){
+            let data = {
+                id: $('.select-address:checked').val()
+            };
+
+            $.ajax({
+                url: '/alamat',
+                method: 'PUT',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function(response){
+                    console.log(response.message);
+                    toast('Berhasil merubah alamat default.', 'Oke');
+
+                },
+                error: function(error){
+                    console.error(error);
+                }
+            });
         });
     </script>
 @endsection

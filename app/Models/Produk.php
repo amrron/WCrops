@@ -34,6 +34,10 @@ class Produk extends Model
         return $this->hasMany(TransaksiItem::class);
     }
 
+    public function ulasans() {
+        return $this->hasMany(Ulasan::class);
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
@@ -53,5 +57,9 @@ class Produk extends Model
 
     public function getTerjualAttribute() {
         return $this->transaksiItems()->count();
+    }
+
+    public function getRatingAttribute() {
+        return number_format($this->ulasans()->avg('nilai'), 1);
     }
 }

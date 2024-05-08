@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h5 class="text-2xl font-semibold mb-4">Transaksi</h5>
-    <div class="grid grid-cols-12 gap-4 relative">
+    <h5 class="text-2xl font-semibold mb-4 px-4">Transaksi</h5>
+    <div class="grid grid-cols-12 gap-4 relative px-4">
         <div class="col-span-12 md:col-span-8">
             @foreach ($transaksis as $transaksi)
-            <div class="w-full bg-white p-6 flex gap-2 cart-card flex-wrap rounded-xl mb-4" data-produk="">
-                <div class="w-full flex items-center gap-4">
-                    <span class="">{{ $transaksi->created_at }}</span>
+            <div class="w-full bg-white p-4 md:p-6 flex gap-3 cart-card flex-wrap rounded-xl mb-4 border shadow-md" data-produk="">
+                <div class="w-full flex items-center gap-4 border-b pb-3">
+                    <span class="">{{ $transaksi->createdDate }}</span>
                     <span class="text-xs px-3 py-1 bg-wc-red-000 text-wc-red-400 font-semibold w-auto rounded">{{ $transaksi->statusMessage }}</span>
                 </div>
                 <img src="/storage/{{ $transaksi->transaksiItems[0]->produk->gambar }}" class="aspect-square object-cover h-20" alt="">
@@ -35,6 +35,10 @@
                     @if ($transaksi->status == 'ondelivery')
                     <button type="button" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="track-button text-wc-red-400 border border-wc-red-400 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-id="{{ $transaksi->id }}">Lacak</button>
                     <button type="button" class="finish-order text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-id="{{ $transaksi->id }}">Selesaikan Pesanan</button>
+                    @endif
+
+                    @if ($transaksi->status == 'settlement')
+                    <button type="button" class="buy-again text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-id="{{ $transaksi->id }}">Batalkan Pesanan</button>
                     @endif
 
                     @if ($transaksi->status == 'finished')

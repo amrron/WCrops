@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="grid grid-cols-12 gap-6 mt-6 border-b border-gray-200 pb-8">
-        <div class="col-span-12 md:col-span-3">
-            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-none md:rounded-lg w-full" alt="">
+        <div class="col-span-12 md:col-span-3 relative">
+            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-none md:rounded-lg w-full sticky top-0" alt="">
         </div>
         <div class="col-span-12 md:col-span-5 relative px-4 pb-32 md:pb-0">
             <h5 class="font-medium text-3xl capitalize mb-2">{{ $produk->nama }}</h5>
@@ -29,7 +29,7 @@
             </p>
             <p class="text-wc-black-400">{{ $produk->deskripsi }}</p>
 
-            <button type="button" class="add-to-wishlist absolute top-0 right-0 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
+            <button type="button" class="add-to-wishlist absolute top-0 right-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
                 <svg class="w-7 h-7 text-wc-red-400 dark:text-white hover:fill-wc-red-400 {{ $produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
                 </svg>                                                 
@@ -37,7 +37,7 @@
             </button>
         </div>
         <div class="col-span-12 md:col-span-4">
-            <div class="w-full rounded-xl bg-white shadow-md p-6 flex flex-col gap-4 fixed md:static bottom-0 left-0">
+            <div class="w-full rounded-xl bg-white border p-4 md:p-6 flex flex-row md:flex-col gap-4 fixed md:static bottom-0 left-0">
                 <h6 class="hidden md:block font-semibold text-xl">Atur jumlah</h6>
                 <div class="gap-2 items-center hidden md:flex">
                     <div class="relative flex items-center max-w-[8rem] border border-gray-500 rounded-lg">
@@ -59,26 +59,28 @@
                     <span class="text-md text-gray-500">Total:</span>
                     <span class="text-lg font-bold rupiah" id="total-price">{{ $produk->harga }}</span>
                 </div>
-                <button type="button" id="add-to-cart" data-id="{{ $produk->id }}" class="w-full text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >+ Keranjang</button>
+                <button type="button" id="add-to-cart" data-id="{{ $produk->id }}" class="w-auto flex-grow md:w-full text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >+ Keranjang</button>
 
-                <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli</button>
+                <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-auto flex-grow md:w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli Langsung</button>
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-12 gap-6 pt-6">
-        <div class="col-span-3">
-            <span class="text-xl font-medium">Ulasan Pembeli</span>
-            <div class="flex items-center gap-4 py-6">
-                <svg class="w-6 h-6 dark:text-gray-500 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                </svg>
-                <p class=""><span class="text-7xl">{{ number_format($ulasans->avg('nilai'), 1) }}</span><span class="text-3xl font-normal text-wc-black-200">/5</span></p>
+    <div class="grid grid-cols-12 gap-0 md:gap-6 pt-6 mb-20">
+        <div class="col-span-12 md:col-span-3">
+            <div class="bg-white rounded-xl p-6 border-b md:border-b-0">
+                <span class="text-xl font-medium">Ulasan Pembeli</span>
+                <div class="flex items-center gap-4 py-2 md:py-6">
+                    <svg class="w-6 h-6 dark:text-gray-500 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                    </svg>
+                    <p class=""><span class="text-normal md:text-7xl font-semibold">{{ number_format($ulasans->avg('nilai'), 1) }}</span><span class="text-normal md:text-3xl font-normal text-wc-black-200"> / 5</span></p>
+                </div>
             </div>
         </div>
-        <div class="col-span-5">
+        <div class="col-span-12 md:col-span-5">
             @foreach ($ulasans as $ulasan)
-            <div class="w-full p-6 rounded-lg bg-white mb-4">
-                <div class="flex items-center mb-4">
+            <div class="w-full p-6 border-b bg-white">
+                <div class="flex items-center mb-2">
                     @for ($i = 1; $i <= 5; $i++)
                         <svg class="w-4 h-4 {{ $i <= $ulasan->nilai ? 'text-yellow-300' : 'text-gray-300' }} me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
@@ -86,9 +88,9 @@
                     @endfor
                     <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ $ulasan->created_at->diffForHumans() }}</p>
                 </div>
-                <div class="flex gap-4 items-center mb-4">
+                <div class="flex gap-4 items-center mb-2">
                     <img src="/assets/images/profile-picture.jpg" class="w-10 aspect-square rounded-full" alt="">
-                    <p class="font-medium">{{ $ulasan->transaksi->user->name }}</p>
+                    <p class="font-medium text-sm">{{ $ulasan->transaksi->user->name }}</p>
                 </div>
                 <p class="text-sm">{{ $ulasan->ulasan }}</p>
             </div>

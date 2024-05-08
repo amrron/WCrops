@@ -66,4 +66,9 @@ class Transaksi extends Model
     public function getHasReviewAttribute(){
         return isset($this->ulasan);
     }
+
+    public function getCreatedDateAttribute() {
+        return \Carbon\Carbon::parse($this->created_at)->translatedFormat('j F Y');
+    }
 }
+
