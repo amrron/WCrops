@@ -70,5 +70,52 @@ class Transaksi extends Model
     public function getCreatedDateAttribute() {
         return \Carbon\Carbon::parse($this->created_at)->translatedFormat('j F Y');
     }
+
+    public function getStatusColorAttribute(){
+        $color = [
+            'onhold' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ], 
+            'capture' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ],
+            'pending' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ], 
+            'settlement' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ], 
+            'expired' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ],
+            'cancel' => [
+                'text' => '#FF0000',
+                'background' => '#FFA2A2'
+            ],
+            'onprocess' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ], 
+            'ondelivery' => [
+                'text' => '#ff6b00',
+                'background' => '#ffd3aa'
+            ],
+            'arrive' => [
+                'text' => '#1c5b1b',
+                'background' => '#89e188'
+            ],
+            'finished' => [
+                'text' => '#1c5b1b',
+                'background' => '#89e188'
+            ],
+        ];
+
+        return $color[$this->status];
+    }
 }
 

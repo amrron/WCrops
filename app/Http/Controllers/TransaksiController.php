@@ -22,7 +22,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksis = Transaksi::where('user_id', auth()->id())->checkout()->get();
+        $transaksis = Transaksi::where('user_id', auth()->id())->checkout()->latest()->get();
         return view('transaksi', [
             'transaksis' => $transaksis
         ]);
@@ -208,6 +208,18 @@ class TransaksiController extends Controller
         try {
 
             $transaksi = Transaksi::where('id', $request->id)->first();
+
+            if ($transaksi->status == 'pending') {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Transaksi sudah ada.',
+                    'data' => [
+                        'id' => $transaksi->id,
+                        'snap_token' => $transaksi->snap_token,
+                    ]
+                ], 201);
+            }
+
             $alamat = Alamat::where('user_id', auth()->id())->where('selected', 1)->first();
             $transaksiItems = TransaksiItem::where('transaksi_id', $transaksi->id)->get();
             
@@ -298,13 +310,13 @@ class TransaksiController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => 'Terjadi kesalahan ',
+                'message' => 'Terjadi kesalahan. ' . $th->getMessage(),
             ], 400);
         }
 
     }
 
-    public function status(Transaksi $transaksi)
+    public function status(Transaksi $transaksi, Request $request)
     {
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
@@ -324,12 +336,21 @@ class TransaksiController extends Controller
             'cancel' => 'Transaksi dibatalkan',
             'expired' => 'Transaksi kadaluarsa'
         ];
+        
+        if ($request->wantsJson() || $request->ajax()){
 
-        if ($transaksi->status != $status->transaction_status && !in_array($transaksi->status, ['onprocess', 'ondelivery', 'arrive', 'finished'])) {
-            $new_status = $status->transaction_status;
-            $transaksi->update([
-                'status' => $new_status
-            ]);
+            if ($transaksi->status != $status->transaction_status && !in_array($transaksi->status, ['onprocess', 'ondelivery', 'arrive', 'finished'])) {
+                $new_status = $status->transaction_status;
+                $transaksi->update([
+                    'status' => $new_status
+                ]);
+            }
+
+            return response()->json([
+                'status' => $status,
+                'message' => $message[$status->transaction_status],
+                'transaksi' => $transaksi,
+            ], 201);
         }
 
         return view('status-transaksi', [
@@ -337,6 +358,38 @@ class TransaksiController extends Controller
             'message' => $message[$status->transaction_status],
             'transaksi' => $transaksi,
         ]);
+    }
+
+    public function statusNotification(){
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+        try {
+            $notif = new \Midtrans\Notification();
+        }
+        catch (\Exception $e) {
+            exit($e->getMessage());
+        }
+        
+        $notif = $notif->getResponse();
+        $transaction = $notif->transaction_status;
+        $type = $notif->payment_type;
+        $order_id = $notif->order_id;
+        
+        $transaksi = Transaksi::where('midtrans_order_id', $order_id)->first();
+
+        $transaksi->update([
+            'status' => $transaction,
+        ]);
+
+        echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is " . $transaction;
+
     }
 
     public function indexAdmin() {
@@ -423,5 +476,53 @@ class TransaksiController extends Controller
         }
 
         return back()->with('success', 'Berhasil menyimpan ulasan');
+    }
+
+    public function cancel(Request $request, Transaksi $transaksi) {
+        if ($request->wantsJson() || $request->ajax()){
+            $request->validate([
+                'alasan' => 'required|string'
+            ]);
+
+            if ($transaksi->status == 'settlement') {
+
+                $params = array(
+                    'refund_key' => 'ref-' . rand(1, 100) . '-' . date('Ymd'),
+                    'amount' => ($transaksi->total_barang + $transaksi->total_ongkir),
+                    'reason' => $request->alasan,
+                );
+
+                \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+                // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+                \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+                // Set sanitization on (default)
+                \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+                // Set 3DS transaction for credit card to true
+                \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+                $refund = \Midtrans\Transaction::refundDirect($transaksi->midtrans_order_id, $params);
+
+                if ($refund->status_code == "200") {
+                    $transaksi->update([
+                        'status' => 'cancel'
+                    ]);
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Pesanan berhasil dibatalkan. Pengembalian dana akan segera diproses.',
+                        'midtrans' => $refund
+                    ], 201);
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => $refund->status_message,
+                    'midtrans' => $refund
+                ], 400);
+
+            }
+        }
+
+        return abort(404);
     }
 }

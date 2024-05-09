@@ -68,19 +68,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/keranjang/checkout', 'checkoutIndex');
         Route::post('/transaksi/bayar', 'pay');
         Route::get('/transaksi/status/{transaksi}', 'status');
+        Route::put('/transaksi/status/{transaksi}', 'status');
+        Route::post('/transaksi/status/notification', 'statusNotification');
         Route::put('/transaksi/{transaksi}', 'edit');
         Route::get('/transaksi/track/{transaksi}', 'trackingHistory');
         Route::post('/transaksi/buyagain/{transaksi}', 'buyAgain');
         Route::get('/transaksi/{transaksi}/items', 'getTransaksiItem');
+        Route::put('/transaksi/cancel/{transaksi}', 'cancel');
         
-        Route::get('/admin/pesanan', 'indexAdmin');
         Route::put('/transaksi/delivery/{transaksi}', 'setResi');
     });
-
+    
     Route::controller(UlasanController::class)->group(function () {
         Route::post('/transaksi/ulas/', 'store');
     });
-
+    
     Route::controller(AlamatController::class)->group(function () {
         Route::post('/alamat', 'store');
         Route::put('/alamat', 'changeSelected');
@@ -99,7 +101,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
         Route::put('/admin/produk/status/{produk}', 'changeStatus');
         Route::put('/admin/produk/status/', 'nonactiveStatus');
     });
-
+    
     Route::controller(TransaksiController::class)->group(function () {
         Route::get('/admin/pesanan', 'indexAdmin');
     });

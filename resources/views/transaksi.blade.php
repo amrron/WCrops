@@ -8,7 +8,7 @@
             <div class="w-full bg-white p-4 md:p-6 flex gap-3 cart-card flex-wrap rounded-xl mb-4 border shadow-md" data-produk="">
                 <div class="w-full flex items-center gap-4 border-b pb-3">
                     <span class="">{{ $transaksi->createdDate }}</span>
-                    <span class="text-xs px-3 py-1 bg-wc-red-000 text-wc-red-400 font-semibold w-auto rounded">{{ $transaksi->statusMessage }}</span>
+                    <span class="text-xs px-3 py-1 font-semibold w-auto rounded" style="background-color: {{ $transaksi->statusColor['background'] }}; color: {{ $transaksi->statusColor['text'] }}">{{ $transaksi->statusMessage }}</span>
                 </div>
                 <img src="/storage/{{ $transaksi->transaksiItems[0]->produk->gambar }}" class="aspect-square object-cover h-20" alt="">
                 <div class="flex flex-col justify-between min-h-20 flex-grow">
@@ -38,7 +38,7 @@
                     @endif
 
                     @if ($transaksi->status == 'settlement')
-                    <button type="button" class="buy-again text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-id="{{ $transaksi->id }}">Batalkan Pesanan</button>
+                    <button type="button" class="cancel-button text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-modal-target="cancel-modal" data-modal-toggle="cancel-modal" data-id="{{ $transaksi->id }}">Batalkan Pesanan</button>
                     @endif
 
                     @if ($transaksi->status == 'finished')
@@ -152,12 +152,37 @@
         </form>
     </div>
 </div>
+
+
+<div id="cancel-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="cancel-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-4 md:p-5 text-center">
+                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Anda yakin ingin membatalkan pesanan?</h3>
+                <button data-modal-hide="cancel-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" id="confirm-cancel-button">
+                    Ya, Batalkan Pesanan
+                </button>
+                <button data-modal-hide="cancel-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
   
 @endsection
 
 @section('script')
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     <script type="text/javascript">
+
         $('.pay-button').off('click').on('click', function(){
             let id = $(this).data('id');
             snap.pay($(this).data('snap'), {
@@ -167,37 +192,31 @@
                     console.log('pembayaran berhasil');
 
                     $.ajax({
-                        url: '/transaksi/' + id,
-                        type: 'PUT',
+                        url: "/transaksi/status/" + id,
+                        method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data: {
-                            status: 'settlement',
+                        success: function(){
+                            window.location.href = "/transaksi/status/" + id;
+
                         },
-                        success: function(response){
-                            console.log(response.message);
-                            location.reload();
-                        },
-                        error: function(error){
+                        error: function(error) {
                             console.error(error);
                         }
                     });
 
-
-                    // window.location.href = "/transaksi/status/" + response.data.id;
-
                 },
                 onPending: function(result){
                     console.log('pembayaran dipending');
+                    window.location.href = "/transaksi/status/" + id;
                     
-                    window.location.href = "/transaksi/status/" + $(this).data('id');
                 },
                 onError: function(result){
                     console.log('pembayaran gagal');
-                    // changeTransactiontransaksi/Status($(this).data('id'), 'failed');
+                    // changeTransactiontransaksi/Status(id, 'failed');
 
-                    window.location.href = "/transaksi/status/" + $(this).data('id');
+                    window.location.href = "/transaksi/status/" + id;
                 }
             });
         });
@@ -369,5 +388,32 @@
                 },
             });
         });
+
+        $('.cancel-button').on('click', function(){
+            let id = $(this).data('id');
+
+            $('#confirm-cancel-button').data('id', id);
+        });
+
+        $('#confirm-cancel-button').off('click').on('click', function(){
+                let id = $(this).data('id');
+                $.ajax({
+                    url: '/transaksi/cancel/' + id,
+                    method: 'PUT',
+                    data: {
+                        alasan: 'Customer cancel the order'
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        toast(error.responseJSON.message)
+                    }
+                });
+            });
     </script>
 @endsection

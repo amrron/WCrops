@@ -59,7 +59,7 @@
             </div>
             @endforeach
             @endif
-            <div class="w-full {{ $keranjangs->count() > 0 ? 'hidden' : '' }} bg-white p-20 text-center rounded-xl shadow-lg border items-center gap-3 mb-4" id="cart-null">
+            <div class="w-full {{ $keranjangs->count() > 0 ? 'hidden' : '' }} bg-white p-20 text-center items-center gap-3 mb-4" id="cart-null">
                 <div class="m-auto flex justify-center mb-4">
                     <svg class="w-44 h-44" width="458" height="461" viewBox="0 0 458 461" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M293.999 222.64L178.489 221.56L143.489 221.39H133.969H131.499C131.217 221.366 130.932 221.366 130.649 221.39C130.932 221.418 131.217 221.418 131.499 221.39L133.969 221.45L143.489 221.57L178.489 221.75L293.999 222C339.079 222 379.909 222.06 409.469 222.27C424.239 222.37 436.199 222.51 444.469 222.66C448.599 222.74 451.809 222.82 453.989 222.91C455.098 222.887 456.206 222.968 457.299 223.15C456.202 223.323 455.09 223.394 453.979 223.36C451.809 223.42 448.599 223.47 444.469 223.51C436.199 223.58 424.239 223.6 409.469 223.51C379.929 223.44 339.109 223.09 293.999 222.64Z" fill="#F5F5F5"/>
