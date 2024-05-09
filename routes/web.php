@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home']);
 Route::get('/produk', [HomeController::class, 'index']);
+Route::post('/transaksi/status/notification', [TransaksiController::class, 'statusNotification']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -69,7 +70,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/transaksi/bayar', 'pay');
         Route::get('/transaksi/status/{transaksi}', 'status');
         Route::put('/transaksi/status/{transaksi}', 'status');
-        Route::post('/transaksi/status/notification', 'statusNotification');
         Route::put('/transaksi/{transaksi}', 'edit');
         Route::get('/transaksi/track/{transaksi}', 'trackingHistory');
         Route::post('/transaksi/buyagain/{transaksi}', 'buyAgain');
