@@ -259,6 +259,14 @@ class TransaksiController extends Controller
                 ]);
             }
 
+            array_push($itemDetails, [
+                "id" => 'ongkir',
+                "price" => $request->total_ongkir,
+                "quantity" => 1,
+                "name" => $request->kurir,
+                "brand" => $request->kurir,
+            ]);
+
             $params = array(
                 'transaction_details' => array(
                     'order_id' => $order_id,
