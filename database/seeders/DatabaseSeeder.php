@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => '123123',
-            'alamat' => 'disini',
             'no_hp' => '085648345876',
             'tanggal_lahir' => '2004-08-12',
             'jenis_kelamin' => 'Laki-laki',
