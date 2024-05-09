@@ -191,32 +191,34 @@
 
                     console.log('pembayaran berhasil');
 
-                    $.ajax({
-                        url: "/transaksi/status/" + id,
-                        method: 'PUT',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(){
-                            window.location.href = "/transaksi/status/" + id;
+                    // $.ajax({
+                    //     url: "/transaksi/status/" + response.data.id,
+                    //     method: 'PUT',
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    //     },
+                    //     success: function(){
+                    //         window.location.href = "/transaksi/status/" + response.data.id;
 
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
+                    //     },
+                    //     error: function(error) {
+                    //         console.error(error);
+                    //     }
+                    // });
+
+                    window.location.href = "/transaksi/status/" + response.data.id;
 
                 },
                 onPending: function(result){
                     console.log('pembayaran dipending');
-                    window.location.href = "/transaksi/status/" + id;
+                    // window.location.href = "/transaksi/status/" + id;
                     
                 },
                 onError: function(result){
                     console.log('pembayaran gagal');
                     // changeTransactiontransaksi/Status(id, 'failed');
 
-                    window.location.href = "/transaksi/status/" + id;
+                    // window.location.href = "/transaksi/status/" + id;
                 }
             });
         });
