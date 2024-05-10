@@ -39,7 +39,7 @@ class Transaksi extends Model
 
     public function ulasan()
     {
-        return $this->hasMany(TransaksiItem::class);
+        return $this->hasMany(Ulasan::class);
     }
 
     public function scopeCheckout($query) {
@@ -64,7 +64,7 @@ class Transaksi extends Model
     }
 
     public function getHasReviewAttribute(){
-        return isset($this->ulasan);
+        return $this->ulasan->count() > 0;
     }
 
     public function getCreatedDateAttribute() {

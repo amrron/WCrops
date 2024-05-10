@@ -401,7 +401,7 @@ class TransaksiController extends Controller
     }
 
     public function indexAdmin() {
-        $transaksis = Transaksi::whereNot('status', 'onhold')->latest()->get();
+        $transaksis = Transaksi::whereNot('status', 'onhold')->latest()->get()->groupBy('status');
 
         return view('admin.pesanan', [
             'transaksis' => $transaksis
