@@ -43,4 +43,12 @@
             toast.removeClass('flex')
         }, 4000);
     }
+
+    $('#find-button').on('click', function () {
+        $('#find-form').toggleClass('hidden')
+    });
+
+    $('#links-button').on('click', function () {
+        $('#nav-links').toggleClass('hidden')
+    });
 </script>
