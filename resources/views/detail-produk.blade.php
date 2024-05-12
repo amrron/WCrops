@@ -83,7 +83,7 @@
                     </div>
                     <span>Stok: {{ $produk->stok }}</span>
                 </div>
-                <div class="hidden md:flex overflow-hidden items-center jusahfy-between w-full" id="total-harga">
+                <div class="hidden md:flex gap-2 overflow-hidden items-center jusahfy-between w-full" id="total-harga">
                     <span class="text-md text-gray-500">Total:</span>
                     <span class="text-lg font-bold rupiah" id="total-price">{{ $produk->harga }}</span>
                 </div>
