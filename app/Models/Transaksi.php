@@ -49,8 +49,8 @@ class Transaksi extends Model
     public function getStatusMessageAttribute(){
         $message = [
             'onhold' => 'Belum dichekout', 
-            'capture' => 'Transaksi Sedang diproses', 
-            'pending' => 'Transaksi Belum dibayar', 
+            'capture' => 'Pembayaran diproses', 
+            'pending' => 'Belum dibayar', 
             'settlement' => 'Menunggu konfirmasi', 
             'expired' => 'Transaksi kadaluarsa', 
             'cancel' => 'Transaksi dibatalkan', 

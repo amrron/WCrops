@@ -30,7 +30,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="py-12 pt-[116px] bg-white">
+                <div class="py-12 pt-[72px] md:pt-[116px] bg-white">
                     <div class="max-w-7xl mx-auto min-h-dvh">
                         <div class="overflow-hidden sm:rounded-lg p-0 py-4 md:p-4">
                             @yield('content')
@@ -40,7 +40,7 @@
             </main>
         </div>
 
-        <div id="toast" class="hidden absolute top-32 right-[-100%] transition ease-in-out delay-300 items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div id="toast" class="hidden fixed top-24 md:top-32 right-1/2 translate-x-1/2 transition ease-in-out delay-300 items-center w-[90%] md:w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="text-sm font-normal" id="toast-message">
             
             </div>

@@ -32,6 +32,21 @@
         toast.addClass('right-12')
         toast.addClass('flex')
 
+        toastAction.on('click', function(e){
+            if (url == '#') {
+                e.preventDefault()
+
+                toastMessage.html('');
+                toastAction.html('');
+                toastAction.prop('href', '#');
+
+                toast.addClass('right-[-100%]');
+                toast.addClass('hidden');
+                toast.removeClass('right-12')
+                toast.removeClass('flex')
+            }
+        });
+
         setTimeout(function() {
             toastMessage.html('');
             toastAction.html('');

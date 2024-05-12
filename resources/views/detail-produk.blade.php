@@ -1,9 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
+    <nav class="flex mt-6 ms-4 md:ms-0" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="/produk" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                Produk
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <a href="/produk/{{ $produk->kategori_id }}" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">{{ $produk->kategori->nama_kategori }}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{ $produk->nama }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
     <div class="grid grid-cols-12 gap-6 mt-6 border-b border-gray-200 pb-8">
-        <div class="col-span-12 md:col-span-3 relative">
-            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-none md:rounded-lg w-full sticky top-0" alt="">
+        <div class="col-span-12 md:col-span-3 px-4 md:px-0 relative">
+            <img src="/storage/{{ $produk->gambar }}" class="aspect-square object-cover rounded-xl w-full sticky top-0" alt="">
         </div>
         <div class="col-span-12 md:col-span-5 relative px-4 pb-32 md:pb-0">
             <h5 class="font-medium text-3xl capitalize mb-2">{{ $produk->nama }}</h5>
@@ -30,16 +55,19 @@
             <p class="text-wc-black-400">{{ $produk->deskripsi }}</p>
 
             <button type="button" class="add-to-wishlist absolute top-0 right-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
-                <svg class="w-7 h-7 text-wc-red-400 dark:text-white hover:fill-wc-red-400 {{ $produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <svg class="w-7 h-7 text-wc-red-400 dark:text-white md:hover:fill-wc-red-400 {{ $produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
                 </svg>                                                 
                 <span class="sr-only">Tambahkan ke wistlist</span>
             </button>
         </div>
         <div class="col-span-12 md:col-span-4">
-            <div class="w-full rounded-xl bg-white border p-4 md:p-6 flex flex-row md:flex-col gap-4 fixed md:static bottom-0 left-0">
-                <h6 class="hidden md:block font-semibold text-xl">Atur jumlah</h6>
-                <div class="gap-2 items-center hidden md:flex">
+            <div class="w-full rounded-xl bg-white border p-4 md:p-6 flex flex-col gap-4 fixed md:static bottom-0 left-0">
+                <div class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700" id="drawer-swipe">
+                    <span class="absolute w-8 h-1 -translate-x-1/2 bg-gray-300 rounded-lg top-3 left-1/2 dark:bg-gray-600"></span>
+                </div>
+                <h6 class="hidden md:flex overflow-hidden font-semibold text-xl" id="atur-jumlah-title">Atur jumlah</h6>
+                <div class="hidden md:flex overflow-hidden gap-2 items-center" id="atur-jumlah">
                     <div class="relative flex items-center max-w-[8rem] border border-gray-500 rounded-lg">
                         <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" data-id="{{ $produk->id }}" class="decrease-amount rounded-s-lg p-2 h-8 focus:outline-none">
                             <svg class="w-3 h-3 text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -55,13 +83,15 @@
                     </div>
                     <span>Stok: {{ $produk->stok }}</span>
                 </div>
-                <div class="hidden md:flex items-center justify-between w-full">
+                <div class="hidden md:flex overflow-hidden items-center jusahfy-between w-full" id="total-harga">
                     <span class="text-md text-gray-500">Total:</span>
                     <span class="text-lg font-bold rupiah" id="total-price">{{ $produk->harga }}</span>
                 </div>
-                <button type="button" id="add-to-cart" data-id="{{ $produk->id }}" class="w-auto flex-grow md:w-full text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >+ Keranjang</button>
-
-                <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-auto flex-grow md:w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli Langsung</button>
+                <div class="flex flex-row md:flex-col gap-4">
+                    <button type="button" id="add-to-cart" data-id="{{ $produk->id }}" class="w-auto flex-1 min-width-fit md:w-full text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-6 md:px-10 inline-flex items-center justify-center gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >+ Keranjang</button>
+    
+                    <button type="button" id="buy-button" data-id="{{ $produk->id }}" class="w-auto flex-1 min-width-fit md:w-full text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-6 md:px-10 inline-flex items-center justify-center gap-1 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Beli Langsung</button>
+                </div>
             </div>
         </div>
     </div>
@@ -205,6 +235,11 @@
                         console.error(error);
                     }
                 });   
+        });
+
+        $('#drawer-swipe').on('click swipeup', function(){
+            $('#atur-jumlah-title, #atur-jumlah, #total-harga').toggleClass('hidden')
+            $('#atur-jumlah-title, #atur-jumlah, #total-harga').toggleClass('flex')
         });
 
     </script>

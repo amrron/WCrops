@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="col-span-12 md:col-span-9">
+        <div class="col-span-12 md:col-span-9 bg-white rounded-none md:rounded-xl shadow-lg border">
             <div class="border-b border-gray-200 bg-white rounded-t-xl">
                 <ul class="flex gap-4" id="default-tab" data-tabs-toggle="#default-tab-content" data-tabs-active-classes="text-wc-red-400 hover:text-wc-red-400 border-b-2 border-wc-red-400" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300 dark:border-gray-700" role="tablist">
                     <li role="presentation">
@@ -100,7 +100,7 @@
                         @foreach ($alamats as $alamat)
                         <li>
                             <input type="radio" id="address-{{ $alamat->id }}" name="id" value="{{ $alamat->id }}" class="hidden peer select-address" {{ $alamat->selected ? 'checked' : '' }} required />
-                            <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400 peer">
+                            <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400 peer gap-2">
                                 <div class="">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-wc-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
