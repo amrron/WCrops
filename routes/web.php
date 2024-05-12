@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/profile/setting', 'destroy')->name('profile.destroy');
 
         Route::get('/profile', 'index');
+        Route::get('/profile/ulasan', 'ulasan');
     });
 
     Route::controller(ProdukController::class)->group(function () {

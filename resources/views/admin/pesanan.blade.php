@@ -59,7 +59,7 @@
                         <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Diproses ({{ count($transaksis['onprocess'] ?? []) }})</button>
                     </li>
                     <li class="me-2" role="presentation">
-                        <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Dalam Pengiriman ({{ count(($transaksis['ondelivery'] ?? []) + ($transaksis['arrive'] ?? [])) }})</button>
+                        <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Dalam Pengiriman ({{ count($transaksis['ondelivery'] ?? []) + count($transaksis['arrive'] ?? []) }})</button>
                     </li>
                     <li class="me-2" role="presentation">
                         <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="finish-tab" data-tabs-target="#finish" type="button" role="tab" aria-controls="finish" aria-selected="false">Selesai ({{ count($transaksis['finished'] ?? []) }})</button>
@@ -93,7 +93,10 @@
                     @endforeach
                 </div>
                 <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-                    @foreach (($transaksis['ondelivery'] ?? []) + ($transaksis['arrive'] ?? []) as $transaksi)                
+                    @foreach ( $transaksis['ondelivery'] ?? [] as $transaksi)                
+                    <x-transaction.admin-card :transaksi="$transaksi" />
+                    @endforeach
+                    @foreach ( $transaksis['arrive'] ?? [] as $transaksi)                
                     <x-transaction.admin-card :transaksi="$transaksi" />
                     @endforeach
                 </div>

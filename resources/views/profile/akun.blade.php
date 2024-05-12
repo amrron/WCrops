@@ -1,125 +1,80 @@
-@extends('layouts.app')
+@extends('profile.layout')
 
-@section('content')
-    <h5 class="text-2xl font-semibold mb-4">Profile</h5>
-    <div class="grid grid-cols-12 gap-6 relative">
-        <div class="col-span-12 md:col-span-3">
-            <div class="w-full rounded-xl flex flex-col gap-4 border">
-                <div class="w-full rounded-xl bg-white gap-4 p-6 hidden md:flex">
-                    <img src="/assets/images/profile.png" alt="" class="w-20 aspect-square">
-                    <div class="flex flex-col justify-around">
-                        <h1 class="text-xl font-semibold">Hai!</h1>
-                        <h1 class="text-2xl font-semibold">{{ auth()->user()->name }}</h1>
-                    </div>
+@section('section')
+    <div class="border-b border-gray-200 bg-white rounded-t-xl">
+        <ul class="flex gap-4" id="default-tab" data-tabs-toggle="#default-tab-content" data-tabs-active-classes="text-wc-red-400 hover:text-wc-red-400 border-b-2 border-wc-red-400" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300 dark:border-gray-700" role="tablist">
+            <li role="presentation">
+                <button class="inline-block p-4 px-8 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+            </li>
+            <li role="presentation">
+                <button class="inline-block p-4 px-8 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="address-tab" data-tabs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">Alamat</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="" id="default-tab-content">
+        <div class="p-8 bg-white rounded-b-xl flex flex-col md:gap-6" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="w-full rounded-lg flex flex-col md:flex-row gap-6">
+                <div class="flex flex-col items-center gap-4">
+                    <img src="/assets/images/profile.png" class="aspect-square w-[150px] object-cover rounded-full" alt="">
+                    <div class="flex gap-2 text-wc-black-000">
+                        <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg> 
+                        <span class="">Edit Photo</span>
+                    </div>                     
                 </div>
-    
-                <div class="w-full rounded-xl bg-white p-6">
-                    <div class="w-full flex flex-row md:flex-col gap-4 list-none text-sm md:text-normal">
-                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg> 
-                            <span class="text-base md:text-lg text-center">Akun saya</span>                         
-                        </a>
-                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
-                            </svg>                          
-                            <span class="text-base md:text-lg text-center">Penilaian dan ulasan</span>                         
-                        </a>
-                        <a href="" class="flex gap-4 items-center font-semibold p-2 rounded-lg text-wc-red-400 hover:text-white hover:bg-wc-red-400">
-                            <svg class="hidden md:block w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
-                            </svg>                          
-                            <span class="text-base md:text-lg text-center">Ganti password</span>                         
-                        </a>
+                <div class="">
+                    <div class="text-lg font-medium text-wc-black-400 flex flex-col gap-4 mb-4">
+                        <div class="flex">
+                            <p class="d-block w-40">Nama</p>
+                            <p>{{ auth()->user()->name }}</p>
+                        </div>
+                        <div class="flex">
+                            <p class="d-block w-40">Tanggal lahir</p>
+                            <p>{!! auth()->user()->tgl_lahir ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
+                        </div>
+                        <div class="flex">
+                            <p class="d-block w-40">No. handphone</p>
+                            <p>{!! auth()->user()->no_hp ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
+                        </div>
                     </div>
+                    {{-- <div class="">
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="w-5 h-5 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                            </svg>
+                            Ubah informasi pribadi
+                        </button>
+                    </div> --}}
                 </div>
             </div>
         </div>
-
-        <div class="col-span-12 md:col-span-9 bg-white rounded-none md:rounded-xl shadow-lg border">
-            <div class="border-b border-gray-200 bg-white rounded-t-xl">
-                <ul class="flex gap-4" id="default-tab" data-tabs-toggle="#default-tab-content" data-tabs-active-classes="text-wc-red-400 hover:text-wc-red-400 border-b-2 border-wc-red-400" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300 dark:border-gray-700" role="tablist">
-                    <li role="presentation">
-                        <button class="inline-block p-4 px-8 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-                    </li>
-                    <li role="presentation">
-                        <button class="inline-block p-4 px-8 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="address-tab" data-tabs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">Alamat</button>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="" id="default-tab-content">
-                <div class="p-8 bg-white rounded-b-xl flex flex-col md:gap-6" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="w-full rounded-lg flex flex-col md:flex-row gap-6">
-                        <div class="flex flex-col items-center gap-4">
-                            <img src="/assets/images/profile.png" class="aspect-square w-[150px] object-cover rounded-full" alt="">
-                            <div class="flex gap-2 text-wc-black-000">
-                                <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
-                                </svg> 
-                                <span class="">Edit Photo</span>
-                            </div>                     
-                        </div>
+        
+        <div class="rounded-b-xl bg-white p-6" id="address" role="tabpanel" aria-labelledby="dashboard-tab">
+            <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-wc-red-400 rounded-lg hover:bg-wc-red-300 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800 mb-4" data-modal-target="address-modal" data-modal-toggle="address-modal">+ Tambah alamat baru</button>
+            <ul>
+                @foreach ($alamats as $alamat)
+                <li>
+                    <input type="radio" id="address-{{ $alamat->id }}" name="id" value="{{ $alamat->id }}" class="hidden peer select-address" {{ $alamat->selected ? 'checked' : '' }} required />
+                    <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400 peer gap-2">
                         <div class="">
-                            <div class="text-lg font-medium text-wc-black-400 flex flex-col gap-4 mb-4">
-                                <div class="flex">
-                                    <p class="d-block w-40">Nama</p>
-                                    <p>{{ auth()->user()->name }}</p>
-                                </div>
-                                <div class="flex">
-                                    <p class="d-block w-40">Tanggal lahir</p>
-                                    <p>{!! auth()->user()->tgl_lahir ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
-                                </div>
-                                <div class="flex">
-                                    <p class="d-block w-40">No. handphone</p>
-                                    <p>{!! auth()->user()->no_hp ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
-                                </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-wc-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
+                                </svg> 
+                                <p class="font-medium">{{ $alamat->label }} - {{ $alamat->penerima }}</p>                     
                             </div>
-                            {{-- <div class="">
-                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-5 h-5 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
-                                    </svg>
-                                    Ubah informasi pribadi
-                                </button>
-                            </div> --}}
+                            <p class="text-sm mb-2">{{ $alamat->lengkap }}, {{ $alamat->kelurahan }}, {{ $alamat->kota }}, {{ $alamat->provinsi }}, {{ $alamat->kode_pos }}, {{ $alamat->hp_penerima }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label label for="address-{{ $alamat->id }}" class="px-4 py-2 text-xs font-medium text-center text-white bg-wc-red-400 rounded-lg hover:bg-wc-red-300 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800 cursor-pointer peer-checked:hidden">Pilih</label>
+                            <button type="button" class="px-4 py-2 text-xs font-medium text-center  text-wc-red-400 rounded-lg border border-wc-red-400  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800" data-id="{{ $alamat->id }}">Ubah</button>
                         </div>
                     </div>
-                    <div class="">
-                        <h5 class="text-xl font-semibold">
-                            Alamat
-                        </h5>
-                    </div>
-                </div>
-                
-                <div class="rounded-b-xl bg-white p-6" id="address" role="tabpanel" aria-labelledby="dashboard-tab">
-                    <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-wc-red-400 rounded-lg hover:bg-wc-red-300 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800 mb-4" data-modal-target="address-modal" data-modal-toggle="address-modal">+ Tambah alamat baru</button>
-                    <ul>
-                        @foreach ($alamats as $alamat)
-                        <li>
-                            <input type="radio" id="address-{{ $alamat->id }}" name="id" value="{{ $alamat->id }}" class="hidden peer select-address" {{ $alamat->selected ? 'checked' : '' }} required />
-                            <div class="p-6 rounded-lg bg-white flex justify-between items-center shadow-lg mb-4 border peer-checked:border-wc-red-400 peer gap-2">
-                                <div class="">
-                                    <div class="flex items-center gap-2">
-                                        <svg class="w-4 h-4 text-wc-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
-                                        </svg> 
-                                        <p class="font-medium">{{ $alamat->label }} - {{ $alamat->penerima }}</p>                     
-                                    </div>
-                                    <p class="text-sm mb-2">{{ $alamat->lengkap }}, {{ $alamat->kelurahan }}, {{ $alamat->kota }}, {{ $alamat->provinsi }}, {{ $alamat->kode_pos }}, {{ $alamat->hp_penerima }}</p>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <label label for="address-{{ $alamat->id }}" class="px-4 py-2 text-xs font-medium text-center text-white bg-wc-red-400 rounded-lg hover:bg-wc-red-300 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800 cursor-pointer peer-checked:hidden">Pilih</label>
-                                    <button type="button" class="px-4 py-2 text-xs font-medium text-center  text-wc-red-400 rounded-lg border border-wc-red-400  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-wc-red-400 dark:focus:ring-blue-800" data-id="{{ $alamat->id }}">Ubah</button>
-                                </div>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+                </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Alamat;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Ulasan;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Transaksi;
 
 class ProfileController extends Controller
 {
@@ -60,8 +62,19 @@ class ProfileController extends Controller
     }
 
     public function index() {
-        return view('profile', [
+        return view('profile.akun', [
             'alamats' => Alamat::where('user_id', auth()->id())->get()
+        ]);
+    }
+
+    public function ulasan() {
+
+        $transaksis = Transaksi::has('ulasan')->where('user_id', auth()->id())->get();
+        $transaksisNoReview = Transaksi::doesntHave('ulasan')->where('user_id', auth()->id())->where('status', 'finished')->get();
+
+        return view('profile.ulasan', [
+            'transaksis' => $transaksis,
+            'transaksisNoReview' => $transaksisNoReview,
         ]);
     }
 }
