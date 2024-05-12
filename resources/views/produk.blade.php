@@ -45,6 +45,13 @@
 
             // Ketika tombol wishlist ditekan
             $('.add-to-wishlist').off('click').on('click', function(){
+
+                if ($(this).text() == 'Tambahkan ke wishlist') {
+                    $(this).text('Hapus Dari wishlist');
+                }
+                else {
+                    $(this).text('Tambahkan ke wishlist')
+                }
                 
                 $(this).find('svg').toggleClass('fill-wc-red-400');
                 let produkId = $(this).data('id');

@@ -21,11 +21,23 @@
         </div>
     </a>
     @auth
-    <button type="button" class="add-to-wishlist absolute bottom-4 right-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
+    <button type="button" class="add-to-wishlist hidden md:block absolute bottom-4 right-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" data-id="{{ $produk->id }}">
         <svg class="w-7 h-7 text-wc-red-400 dark:text-white hover:fill-wc-red-400 {{ $produk->isInWishlist ? 'fill-wc-red-400' : '' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
         </svg>                                                 
         <span class="sr-only">Tambahkan ke wistlist</span>
     </button>
+    <button class="absolute block md:hidden bottom-4 right-2" data-dropdown-toggle="dropdown-{{ $produk->id }}" id="">
+        <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M12 6h.01M12 12h.01M12 18h.01"/>
+        </svg>          
+    </button>
     @endauth
+    <div id="dropdown-{{ $produk->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <li>
+            <button href="#" class="add-to-wishlist block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-id="{{ $produk->id }}">{{ $produk->isInWishlist ? 'Hapus Dari wishlist' : 'Tambahkan ke wishlist' }}</button>
+          </li>
+        </ul>
+    </div>
 </div>

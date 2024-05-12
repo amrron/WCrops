@@ -1,6 +1,6 @@
-<nav class="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-40 shadow-lg">
-    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 gap-4">
-        <div class="flex gap-4 items-center w-1/2 justify-start">
+<nav class="bg-white dark:bg-gray-900 fixed top-0 left-0 w-full z-40 shadow-lg">
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 gap-4 border-b-gray-50">
+        <div class="flex gap-2 md:gap-4 items-center w-1/2 justify-start">
           <button class="block md:hidden" id="links-button">
             <svg class="w-8 h-8 block md:hidden text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/>
@@ -35,14 +35,14 @@
                 </svg>                                   
             </a> --}}
             <div class="flex gap-4 items-center">
-                <button id="find-button" class="block md:hidden">
+                {{-- <button id="find-button" class="block md:hidden">
                   <svg class="w-6 h-6 text-wc-red-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                   </svg>                  
-                </button>
+                </button> --}}
                 @guest
-                <a href="/login" class="text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 " >Masuk</a>
-                <a href="/register" class="text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5" >Daftar</a>
+                <a href="/login" class="text-wc-red-400 font-semibold text-sm px-2 justify-center hidden md:inline-flex gap-1 " >Masuk</a>
+                <a href="/register" class="text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center hidden md:inline-flex gap-1 py-2.5" >Daftar</a>
                 @endguest
                 @auth
                 <a href="/wishlist" class="hidden md:block">
@@ -73,59 +73,59 @@
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                       <li>
-                        <a href="/" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Beranda</a>
-                      </li>
-                      <li>
-                        <a href="/produk" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Produk</a>
-                      </li>
-                      <li>
-                        <a href="/kontak" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kontak</a>
-                      </li>
-                      <li>
                         <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                       </li>
                       <li>
                         <a href="/transaksi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Pesanan</a>
                       </li>
                       <li>
-                        <a href="/wishlist" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Wishlist</a>
+                        <a href="/keranjang" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keranjang</a>
                       </li>
                       <li>
-                        {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a> --}}
-                        <form action="/logout" method="post">@csrf <button type="submit" class="block px-4 py-2 w-full text-start text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button></form>
+                        <a href="/wishlist" class="block md:hidden px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Wishlist</a>
                       </li>
                     </ul>
+                    <form action="/logout" class="py-2" method="post">@csrf <button type="submit" class="block px-4 py-2 w-full text-start text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar</button></form>
                 </div>
                 @endauth
           </div>
         </div>
-        <form class="hidden md:hidden w-full" method="get" id="find-form" action="/produk">   
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div class="relative">
-              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
-              <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." required />
-          </div>
-        </form>
+        
     </div>
-    <div class="w-full bg-wc-red-400 hidden md:block" id="nav-links">
-      <div class="max-w-screen-xl px-4 py-3 mx-auto">
-        <div class="flex items-center justify-center">
-            <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-                <li>
-                    <a href="/" class="text-white hover:underline" aria-current="page">Beranda</a>
-                </li>
-                <li>
-                  <a href="/produk" class="text-white hover:underline">Produk</a>
-                </li>
-                <li>
-                    <a href="#" class="text-white hover:underline">Kontak</a>
-                </li>
-            </ul>
+    
+    <div class="w-full h-[calc(100dvh-72px)] md:h-auto bg-[#fafbfc] md:bg-wc-red-400 hidden md:block shadow-lg relative" id="nav-links">
+      <form class="px-4 w-full block md:hidden" method="get" id="find-form" action="/produk">   
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+            <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg   focus:border-wc-red-400 focus:ring-0" placeholder="Cari produk..." required />
         </div>
+      </form>
+      <div class="flex flex-col items-center justify-between h-[calc(100%-38px)]">
+          <div class="w-full">
+              <ul class="w-full md:w-auto flex flex-col gap-0 md:gap-8 md:flex-row justify-center text-start md:text-center font-bold md:font-medium mt-0 text-normal divide-y md:divide-y-0
+              md:text-sm text-wc-red-400 md:text-white">
+                  <li class="px-4 py-5 md:py-3">
+                      <a href="/" class="w-full h-full hover:underline" aria-current="page">Beranda</a>
+                  </li>
+                  <li class="px-4 py-5 md:py-3">
+                    <a href="/produk" class="w-full h-full hover:underline">Produk</a>
+                  </li>
+                  <li class="px-4 py-5 md:py-3">
+                      <a href="#" class="w-full h-full hover:underline">Kontak</a>
+                  </li>
+              </ul>
+          </div>
+          @guest
+          <div class="w-full flex md:hidden flex-col gap-4 px-4 pb-14">
+            <a href="/login" class="text-wc-red-400 font-semibold border border-wc-red-400 hover:bg-wc-red-400 hover:text-white cursor-pointer focus:ring-4 focus:ring-wc-red-300 rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5 " >Masuk</a>
+            <a href="/register" class="text-white bg-wc-red-400 fonst-semibold hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 cursor-pointer rounded-lg text-sm px-10 justify-center inline-flex gap-1 py-2.5" >Daftar</a>
+          </div>
+          @endguest
       </div>
-    </div>
+  </div>
 </nav>
