@@ -27,9 +27,7 @@
         toastAction.html(action);
         toastAction.prop('href', url);
 
-        toast.removeClass('right-[-100%]');
         toast.removeClass('hidden');
-        toast.addClass('right-12')
         toast.addClass('flex')
 
         toastAction.on('click', function(e){
@@ -40,9 +38,7 @@
                 toastAction.html('');
                 toastAction.prop('href', '#');
 
-                toast.addClass('right-[-100%]');
                 toast.addClass('hidden');
-                toast.removeClass('right-12')
                 toast.removeClass('flex')
             }
         });
@@ -52,9 +48,7 @@
             toastAction.html('');
             toastAction.prop('href', '#');
 
-            toast.addClass('right-[-100%]');
             toast.addClass('hidden');
-            toast.removeClass('right-12')
             toast.removeClass('flex')
         }, 4000);
     }
