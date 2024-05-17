@@ -10,6 +10,9 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         <script src="/assets/js/jquery-3.7.1.min.js"></script>
@@ -39,6 +42,9 @@
                 </div>
             </main>
         </div>
+
+        @include('layouts.footer')
+
 
         <div id="toast" class="hidden fixed top-24 md:top-32 right-1/2 translate-x-1/2 transition ease-in-out delay-300 items-center w-[90%] md:w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="text-sm font-normal" id="toast-message">

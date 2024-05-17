@@ -116,7 +116,7 @@
                     <a href="/produk" class="w-full h-full hover:underline">Produk</a>
                   </li>
                   <li class="px-4 py-5 md:py-3">
-                      <a href="#" class="w-full h-full hover:underline">Kontak</a>
+                    <a href="/kemitraan" class="w-full h-full hover:underline">Kemitraan</a>
                   </li>
               </ul>
           </div>
