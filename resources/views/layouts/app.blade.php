@@ -17,6 +17,9 @@
         <!-- Scripts -->
         <script src="/assets/js/jquery-3.7.1.min.js"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- CDN Import -->
+        @yield('cdn')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

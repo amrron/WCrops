@@ -154,7 +154,7 @@
                     </div>
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="name@company.com" value="{{ old('email') }}" required>
+                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="nama@domain.com" value="{{ old('email') }}" required>
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div>

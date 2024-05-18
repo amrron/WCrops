@@ -20,7 +20,7 @@ class MitraController extends Controller
         $mitra = Mitra::create($data);
 
         if ($mitra) {
-            return back()->with('sucess', 'Berhasil mendaftarkan mitra!');
+            return back()->with('status', 'Berhasil mendaftarkan mitra! Anda akan segera dihubungi untuk konfirmasi.');
         } 
 
         return back()->with('fail', 'Gagal mendaftarkan mitra!');

@@ -161,7 +161,7 @@
                             <input id="remember" aria-describedby="remember" name="remember" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-wc-red-300">
                         </div>
                         <div class="ml-3 text-sm">
-                        <label for="remember" class="font-medium text-gray-900 dark:text-white">{{ __('Remember me') }}</label>
+                        <label for="remember" class="font-medium text-gray-900 dark:text-white">{{ __('Tetap login') }}</label>
                         </div>
                         <a href="{{ route('password.request') }}" class="ml-auto text-sm text-wc-red-400 hover:underline dark:text-blue-500">{{ __('Lupa Password?') }}</a>
                     </div>

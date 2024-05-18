@@ -39,7 +39,9 @@
                     <p class="text-base font-normal text-gray-500 dark:text-gray-400">
                         Jangan khawatir! Cukup ketik email Anda dan kami akan mengirimkan Anda kode untuk mengatur ulang kata sandi Anda!
                     </p>
-                    <form class="mt-8 space-y-6" action="#">
+                    <x-auth-session-status class="my-4" :status="session('status')" />
+                    <form class="mt-8 space-y-6" method="POST" action="">
+                        @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Anda</label>
                             <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required>

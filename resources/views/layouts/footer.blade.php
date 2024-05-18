@@ -1,5 +1,5 @@
 <footer class="">
-    <div class="top-footer py-20 bg-wc-red-400 border border-b-wc-black-100">
+    <div class="top-footer py-20 bg-wc-red-400 border-b border-b-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 <div class="footer-logo-desc">
@@ -38,7 +38,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between">
                 <div class="text-start">
-                    <h5 class="text-white flex items-center"><i class="far fa-copyright me-3 text-2xl"></i>© 2024 WCrops. All Rights Reserved.</h5>
+                    <h5 class="text-white flex items-center"><i class="far fa-copyright me-3 text-2xl"></i>© 2024 AllinOne. All Rights Reserved.</h5>
                 </div>
                 <div class="text-end">
                     {{-- <a href="" class="text-white font-bold text-lg">Privacy Policy</a> --}}

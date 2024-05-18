@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
+@section('cdn')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+@endsection
+
 @section('content')
-    <div class="w-full flex flex-col-reverse md:flex-row items-center justify-between gap-6 h-[calc(100dvh-116px)]">
+    <div class="w-full p-4 flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-6 min-h-[calc(100dvh-72px)] md:min-h-[calc(100dvh-116px)]">
         <div class="w-full md:w-1/2">
             <div class="border-s-8 border-wc-red-400 ps-6 mb-6">
                 <h1 class="text-3xl font-bold">Selamat datang di Wcrops,</h1>
@@ -10,7 +14,7 @@
             <a href="/produk" class="ms-8 text-wc-red-400 border border-wc-red-400 hover:text-white hover:bg-wc-red-400 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5">Lihat Produk</a>
         </div>
         <div class="w-full md:w-1/2">
-            <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-full" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M116.596 136.178C116.216 137.463 109.68 147.759 100.259 151.264C90.8379 154.769 83.8269 158.636 86.4449 163.252C89.0629 167.869 100.638 165.35 100.638 165.35C100.638 165.35 77.1539 190.882 99.2619 205.47C126.225 223.262 154.4 159.577 154.4 159.577L116.596 136.178Z" fill="#EBEBEB"/>
                 <path d="M149.962 168.319C149.889 168.439 140.999 163.142 130.11 156.489C119.217 149.833 110.449 144.342 110.523 144.222C110.596 144.102 119.484 149.398 130.377 156.053C141.266 162.706 150.036 168.199 149.962 168.319Z" fill="#E0E0E0"/>
                 <path d="M145.788 175.955C145.715 176.076 136.113 170.441 124.344 163.371C112.571 156.298 103.089 150.469 103.161 150.348C103.233 150.227 112.833 155.861 124.607 162.934C136.377 170.004 145.861 175.835 145.788 175.955Z" fill="#E0E0E0"/>
@@ -255,17 +259,8 @@
                 </svg>                
         </div>
     </div>
-    
-    <div class="w-full py-36 md:pt-0">
-        <h2 class="text-4xl font-semibold text-wc-red-400 text-center mb-6">Produk Kami</h2>
-        <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
-            @foreach ($produks as $produk)
-            <x-product.card :produk="$produk" />
-            @endforeach  
-        </div>
-    </div>
 
-    <div class="w-full min-h-dvh ">
+    <div class="w-full min-h-dvh flex items-center">
         <div class="w-full grid grid-cols-12 gap-6">
             <div class="col-span-12 md:col-span-5">
                 <svg class="w-full aspect-square" viewBox="0 0 436 436" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -419,4 +414,164 @@
             </div>
         </div>
     </div>
+    
+    <div class="w-full py-36 md:pt-0">
+        <h2 class="text-4xl font-semibold text-wc-red-400 text-center mb-6">Produk Kami</h2>
+        {{-- <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
+            @foreach ($produks as $produk)
+            <x-product.card :produk="$produk" />
+            @endforeach  
+        </div> --}}
+        <!-- Swiper -->
+        <div class="swiper mySwiper !py-4 !px-4 !md:px-0 !relative">
+            <div class="swiper-wrapper !items-stretch">
+                @foreach ($produks as $produk)
+                <div class="swiper-slide">
+                    <x-product.card :produk="$produk" />
+                </div>
+                @endforeach 
+                @foreach ($produks as $produk)
+                <div class="swiper-slide">
+                    <x-product.card :produk="$produk" />
+                </div>
+                @endforeach
+                
+            </div>
+            {{-- <div class="swiper-pagination"></div> --}}
+            <div class="swiper-button-next !text-wc-red-400"></div>
+            <div class="swiper-button-prev !text-wc-red-400"></div>
+        </div>
+
+    </div>
+
+    <div class="w-full py-36 md:pt-0">
+        <h2 class="text-4xl font-semibold text-wc-red-400 text-center mb-6">Galeri Kami</h2>
+        <div class="swiper swiperJamur !py-4 !px-4 !md:px-0 !relative">
+            <div class="swiper-wrapper !items-stretch">
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_1.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_2.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_3.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_4.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_1.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_2.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_3.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/assets/images/jamur/jamur_4.png" alt="">
+                </div>
+            </div>
+            {{-- <div class="swiper-pagination"></div> --}}
+            <div class="swiper-button-next !text-wc-red-400"></div>
+            <div class="swiper-button-prev !text-wc-red-400"></div>
+        </div>
+
+    </div>
+@endsection
+
+@section('script')
+     <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+        // slidesPerView: "auto",
+            centeredSlides: false,
+            spaceBetween: 30,
+            grabCursor: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            loop: true,
+            loopAddBlankSlides: true,
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                    grid: {
+                        fill: "row",
+                        rows: 2
+                    }
+                },
+                // when window width is >= 640px
+                720: {
+                    slidesPerView: 4,
+                    spaceBetween: 40
+                }
+            },
+        });
+
+        var swiper2 = new Swiper(".swiperJamur", {
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                },
+                // when window width is >= 480px
+                480: {
+                    slidesPerView: 3,
+                    spaceBetween: 30
+                },
+                // when window width is >= 640px
+                720: {
+                    slidesPerView: 4,
+                    spaceBetween: 40
+                }
+            }
+        });
+
+        $('.add-to-wishlist').off('click').on('click', function(){
+
+            if ($(this).text() == 'Tambahkan ke wishlist') {
+                $(this).text('Hapus Dari wishlist');
+            }
+            if ($(this).text() == 'Hapus Dari wishlist') {
+                $(this).text('Tambahkan ke wishlist')
+            }
+
+            $(this).find('svg').toggleClass('fill-wc-red-400');
+            let produkId = $(this).data('id');
+
+            $.ajax({
+                url: '/wishlist',
+                type: 'POST',
+                data: {
+                    produk_id: produkId
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    console.log(response.message);
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+
+        });
+    </script>
 @endsection

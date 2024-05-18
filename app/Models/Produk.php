@@ -43,6 +43,10 @@ class Produk extends Model
         $query->when($filters['search'] ?? false, function ($query, $search) {
             return $query->where('nama', 'LIKE', '%' . $search . '%');
         });
+
+        $query->when($filters['kategori'] ?? false, function ($query, $kategori) {
+            return $query->where('kategori_id', $kategori);
+        });
     }
 
     public function scopeActive($query) {

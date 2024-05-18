@@ -28,6 +28,10 @@ Route::get('/produk', [HomeController::class, 'index']);
 
 Route::post('/transaksi/status/notification', [TransaksiController::class, 'statusNotification']);
 
+Route::controller(ProdukController::class)->group(function () {
+    Route::get('/produk/{produk:slug}', 'show');
+});
+
 Route::controller(MitraController::class)->group(function () {
     Route::get('/kemitraan', 'index');
     Route::post('/kemitraan', 'store');
@@ -50,10 +54,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/profile', 'index');
         Route::get('/profile/ulasan', 'ulasan');
-    });
-
-    Route::controller(ProdukController::class)->group(function () {
-        Route::get('/produk/{produk:slug}', 'show');
     });
 
     Route::controller(KeranjangController::class)->group(function () {
