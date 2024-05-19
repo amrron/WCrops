@@ -524,6 +524,7 @@
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
+            loop: true,
             breakpoints: {
                 // when window width is >= 320px
                 320: {

@@ -77,4 +77,8 @@ class ProfileController extends Controller
             'transaksisNoReview' => $transaksisNoReview,
         ]);
     }
+
+    public function password() {
+        return view('profile.ganti-password');
+    }
 }

@@ -17,26 +17,30 @@
             <div class="w-full rounded-lg flex flex-col md:flex-row gap-6">
                 <div class="flex flex-col items-center gap-4">
                     <img src="/assets/images/profile.png" class="aspect-square w-[150px] object-cover rounded-full" alt="">
-                    <div class="flex gap-2 text-wc-black-000">
+                    <button type="button" class="flex gap-2 text-wc-black-000">
                         <svg class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
                         </svg> 
-                        <span class="">Edit Photo</span>
-                    </div>                     
+                        <span class="">Ubah data</span>
+                    </button>                     
                 </div>
                 <div class="">
                     <div class="text-lg font-medium text-wc-black-400 flex flex-col gap-4 mb-4">
                         <div class="flex">
-                            <p class="d-block w-40">Nama</p>
+                            <p class="d-block w-40 text-end md:text-start">Nama</p>
                             <p>{{ auth()->user()->name }}</p>
                         </div>
                         <div class="flex">
-                            <p class="d-block w-40">Tanggal lahir</p>
-                            <p>{!! auth()->user()->tgl_lahir ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
+                            <p class="d-block w-40 text-end md:text-start">Email</p>
+                            <p>{{ auth()->user()->email }}</p>
                         </div>
                         <div class="flex">
-                            <p class="d-block w-40">No. handphone</p>
-                            <p>{!! auth()->user()->no_hp ?? '<a href="#" class="text-base text-wc-red-400">Atur<a>' !!}</p>
+                            <p class="d-block w-40 text-end md:text-start">Tanggal lahir</p>
+                            @if (auth()->user()->tanggal_lahir) <p>{{ auth()->user()->tanggal_lahir }}</p> @else <a href="#" class="edit-profile text-base text-wc-red-400">Atur<a> @endif
+                        </div>
+                        <div class="flex">
+                            <p class="d-block w-40 text-end md:text-start">No. handphone</p>
+                            @if (auth()->user()->no_hp) <p>{{ auth()->user()->no_hp }}</p> @else <a href="#" class="edit-profile text-base text-wc-red-400">Atur<a> @endif
                         </div>
                     </div>
                     {{-- <div class="">

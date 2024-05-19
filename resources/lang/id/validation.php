@@ -93,6 +93,7 @@ return [
     'not_regex'            => 'Format :attribute tidak valid.',
     'numeric'              => ':attribute harus berupa angka.',
     'password'             => 'Kata sandi salah.',
+    'current_password' => 'Password saat ini tidak sesuai.',
     'present'              => ':attribute wajib ada.',
     'regex'                => 'Format :attribute tidak valid.',
     'required'             => ':attribute wajib diisi.',

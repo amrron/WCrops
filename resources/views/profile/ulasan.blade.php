@@ -4,10 +4,10 @@
 <div class="border-b border-gray-200 bg-white rounded-t-xl">
     <ul class="flex gap-4" id="default-tab" data-tabs-toggle="#default-tab-content" data-tabs-active-classes="text-wc-red-400 hover:text-wc-red-400 border-b-2 border-wc-red-400" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 hover:border-gray-300 dark:border-gray-700" role="tablist">
         <li role="presentation">
-            <button class="inline-block p-4 px-8 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Menunggu diulas</button>
+            <button class="inline-block p-4 px-8 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Belum diulas</button>
         </li>
         <li role="presentation">
-            <button class="inline-block p-4 px-8 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="address-tab" data-tabs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">Riwayat ulasan</button>
+            <button class="inline-flex p-4 px-8 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="address-tab" data-tabs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">Riwayat  <span class="hidden md:block ms-2"> ulasan</span></button>
         </li>
     </ul>
 </div>
@@ -49,7 +49,7 @@
             <div class="flex gap-4">
                 <img src="/storage/{{ $ulasan->produk->gambar }}" alt="" class="aspect-square object-cover h-20 rounded-lg">
                 <div class="flex-grow">
-                    <h5 class="text-xl mb-2 font-medium capitalize tracking-tight text-gray-900 line-clamp-1 w-auto md:w-1/2">{{ $ulasan->produk->nama }}</h5>
+                    <a href="/produk/{{ $ulasan->produk->slug }}" class="text-xl mb-2 font-medium capitalize tracking-tight text-gray-900 line-clamp-1 w-auto md:w-1/2">{{ $ulasan->produk->nama }}</a>
                     <div class="flex gap-1 items-center mb-2">
                         @for ($i = 1; $i <= 5; $i++)
                         <svg class="w-6 h-6 {{ $i <= $ulasan->nilai ? 'text-yellow-300' : 'text-gray-300' }} dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">

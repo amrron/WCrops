@@ -34,11 +34,11 @@
                 <div class="flex flex-col justify-between min-h-20 flex-grow">
                     <div class="w-full flex flex-col flex-wrap justify-between h-full">
                         <div class="">
-                            <h5 class="text-xl font-medium capitalize tracking-tight text-gray-900 line-clamp-1 w-auto md:w-1/2">{{ $transaksi->transaksiItems[0]->produk->nama }}</h5>
+                            <a href="/produk/{{ $transaksi->transaksiItems[0]->produk->slug }}" class="text-xl font-medium capitalize tracking-tight text-gray-900 line-clamp-1 w-auto md:w-1/2">{{ $transaksi->transaksiItems[0]->produk->nama }}</a>
                             <span class="text-wc-black-300">{{ $transaksi->transaksiItems[0]->jumlah }} barang</span>
                         </div>
                         @if ($transaksi->transaksiItems->count() > 1)
-                        <span class="text-sm text-wc-black-000">+ {{ $transaksi->transaksiItems->count() - 1 }} barang lainnya</span>
+                        <span class="text-sm text-wc-black-000">+ {{ $transaksi->transaksiItems->count() - 1 }} produk lainnya</span>
                         @endif
                     </div>
                 </div>

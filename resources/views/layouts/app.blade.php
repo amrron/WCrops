@@ -21,7 +21,7 @@
         <!-- CDN Import -->
         @yield('cdn')
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased scroll-smooth">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
@@ -49,7 +49,7 @@
         @include('layouts.footer')
 
 
-        <div id="toast" class="hidden fixed top-24 md:top-32 right-1/2 translate-x-1/2 transition ease-in-out delay-300 items-center w-[90%] md:w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div id="toast" class="hidden fixed top-24 md:top-32 right-1/2 translate-x-1/2 transition ease-in-out delay-300 items-center w-[90%] md:w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow-xl dark:text-gray-400 dark:bg-gray-800" role="alert">
             <div class="text-sm font-normal" id="toast-message">
             
             </div>

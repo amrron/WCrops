@@ -172,27 +172,27 @@
             <form class="mt-8 grid grid-cols-2 gap-4" method="POST" action="">
                 @csrf
                 <div class="col-span-2">
-                    <label for="nama" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Nama Lengkap</label>
+                    <label for="nama" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Nama Lengkap</label>
                     <input type="text" name="nama" id="nama" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="Masukan nama/instansi usaha Anda" value="{{ old('nama') }}" required>
                     <x-input-error :messages="$errors->get('nama')" class="mt-2" />
                 </div>
                 <div class="col-span-2">
-                    <label for="nama_usaha" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Nama Usaha</label>
+                    <label for="nama_usaha" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Nama Usaha</label>
                     <input type="text" name="nama_usaha" id="nama_usaha" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="Masukan nama/instansi usaha Anda" value="{{ old('nama_usaha') }}" required>
                     <x-input-error :messages="$errors->get('nama_usaha')" class="mt-2" />
                 </div>
                 <div class="col-span-2">
-                    <label for="alamat_usaha" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Alamat Usaha</label>
-                    <textarea type="text" name="alamat_usaha" id="alamat_usaha" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="Tempat tingaal, nama jalan, kelurahan, kecamatan, kota, provinsi, kode pos" value="{{ old('alamat_usaha') }}" rows="3" required></textarea>
+                    <label for="alamat_usaha" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Alamat Usaha</label>
+                    <textarea type="text" name="alamat_usaha" id="alamat_usaha" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="Tempat tinggal, nama jalan, kelurahan, kecamatan, kota, provinsi, kode pos" value="{{ old('alamat_usaha') }}" rows="3" required></textarea>
                     <x-input-error :messages="$errors->get('alamat_usaha')" class="mt-2" />
                 </div>
                 <div class="col-span-2 md:col-span-1">
-                    <label for="email" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Email</label>
+                    <label for="email" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Email</label>
                     <input type="email" name="email" id="email" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="nama@domain.com" value="{{ old('email') }}" required>
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
                 <div class="col-span-2 md:col-span-1">
-                    <label for="no_hp" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">No. Handphone</label>
+                    <label for="no_hp" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">No. Handphone</label>
                     <input type="number" name="no_hp" id="no_hp" class="bg-gray-50 border border-wc-black-000 text-gray-900 sm:text-sm rounded-lg focus:border-wc-red-400 focus:ring-0 outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark dark:focus:border-wc-red-400" placeholder="08xxxxx" value="{{ old('no_hp') }}" required>
                     <x-input-error :messages="$errors->get('no_hp')" class="mt-2" />
                 </div>

@@ -52,8 +52,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/profile/setting', 'update')->name('profile.update');
         Route::delete('/profile/setting', 'destroy')->name('profile.destroy');
 
-        Route::get('/profile', 'index');
-        Route::get('/profile/ulasan', 'ulasan');
+        Route::get('/profile', 'index')->name('profile.akun');
+        Route::get('/profile/ulasan', 'ulasan')->name('profile.ulasan');
+        Route::get('/profile/password', 'password')->name('profile.password');
     });
 
     Route::controller(KeranjangController::class)->group(function () {
