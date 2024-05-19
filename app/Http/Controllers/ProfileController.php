@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with('status', 'profile-updated');
     }
 
     /**
@@ -63,7 +63,8 @@ class ProfileController extends Controller
 
     public function index() {
         return view('profile.akun', [
-            'alamats' => Alamat::where('user_id', auth()->id())->get()
+            'alamats' => Alamat::where('user_id', auth()->id())->get(),
+            'user' => auth()->user(),
         ]);
     }
 
@@ -80,5 +81,11 @@ class ProfileController extends Controller
 
     public function password() {
         return view('profile.ganti-password');
+    }
+
+    public function ubah() {
+        return view('profile.ubah', [
+            'user' => auth()->user(),
+        ]);
     }
 }

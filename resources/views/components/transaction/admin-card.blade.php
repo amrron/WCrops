@@ -48,7 +48,7 @@
     </div>
     <div class="w-full p-3 border border-t-gray-200 flex justify-end gap-4 rounded-b-xl">
         @if ($transaksi->status == 'settlement')
-        <button type="button" class="confirm-order p-2.5 px-4 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 whitespace-nowrap" data-id="{{ $transaksi->id }}">
+        <button type="button" class="confirm-order p-2.5 px-4 text-sm font-medium text-white bg-wc-red-400 rounded-lg border border-wc-red-400 hover:bg-wc-red-400 whitespace-nowrap" data-id="{{ $transaksi->id }}">
           Terima Pesanan
       </button>
         @endif
@@ -57,7 +57,7 @@
             @method('PUT')
             @csrf
             <div class="flex">
-              <select name="ekspedisi" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+              <select name="ekspedisi" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" required>
                   <option selected value="jne">JNE</option>
                   <option value="jnt">J&T</option>
                   <option value="tiki">Tiki</option>
@@ -66,15 +66,15 @@
                   <option value="anteraja">Anter Aja</option>
                   <option value="wahana">Wahana</option>
                 </select>
-                <input type="text" name="resi" id="simple-search" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukan resi pengiriman" required />
+                <input type="text" name="resi" id="simple-search" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="Masukan resi pengiriman" required />
             </div>
-            <button type="submit" class="p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 whitespace-nowrap">
+            <button type="submit" class="p-2.5 text-sm font-medium text-white bg-wc-red-400 rounded-lg border border-wc-red-400 hover:bg-wc-red-400 whitespace-nowrap">
                 Kirim Pesanan
             </button>
         </form>
         @endif
         @if ($transaksi->status == 'ondelivery')
-        <button type="button" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="track-button p-2.5 px-4 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 whitespace-nowrap" data-id="{{ $transaksi->id }}">
+        <button type="button" data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="track-button p-2.5 px-4 text-sm font-medium text-white bg-wc-red-400 rounded-lg border border-wc-red-400 hover:bg-wc-red-400 whitespace-nowrap" data-id="{{ $transaksi->id }}">
           Lacak
         </button>
         @endif

@@ -4,6 +4,7 @@
 
 <div class="" id="default-tab-content">
     <div class="p-4 md:p-6 bg-white rounded-xl space-y-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <h5 class="text-2xl font-semibold mb-4">Ganti Password</h5>
         <x-auth-session-status class="my-4" :status="session('status')" />
         <form action="/password" method="post" class="space-y-6">
             @csrf

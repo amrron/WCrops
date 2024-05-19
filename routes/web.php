@@ -37,11 +37,11 @@ Route::controller(MitraController::class)->group(function () {
     Route::post('/kemitraan', 'store');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return redirect('/');
+})->middleware(['verified']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
         return redirect('/');
@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/profile', 'index')->name('profile.akun');
         Route::get('/profile/ulasan', 'ulasan')->name('profile.ulasan');
         Route::get('/profile/password', 'password')->name('profile.password');
+        Route::get('/profile/edit', 'ubah')->name('profile.ubah');
     });
 
     Route::controller(KeranjangController::class)->group(function () {
@@ -99,6 +100,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::get('/admin', function(){
+        return view('admin.dashboard');
+    });
+
     Route::controller(ProdukController::class)->group(function () {
         Route::get('/admin/produk', 'indexAdmin');
         Route::get('/admin/produk/name', 'getProductName');
