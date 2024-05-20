@@ -13,7 +13,7 @@
             @endif
 
             <div class="mt-4 flex items-center justify-between gap-4">
-                <form method="POST" action="{{ route('verification.send') }}">
+                <form method="POST" action="/email/verification-notification">
                     @csrf
 
                     <div>
@@ -25,7 +25,7 @@
 
                 <div class="flex items-center gap-2">
                     <a href="/profile" class="underline text-sm text-wc-black-300 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Profile</a>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="/logout">
                         @csrf
     
                         <button type="submit" class="underline text-sm text-wc-black-300 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
