@@ -38,7 +38,7 @@
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                 <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" value="{{ old('email', $user->email) }}" placeholder="nama@domain.com" autofocus required>
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                {{-- @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                     <div>
                         <p class="text-sm mt-2 text-gray-800">
                             {{ __('Email Anda belum diverifikasi.') }}
@@ -54,7 +54,7 @@
                             </p>
                         @endif
                     </div>
-                @endif
+                @endif --}}
             </div>
 
             <div class="col-span-2 md:col-span-1">
@@ -73,7 +73,7 @@
 
             <div class="col-span-2 md:col-span-1">
                 <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. Handphone</label>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" name="no_hp" id="no_hp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" value="{{ old('no_hp', $user->no_hp) }}" placeholder="08xxxx" autofocus required>
+                <input type="number" inputmode="numeric" pattern="[0-9]*" name="no_hp" id="no_hp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" value="{{ old('no_hp', $user->no_hp) }}" placeholder="08xxxx" autofocus>
                 <x-input-error :messages="$errors->get('no_hp')" class="mt-2" />
             </div>
 

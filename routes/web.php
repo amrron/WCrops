@@ -35,27 +35,12 @@ Route::controller(ProdukController::class)->group(function () {
 Route::controller(MitraController::class)->group(function () {
     Route::get('/kemitraan', 'index');
     Route::post('/kemitraan', 'store');
-});
+});;
 
-Route::get('/dashboard', function () {
-    return redirect('/');
-})->middleware(['verified']);
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
         return redirect('/');
-    });
-
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile/setting', 'edit')->name('profile.edit');
-        Route::patch('/profile/setting', 'update')->name('profile.update');
-        Route::delete('/profile/setting', 'destroy')->name('profile.destroy');
-
-        Route::get('/profile', 'index')->name('profile.akun');
-        Route::get('/profile/ulasan', 'ulasan')->name('profile.ulasan');
-        Route::get('/profile/password', 'password')->name('profile.password');
-        Route::get('/profile/edit', 'ubah')->name('profile.ubah');
     });
 
     Route::controller(KeranjangController::class)->group(function () {
@@ -96,6 +81,19 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(AlamatController::class)->group(function () {
         Route::post('/alamat', 'store');
         Route::put('/alamat', 'changeSelected');
+    });
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile/setting', 'edit')->name('profile.edit');
+        Route::patch('/profile/setting', 'update')->name('profile.update');
+        Route::delete('/profile/setting', 'destroy')->name('profile.destroy');
+
+        Route::get('/profile', 'index')->name('profile.akun');
+        Route::get('/profile/ulasan', 'ulasan')->name('profile.ulasan');
+        Route::get('/profile/password', 'password')->name('profile.password');
+        Route::get('/profile/edit', 'ubah')->name('profile.ubah');
     });
 });
 

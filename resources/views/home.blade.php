@@ -435,7 +435,16 @@
                     <x-product.card :produk="$produk" />
                 </div>
                 @endforeach
-                
+                @foreach ($produks as $produk)
+                <div class="swiper-slide">
+                    <x-product.card :produk="$produk" />
+                </div>
+                @endforeach
+                @foreach ($produks as $produk)
+                <div class="swiper-slide">
+                    <x-product.card :produk="$produk" />
+                </div>
+                @endforeach
             </div>
             {{-- <div class="swiper-pagination"></div> --}}
             <div class="swiper-button-next !text-wc-red-400"></div>

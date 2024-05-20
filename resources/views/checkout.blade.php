@@ -26,7 +26,11 @@
                     @endif
                 </div>
 
+                @if (auth()->user()->alamats->count())
                 <button type="button" class="px-3 py-2 text-xs font-medium text-center text-wc-black-100 border border-wc-black-100 rounded-lg focus:ring-0 " data-modal-target="change-address-modal" data-modal-toggle="change-address-modal">Ganti Alamat</button>
+                @else
+                <button type="button" class="px-3 py-2 text-xs font-medium text-center text-wc-black-100 border border-wc-black-100 rounded-lg focus:ring-0 " data-modal-target="add-address-modal" data-modal-toggle="add-address-modal">Tambah Alamat</button>
+                @endif
             </div>
 
             @foreach ($transaksi->transaksiItems as $item)
@@ -95,6 +99,79 @@
             </div>
         </div>
     </div>
+
+    <div id="add-address-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Tambah alamat baru
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="add-address-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <form class="p-4 md:p-5" id="address-form">
+                    <div class="grid gap-4 mb-4 grid-cols-2">
+                        <div class="col-span-2">
+                            <label for="label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Label alamat</label>
+                            <input type="text" name="label" id="label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="" required>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="penerima" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama penerima</label>
+                            <input type="text" name="penerima" id="penerima" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="" required>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="hp_penerima" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. HP penerima</label>
+                            <input type="text" inputmode="numeric" name="hp_penerima" id="hp_penerima" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="lengkap" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat lengkap</label>
+                            <textarea id="lengkap" name="lengkap" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-wc-red-400 focus:border-wc-red-400 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="" required></textarea>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi</label>
+                            <select id="provinsi" name="provinsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" required>
+                                <option selected hidden disabled>Pilih provinsi</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="kota" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota</label>
+                            <select id="kota" name="kota" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" required>
+                                {{-- <option selected hidden disabled>Pilih kota</option> --}}
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kecamatan</label>
+                            <select id="kecamatan" name="kecamatan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" required>
+                                {{-- <option selected hidden disabled>Pilih kecamatan</option> --}}
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="kelurahan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelurahan</label>
+                            <select id="kelurahan" name="kelurahan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" required>
+                                {{-- <option selected hidden disabled>Pilih kelurahan</option> --}}
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="kode_pos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode Pos</label>
+                            <input type="text" inputmode="number" name="kode_pos" id="kode_pos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-wc-red-400 focus:border-wc-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-wc-red-400 dark:focus:border-wc-red-400" placeholder="" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="text-white inline-flex items-center bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                        Tambah alamat baru
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div> 
 
     <div id="change-address-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -446,6 +523,140 @@
                 }
             });
         }
+
+        // Add address
+        $.getJSON('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json', function(areas) {
+            $.each(areas, function(index, area) {
+                $('#provinsi').append('<option value="' + area.id + '">' + area.name + '</option>');
+            });
+        });
+
+        $('#provinsi').on('change', function(){
+            $('#kota').empty();
+            $('#kota').val('');
+            $('#kota').append('<option selected hidden disabled>Pilih kota</option>');
+            $('#kecamatan').empty();
+            $('#kecamatan').val('');
+            $('#kecamatan').append('<option selected hidden disabled>Pilih kecamatan</option>');
+            $('#kelurahan').empty();
+            $('#kelurahan').val('');
+            $('#kelurahan').append('<option selected hidden disabled>Pilih kelurahan</option>');
+            let provinsi_id = $('#provinsi').val();
+            if (provinsi_id) {
+                $.getJSON(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinsi_id}.json`, function(areas) {
+                    $.each(areas, function(index, area) {
+                        $('#kota').append('<option value="' + area.id + '">' + area.name + '</option>');
+                    });
+                });
+            }
+        });
+
+        $('#kota').on('change', function(){
+            $('#kecamatan').empty();
+            $('#kecamatan').val('');
+            $('#kecamatan').append('<option selected hidden disabled>Pilih kecamatan</option>');
+            $('#kelurahan').empty();
+            $('#kelurahan').val('');
+            $('#kelurahan').append('<option selected hidden disabled>Pilih kelurahan</option>');
+            let kota_id = $('#kota').val();
+            if (kota_id) {
+                $.getJSON(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kota_id}.json`, function(areas) {
+                    $.each(areas, function(index, area) {
+                        $('#kecamatan').append('<option value="' + area.id + '">' + area.name + '</option>');
+                    });
+                });
+            }
+        });
+
+        $('#kecamatan').on('change', function(){
+            $('#kelurahan').empty();
+            $('#kelurahan').val('');
+            $('#kelurahan').append('<option selected hidden disabled>Pilih kelurahan</option>');
+            let kecamatan_id = $('#kecamatan').val();
+            if (kecamatan_id) {
+                $.getJSON(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecamatan_id}.json`, function(areas) {
+                    $.each(areas, function(index, area) {
+                        $('#kelurahan').append('<option value="' + area.id + '">' + area.name + '</option>');
+                    });
+                });
+            }
+        });
+
+        $('#address-form').off('submit').on('submit', function(e){
+            e.preventDefault();
+
+            let namaProvinsi = '';
+            $.ajax({
+                url: 'https://www.emsifa.com/api-wilayah-indonesia/api/province/' + $('#provinsi').val() + '.json',
+                async: false,
+                success: function(response){
+                    namaProvinsi = response.name;
+                }
+            })
+
+            let namaKota = '';
+            $.ajax({
+                url: 'https://www.emsifa.com/api-wilayah-indonesia/api/regency/' + $('#kota').val() + '.json',
+                async: false,
+                success: function(response){
+                    namaKota = response.name;
+                }
+            })
+
+            let namaKecamatan = '';
+            $.ajax({
+                url: 'https://www.emsifa.com/api-wilayah-indonesia/api/district/' + $('#kecamatan').val() + '.json',
+                async: false,
+                success: function(response){
+                    namaKecamatan = response.name;
+                }
+            })
+
+            let namaKelurahan = '';
+            $.ajax({
+                url: 'https://www.emsifa.com/api-wilayah-indonesia/api/village/' + $('#kelurahan').val() + '.json',
+                async: false,
+                success: function(response){
+                    namaKelurahan = response.name;
+                }
+            })
+          
+            
+            let data = {
+                label: $('#label').val(),
+                lengkap: $('#lengkap').val(),
+                penerima: $('#penerima').val(),
+                hp_penerima: $('#hp_penerima').val(),
+                kode_pos: $('#kode_pos').val(),
+                provinsi: namaProvinsi,
+                kota: namaKota,
+                kecamatan: namaKecamatan,
+                kelurahan: namaKelurahan
+            };
+
+            console.log(data);  
+
+            $.ajax({
+                url: '/alamat',
+                type: 'POST',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    console.log(response);
+                    toast('Berhasil menambahkan alamat baru!', 'Oke');
+                    location.reload();
+                },
+                error: function(error){
+                    console.error(error);
+                },
+                complete: function(){
+                    $('#address-form').trigger("reset");
+                }
+            });
+
+        });
     </script>
 @endsection
 @endisset
