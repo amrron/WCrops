@@ -17,4 +17,11 @@ class Mitra extends Model
         'no_hp',
         'email'
     ];
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('nama', 'LIKE', '%' . $search . '%');
+        });
+    }
 }

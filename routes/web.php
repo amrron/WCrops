@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\ProdukController;
@@ -98,8 +99,17 @@ Route::middleware(['auth'])->group(function(){
 });
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::get('/admin', function(){
-        return view('admin.dashboard');
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/admin', 'index');
+        Route::get('/admin/mitra', 'mitra');
+        Route::get('/admin/kategori', 'kategori');
+    });
+
+    Route::controller(KategoriProdukController::class)->group(function(){
+        Route::put('/admin/kategori/put', 'update');
+        Route::get('/admin/kategori/{
+            kategoriProduk}', 'show');
+        Route::post('/admin/kategori/', 'store');
     });
 
     Route::controller(ProdukController::class)->group(function () {
@@ -116,6 +126,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     
     Route::controller(TransaksiController::class)->group(function () {
         Route::get('/admin/pesanan', 'indexAdmin');
+        Route::get('/admin/pendapatan', 'getWeeklyIncome');
     });
 });
 

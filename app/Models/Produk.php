@@ -23,7 +23,7 @@ class Produk extends Model
     ];
 
     public function kategori(){
-        return $this->belongsTo(KategoriProduk::class);
+        return $this->belongsTo(KategoriProduk::class, 'kategori_id');
     }
 
     public function keranjang() {
@@ -61,6 +61,10 @@ class Produk extends Model
 
     public function getTerjualAttribute() {
         return $this->transaksiItems()->count();
+    }
+
+    public function getTotalPenjualanAttribute() {
+        return $this->harga * $this->transaksiItems->sum('jumlah');
     }
 
     public function getRatingAttribute() {

@@ -59,4 +59,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function alamats() {
         return $this->hasMany(Alamat::class);
     }
+
+    public function transaksis() {
+        return $this->hasMany(Transaksi::class);
+    }
+
+    public function getTotalPembelianAttribute() {
+        return $this->transaksis->sum('total_barang');
+    }
 }

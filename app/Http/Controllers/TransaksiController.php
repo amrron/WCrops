@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Alamat;
 use App\Models\Produk;
 use App\Models\Keranjang;
@@ -492,45 +493,36 @@ class TransaksiController extends Controller
                 'alasan' => 'required|string'
             ]);
 
-            if ($transaksi->status == 'settlement') {
+            if ($transaksi->status == 'pending') {
 
-                $params = array(
-                    'refund_key' => 'ref-' . rand(1, 100) . '-' . date('Ymd'),
-                    'amount' => ($transaksi->total_barang + $transaksi->total_ongkir),
-                    'reason' => $request->alasan,
-                );
-
-                \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-                // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-                \Midtrans\Config::$isProduction = config('midtrans.isProduction');
-                // Set sanitization on (default)
-                \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
-                // Set 3DS transaction for credit card to true
-                \Midtrans\Config::$is3ds = config('midtrans.is3ds');
-
-                $refund = \Midtrans\Transaction::refundDirect($transaksi->midtrans_order_id, $params);
-
-                if ($refund->status_code == "200") {
                     $transaksi->update([
                         'status' => 'cancel'
                     ]);
 
-                    return response()->json([
-                        'status' => true,
-                        'message' => 'Pesanan berhasil dibatalkan. Pengembalian dana akan segera diproses.',
-                        'midtrans' => $refund
-                    ], 201);
-                }
-
                 return response()->json([
                     'status' => true,
-                    'message' => $refund->status_message,
-                    'midtrans' => $refund
-                ], 400);
-
+                    'message' => 'Pesanan berhasil dibatalkan.',
+                ], 201);
             }
         }
 
         return abort(404);
+    }
+
+    public function getWeeklyIncome(Request $request)
+    {
+        $oneWeekAgo = Carbon::now()->subDays($request->waktu);
+
+        $transactions = DB::table('transaksis')
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('SUM(total_barang) as total_income')
+            )
+            ->where('created_at', '>=', $oneWeekAgo)
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date', 'asc')
+            ->get();
+
+        return response()->json($transactions);
     }
 }

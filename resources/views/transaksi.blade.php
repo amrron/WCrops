@@ -49,6 +49,7 @@
                 <div class="flex-grow w-auto md:w-full flex justify-end gap-2">
                     
                     @if ($transaksi->status == 'pending')
+                    <button type="button" class="cancel-button text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-modal-target="cancel-modal" data-modal-toggle="cancel-modal" data-id="{{ $transaksi->id }}">Batalkan Pesanan</button>
                     <button type="button" id="pay-button" data-snap="{{ $transaksi->snap_token }}" data-id="{{ $transaksi->id }}" class="pay-button hover:text-white border border-wc-red-400 text-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >Bayar</button>
                     @endif
 
@@ -58,7 +59,6 @@
                     @endif
 
                     @if ($transaksi->status == 'settlement')
-                    <button type="button" class="cancel-button text-white bg-wc-red-400 hover:bg-wc-red-300 focus:ring-4 focus:ring-wc-red-300 font-medium rounded-lg text-xs md:text-sm px-6 md:px-10 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" data-modal-target="cancel-modal" data-modal-toggle="cancel-modal" data-id="{{ $transaksi->id }}">Batalkan Pesanan</button>
                     @endif
 
                     @if ($transaksi->status == 'finished')
@@ -211,13 +211,13 @@
                     console.log('pembayaran berhasil');
 
                     $.ajax({
-                        url: "/transaksi/status/" + response.data.id,
+                        url: "/transaksi/status/" + id,
                         method: 'PUT',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(){
-                            window.location.href = "/transaksi/status/" + response.data.id;
+                            window.location.href = "/transaksi/status/" + id;
 
                         },
                         error: function(error) {

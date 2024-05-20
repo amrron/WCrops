@@ -459,6 +459,9 @@
                             // changeTransactiontransaksi/Status(response.data.id, 'failed');
 
                             window.location.href = "/transaksi/status/" + response.data.id;
+                        },
+                        onClose: function(result){
+                            window.location.href = "/transaksi";
                         }
                     });
                 },
