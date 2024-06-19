@@ -44,9 +44,6 @@ jobs:
       name: 'Production'
 
     steps:
-      - name: Unzip artifact for deployment
-        run: sudo unzip -o php-app.zip -d /var/www/wcrops
-
       - name: Change ownership of the deployment directory
         run: sudo chown -R www-data:www-data /var/www/wcrops
 
