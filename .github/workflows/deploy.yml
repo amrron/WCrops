@@ -48,7 +48,9 @@ jobs:
 
     steps:
       - name: Change ownership of the deployment directory
-        run: sudo chown -R www-data:www-data /var/www/wcrops
+        run: | 
+          sudo chown -R www-data:www-data /var/www/wcrops
+          sudo chown -R www-data:www-data /var/www/wcrops/storage
 
       - name: Deploy to local server
         run: |
