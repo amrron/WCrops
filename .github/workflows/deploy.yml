@@ -11,7 +11,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -30,22 +31,11 @@ jobs:
 
       - name: Check if composer.json exists
         id: check_files
-        uses: andstor/file-existence-action@v3
-        with:
-          files: 'composer.json'
+        run: test -f composer.json && echo "::set-output name=files_exists::true" || echo "::set-output name=files_exists::false"
 
       - name: Run composer install if composer.json exists
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
-
-      - name: Zip artifact for deployment
-        run: sudo zip release.zip ./* -r
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: php-app
-          path: release.zip
 
   deploy:
     runs-on: self-hosted
@@ -54,13 +44,8 @@ jobs:
       name: 'Production'
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: php-app
-
       - name: Unzip artifact for deployment
-        run: sudo unzip -o release.zip
+        run: sudo unzip -o php-app.zip -d /var/www/wcrops
 
       - name: Change ownership of the deployment directory
         run: sudo chown -R www-data:www-data /var/www/wcrops
