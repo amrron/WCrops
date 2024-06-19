@@ -35,7 +35,10 @@ jobs:
 
       - name: Run composer install if composer.json exists
         if: steps.check_files.outputs.files_exists == 'true'
-        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
+        run: |
+          sudo chown -R $USER:$USER /var/www/wcrops
+          composer validate --no-check-publish
+          composer install --no-interaction --prefer-dist --optimize-autoloader
 
   deploy:
     runs-on: self-hosted
@@ -51,9 +54,6 @@ jobs:
         run: |
           # Navigate to the Laravel project directory
           cd /var/www/wcrops
-
-          # Install Composer dependencies
-          composer install --no-interaction --prefer-dist --optimize-autoloader
 
           # Run Laravel migrations
           php artisan migrate --force
