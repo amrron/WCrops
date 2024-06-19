@@ -55,9 +55,6 @@ jobs:
           # Navigate to the Laravel project directory
           cd /var/www/wcrops
 
-          # Run Laravel migrations
-          php artisan migrate --force
-
           # Cache configurations
           php artisan config:cache
           php artisan route:cache
